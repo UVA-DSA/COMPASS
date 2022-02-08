@@ -1,0 +1,238 @@
+{
+    "DESK": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/TCN/DESK/DESK_TRANSFORM_velocity_MP.pkl",
+        "gesture_class_num": 8,
+        "input_size": 14,
+        "locs": [
+            "PSML_position_x",
+            "PSML_position_y",
+            "PSML_position_z",
+            "PSML_velocity_x",
+            "PSML_velocity_y",
+            "PSML_velocity_z",
+            "PSML_gripper_angle",
+            "PSMR_position_x",
+            "PSMR_position_y",
+            "PSMR_position_z",
+            "PSMR_velocity_x",
+            "PSMR_velocity_y",
+            "PSMR_velocity_z",
+            "PSMR_gripper_angle"
+        ],
+        "raw_feature_dir": [
+            "/home/student/Documents/Research/MICCAI_2022/Datasets/dV/Peg_Transfer/preprocessed"
+        ],
+        "sample_rate": 1,
+        "tcn_params": {
+            "config": {
+                "batch_size": 1,
+                "epoch": 150,
+                "learning_rate": 0.0009814991496677643,
+                "weight_decay": 0.009702430951493164
+            },
+            "model_params": {
+                "class_num": 8,
+                "decoder_params": {
+                    "input_size": 128,
+                    "kernel_size": 51,
+                    "layer_sizes": [
+                        96,
+                        64,
+                        64
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel",
+                    "transposed_conv": true
+                },
+                "encoder_params": {
+                    "input_size": 14,
+                    "kernel_size": 51,
+                    "layer_sizes": [
+                        64,
+                        96,
+                        128
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel"
+                },
+                "fc_size": 32,
+                "mid_lstm_params": {
+                    "hidden_size": 64,
+                    "input_size": 128,
+                    "layer_num": 1
+                }
+            }
+        },
+        "test_trial": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+        ],
+        "train_trial": [
+            [
+                2,
+                3,
+                4,
+                5,
+                6
+            ],
+            [
+                1,
+                3,
+                4,
+                5,
+                6
+            ],
+            [
+                1,
+                2,
+                4,
+                5,
+                6
+            ],
+            [
+                1,
+                2,
+                3,
+                5,
+                6
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                6
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5
+            ]
+        ],
+        "validation_trial": 1
+    },
+    "JIGSAWS": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/TCN/JIGSAWS_TRANSFORM_all_gesture.pkl",
+        "gesture_class_num": 14,
+        "input_size": 22,
+        "locs": [
+            "PSML_position_x",
+            "PSML_position_y",
+            "PSML_position_z",
+            "PSML_velocity_x",
+            "PSML_velocity_y",
+            "PSML_velocity_z",
+            "PSML_orientation_x",
+            "PSML_orientation_y",
+            "PSML_orientation_z",
+            "PSML_orientation_w",
+            "PSML_gripper_angle",
+            "PSMR_position_x",
+            "PSMR_position_y",
+            "PSMR_position_z",
+            "PSMR_velocity_x",
+            "PSMR_velocity_y",
+            "PSMR_velocity_z",
+            "PSMR_orientation_x",
+            "PSMR_orientation_y",
+            "PSMR_orientation_z",
+            "PSMR_orientation_w",
+            "PSMR_gripper_angle"
+        ],
+        "raw_feature_dir": [
+            "/home/student/Documents/Research/MICCAI_2022/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/Datasets/dV/Needle_Passing/preprocessed"
+        ],
+        "sample_rate": 1,
+        "tcn_params": {
+            "config": {
+                "batch_size": 1,
+                "learning_rate": 0.00027347155281573553,
+                "num_epochs": 30,
+                "weight_decay": 0.00037328332914909917
+            },
+            "model_params": {
+                "class_num": 14,
+                "decoder_params": {
+                    "input_size": 128,
+                    "kernel_size": 51,
+                    "layer_sizes": [
+                        96,
+                        64,
+                        64
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel",
+                    "transposed_conv": true
+                },
+                "encoder_params": {
+                    "input_size": 22,
+                    "kernel_size": 51,
+                    "layer_sizes": [
+                        64,
+                        96,
+                        128
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel"
+                },
+                "fc_size": 32,
+                "mid_lstm_params": {
+                    "hidden_size": 64,
+                    "input_size": 128,
+                    "layer_num": 1
+                }
+            }
+        },
+        "test_trial": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ],
+        "train_trial": [
+            [
+                2,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                4
+            ]
+        ],
+        "validation_trial": 1
+    },
+    "dataset_name": "DESK",
+    "experiment_setup": {
+        "sample_rate": 1
+    }
+}
