@@ -1,3 +1,7 @@
+"""
+taken from https://github.com/Finspire13/RL-Surgical-Gesture-Segmentation/
+"""
+
 from __future__ import division
 from __future__ import print_function
 from curses import raw
