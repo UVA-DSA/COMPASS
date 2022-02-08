@@ -1,7 +1,10 @@
 # Tune learning rate, batch size weight decay, and number of epochs
 # Make sure to run preprocess.py <set> <var> <labeltype>
 # before tune.py with the same arguments
+"""
 
+@author: Zongyu-zoey-li & kch4fk
+"""
 from config import input_size, num_class, raw_feature_dir, validation_trial, validation_trial_train, sample_rate,dataset_name
 import ray
 from ray import tune
