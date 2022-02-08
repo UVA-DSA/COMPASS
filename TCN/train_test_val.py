@@ -184,7 +184,10 @@ def updateJSON(dataset_name, var, labeltype, input_size, num_class):
     return tcn_model_params, LOCS
 
 
-
+"""
+the following functions were modified based on https://github.com/Finspire13/RL-Surgical-Gesture-Segmentation/
+@author: Zongyu-zoey-li
+"""
 def train_model(config,type,train_dataset,val_dataset,input_size, num_class,num_epochs,
                 loss_weights=None,
                 trained_model_file=None,
