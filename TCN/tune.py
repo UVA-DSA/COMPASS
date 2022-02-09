@@ -1,10 +1,7 @@
 # Tune learning rate, batch size weight decay, and number of epochs
 # Make sure to run preprocess.py <set> <var> <labeltype>
 # before tune.py with the same arguments
-"""
 
-@author: Zongyu-zoey-li & kch4fk
-"""
 from config import input_size, num_class, raw_feature_dir, validation_trial, validation_trial_train, sample_rate,dataset_name
 import ray
 from ray import tune
@@ -12,7 +9,7 @@ from ray.tune.schedulers import ASHAScheduler
 from ray.tune import CLIReporter
 from functools import partial
 from lstm_model import LSTM_Layer
-from train_test_cross import train_model_parameter, test_model
+from train_test_val import train_model_parameter, test_model
 import numpy as np
 import torch
 import os

@@ -28,6 +28,9 @@ import ray
 from ray import tune
 from tcn_model import EncoderDecoderNet
 
+# Import from config, should be consistent with updates from preprocess.py
+from config import tcn_model_params, dataset_name, gesture_class_num
+
 # Process arguments from command line
 # returns set, input variables, and labeltype
 def processArguments(args):
@@ -184,10 +187,7 @@ def updateJSON(dataset_name, var, labeltype, input_size, num_class):
     return tcn_model_params, LOCS
 
 
-"""
-the following functions were modified based on https://github.com/Finspire13/RL-Surgical-Gesture-Segmentation/
-@author: Zongyu-zoey-li
-"""
+
 def train_model(config,type,train_dataset,val_dataset,input_size, num_class,num_epochs,
                 loss_weights=None,
                 trained_model_file=None,
@@ -607,6 +607,8 @@ if __name__ == "__main__":
     # it based on set, var, and labeltype (should now be redundant with the
     # same updates from the same function, but run in the preprocess.py script)
     tcn_model_params, LOCS = updateJSON(set, var, labeltype, input_size, num_class)
+
+
 
     # Train, test, and cross validate
     cross_validate(set,'tcn') #, sample_rate, input_size, num_class)
