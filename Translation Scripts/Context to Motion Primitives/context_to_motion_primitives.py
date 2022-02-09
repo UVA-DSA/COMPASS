@@ -1,6 +1,12 @@
 # Kay Hutchinson 12/1/2021
 #
 # Convert context transcripts to motion primitives
+#
+# 2/8/2022 Updates:
+# Added pea states, peg states for PaS and PT; update to KT knot state
+# Added Wrap() and Unwrap() MPs to KT, specific to that circular motion and
+# possible errors from the wrap coming out
+
 
 # Imports
 import os
@@ -20,19 +26,25 @@ GContext = ["LHold", "LContact", "RHold", "RContact"]
 #      ... Needle, Thread
 SNPContext = ["Needle"] #, "Thread"]   # thread state removed 12/1/21
 # Knot Tying:
-#      ... CLoop, Knot
-KTContext = ["CLoop", "Knot"]
+#      ... Knot
+KTContext = ["Knot"]   # c-loop state merged into knot status and changed to "thread wrapped" 2/8/22
+# Peg Transfer/Post and Sleeve
+#      ... Peg
+PegContext = ["Peg"]
 # Pea on a Peg:
-#      ... Peas
-PoaPContext = ["Peas"]
+#      ... Pea
+PoaPContext = ["Pea"]
+
 
 # List of objects and states
 objects = ["Nothing", "Ball/Block/Sleeve", "Needle", "Thread", "Fabric/Tissue", "Ring", "Other"]
 needleStates = ["Out of", "Touching", "In"]
-threadStates = ["Loose", "Taut"]
-cLoopStates = ["Not formed", "Formed"]
-knotStates = ["Loose", "Tight"]
-peaStates = ["Stuck together", "Not stuck together"]
+#threadStates = ["Loose", "Taut"]   # not used
+#cLoopStates = ["Not formed", "Formed"]  # not used
+knotStates = ["N/A", "Thread Wrapped", "Loose", "Tight"]
+pegStates = ["On", "Off"]
+peaStates = ["Not held", "In cup", "Stuck together", "Not stuck together", "On peg"]
+
 
 
 
@@ -134,15 +146,31 @@ def labelMPs(npGrouped):
         Pull(R, 2): XX2X1 -> XX2X0
 
         Knot Tying:
-        Pull(L, 3): 3XXX0 -> 3XXX1   # make c-loop around R
-        Pull(R, 3): XX3X0 -> XX3X1   # make c-loop around L
-        Pull(L, 3) and Pull(R, 3): 3X3X1 -> 3X3X2  # pull tail through c-loop
+        Wrap(L, 3): 3XXX0 -> 3XXX1   # make wrap around R
+        Wrap(R, 3): XX3X0 -> XX3X1   # make wrap around L
+        Unwrap(L, 3): 3XXX1 -> 3XXX0  # wrap around R comes undone
+        Unwrap(R, 3): XX3X1 -> XX3X1  # wrap around L comes undone
+        Pull(L, 3) and Pull(R, 3): 3X3X1 -> 3X3X2  # pull tail through wrap
         Pull(L, 3) and Pull(R, 3): 3X3X2 -> 3X3X3  # tighten knot
 
         Note: 00003 -> 00000 lumped into next MP
 
         Pea on a Peg:
-        N/A
+        Grasp(L, 1): 0XXX0 -> 1XXX1   # Grasp pea in cup with L
+        Grasp(R, 1): XX0X0 -> XX1X1   # Grasp pea in cup with R
+        Pull(L, 1): 1XXX1 -> 1XXX2    # Lift pea from cup with L
+        Pull(R, 1): XX1X1 -> XX1X2    # Lift pea from cup with R
+        Pull(L, 1): 1XXX1 -> 1XXX3    # Lift pea from cup with L
+        Pull(R, 1): XX1X1 -> XX1X3    # Lift pea from cup with R
+        Untouch(1, 1): XXXX2 -> XXXX3 # Isolate held pea
+        Touch(1, Peg): XXXX3 -> XXXX4 # Touch pea to peg
+        Untouch(1, Peg): XXXX4 -> XXXX3 # Untouch pea from peg
+        Release(L, 1): 1XXXa -> 0XXX0 # Release pea with L
+        Release(R, 1): XX1Xa -> XX0X0 # Release pea with R
+
+        Push(L, 1): 1XXX2 -> 1XXX1    # Push peas back in cup with L
+        Push(R, 1): XX1X2 -> XX1X1    # Push peas back in cup with R
+        Touch(1, 1): XXXX3 -> XXXX2   # Touch pea to another pea and they stick together
 
         Peg Transfer and Post and Sleeve:
         Touch(1, Post): XXXX0 -> XXXX1
@@ -286,6 +314,7 @@ def labelMPs(npGrouped):
 
 
         # task-specific changes
+        # Suturing and Needle_Passing
         if (task == "Suturing") or (task == "Needle_Passing"):
             # Touch(2, 4): XXXX0 -> XXXX1
             if (int(currState[4]) == 0) and (int(nextState[4]) == 1):
@@ -370,12 +399,12 @@ def labelMPs(npGrouped):
                 obj = " "
 
 
-
+        # Knot_Tying
         if (task == "Knot_Tying"):
-            # Pull(L, 3): 3XXX0 -> 3XXX1   # make c-loop around R
+            # Wrap(L, 3): 3XXX0 -> 3XXX1   # make wrap around R
             if (int(currState[0]) == 3) and (int(currState[4]) == 0) and (int(nextState[4]) == 1):
                 tool = "L"
-                verb = "Pull"
+                verb = "Wrap"
                 obj = objects[3]
                 #print(verb + "(" + tool + ", " + obj +")")
                 if (tool != " "):
@@ -385,10 +414,10 @@ def labelMPs(npGrouped):
                 tool = " "
                 verb = " "
                 obj = " "
-            # Pull(R, 3): XX3X0 -> XX3X1   # make c-loop around L
+            # Wrap(R, 3): XX3X0 -> XX3X1   # make wrap around L
             if (int(currState[2]) == 3) and (int(currState[4]) == 0) and (int(nextState[4]) == 1):
                 tool = "R"
-                verb = "Pull"
+                verb = "Wrap"
                 obj = objects[3]
                 #print(verb + "(" + tool + ", " + obj +")")
                 if (tool != " "):
@@ -398,7 +427,33 @@ def labelMPs(npGrouped):
                 tool = " "
                 verb = " "
                 obj = " "
-            # Pull(L, 3) and Pull(R, 3): 3X3X1 -> 3X3X2  # pull tail through c-loop
+            # Unwrap(L, 3): 3XXX1 -> 3XXX0   # wrap around R comes undone
+            if (int(currState[0]) == 3) and (int(currState[4]) == 1) and (int(nextState[4]) == 0):
+                tool = "L"
+                verb = "Unwrap"
+                obj = objects[3]
+                #print(verb + "(" + tool + ", " + obj +")")
+                if (tool != " "):
+                    MPs.append(verb + "(" + tool + ", " + obj + ")")
+
+                # reset tool, verb, and obj
+                tool = " "
+                verb = " "
+                obj = " "
+            # Unwrap(R, 3): XX3X1 -> XX3X0   # wrap around L comes undone
+            if (int(currState[2]) == 3) and (int(currState[4]) == 1) and (int(nextState[4]) == 0):
+                tool = "R"
+                verb = "Unwrap"
+                obj = objects[3]
+                #print(verb + "(" + tool + ", " + obj +")")
+                if (tool != " "):
+                    MPs.append(verb + "(" + tool + ", " + obj + ")")
+
+                # reset tool, verb, and obj
+                tool = " "
+                verb = " "
+                obj = " "
+            # Pull(L, 3) and Pull(R, 3): 3X3X1 -> 3X3X2  # pull tail through wrap
             if (int(currState[0]) == 3) and (int(currState[2]) == 3) and (int(currState[4]) == 1) and (int(nextState[4]) == 2):
                 tool = "L"
                 verb = "Pull"
@@ -439,14 +494,145 @@ def labelMPs(npGrouped):
 
 
 
-
+        # Pea_on_a_Peg
         if (task == "Pea_on_a_Peg"):
-            #print("To Do")
-            pass
+            #Grasp(L, 1): 0XXX0 -> 1XXX1   # Grasp pea in cup with L
+            #Grasp(R, 1): XX0X0 -> XX1X1   # Grasp pea in cup with R
+                # these should be covered by general context grasp
+
+            #Pull(L, 1): 1XXX1 -> 1XXX2    # Lift pea from cup with L
+            if (int(currState[0]) == 1) and (int(currState[4]) == 1) and (int(nextState[4]) == 2):
+                tool = "L"
+                verb = "Pull"
+                obj = objects[1]
+
+            #Pull(R, 1): XX1X1 -> XX1X2    # Lift pea from cup with R
+            if (int(currState[2]) == 1) and (int(currState[4]) == 1) and (int(nextState[4]) == 2):
+                tool = "R"
+                verb = "Pull"
+                obj = objects[1]
+
+            if (tool != " "):
+                MPs.append(verb + "(" + tool + ", " + obj + ")")
+
+            # reset tool, verb, and obj
+            tool = " "
+            verb = " "
+            obj = " "
+
+            #Pull(L, 1): 1XXX1 -> 1XXX3    # Lift pea from cup with L
+            if (int(currState[0]) == 1) and (int(currState[4]) == 1) and (int(nextState[4]) == 3):
+                tool = "L"
+                verb = "Pull"
+                obj = objects[1]
+
+            #Pull(R, 1): XX1X1 -> XX1X3    # Lift pea from cup with R
+            if (int(currState[2]) == 1) and (int(currState[4]) == 1) and (int(nextState[4]) == 3):
+                tool = "R"
+                verb = "Pull"
+                obj = objects[1]
+
+            if (tool != " "):
+                MPs.append(verb + "(" + tool + ", " + obj + ")")
+
+            # reset tool, verb, and obj
+            tool = " "
+            verb = " "
+            obj = " "
+
+            #Untouch(1, 1): XXXX2 -> XXXX3 # Isolate held pea
+            if (int(currState[4]) == 2) and (int(nextState[4]) == 3):
+                verb = "Untouch"
+                obj = objects[1]
+                obj2 = objects[1]
+                MPs.append(verb + "(" + obj + ", " + obj2 + ")")
+                # reset tool, verb, and obj
+                tool = " "
+                verb = " "
+                obj = " "
+
+            #Touch(1, Peg): XXXX3 -> XXXX4 # Touch pea to peg
+            if (int(currState[4]) == 3) and (int(nextState[4]) == 4):
+                verb = "Touch"
+                obj = objects[1]
+                obj2 = "Peg"
+                MPs.append(verb + "(" + obj + ", " + obj2 + ")")
+                # reset tool, verb, and obj
+                tool = " "
+                verb = " "
+                obj = " "
+
+            #Untouch(1, Peg): XXXX4 -> XXXX3 # Untouch pea from peg
+            if (int(currState[4]) == 4) and (int(nextState[4]) == 3):
+                verb = "Untouch"
+                obj = objects[1]
+                obj2 = "Peg"
+                MPs.append(verb + "(" + obj + ", " + obj2 + ")")
+                # reset tool, verb, and obj
+                tool = " "
+                verb = " "
+                obj = " "
+
+            #Release(L, 1): 1XXXa -> 0XXX0 # Release pea with L
+            # Should be covered by general context release
+            '''
+            if (int(currState[0]) == 1) and (int(currState[4]) != 0) and (int(nextState[0]) == 0) and (int(nextState[4]) == 0):
+                tool = "L"
+                verb = "Release"
+                obj = objects[int(currState[0])]
+            '''
+
+            #Release(R, 1): XX1Xa -> XX0X0 # Release pea with R
+            # should be covered by general context release
+            '''
+            if (int(currState[2]) == 1) and (int(currState[4]) != 0) and (int(nextState[2]) == 0) and (int(nextState[4]) == 0):
+                tool = "R"
+                verb = "Release"
+                obj = objects[int(currState[0])]
+
+            #print(verb + "(" + tool + ", " + obj +")")
+            if (tool != " "):
+                MPs.append(verb + "(" + tool + ", " + obj + ")")
+
+            # reset tool, verb, and obj
+            tool = " "
+            verb = " "
+            obj = " "
+            '''
+
+            #Push(L, 1): 1XXX2 -> 1XXX1    # Push peas back in cup with L
+            if (int(currState[0]) == 1) and (int(currState[4]) == 2) and (int(nextState[4]) == 1):
+                tool = "L"
+                verb = "Push"
+                obj = objects[1]
+
+            #Push(R, 1): XX1X2 -> XX1X1    # Push peas back in cup with R
+            if (int(currState[2]) == 1) and (int(currState[4]) == 2) and (int(nextState[4]) == 1):
+                tool = "R"
+                verb = "Push"
+                obj = objects[1]
+
+            if (tool != " "):
+                MPs.append(verb + "(" + tool + ", " + obj + ")")
+
+            # reset tool, verb, and obj
+            tool = " "
+            verb = " "
+            obj = " "
+
+            #Touch(1, 1): XXXX3 -> XXXX2   # Touch pea to another pea and they stick together
+            if (int(currState[4]) == 3) and (int(nextState[4]) == 2):
+                verb = "Touch"
+                obj = objects[1]
+                obj2 = objects[1]
+                MPs.append(verb + "(" + obj + ", " + obj2 + ")")
+                # reset tool, verb, and obj
+                tool = " "
+                verb = " "
+                obj = " "
 
 
-
-
+        # Peg_Transfer and Post_and_Sleeve
         if (task == "Peg_Transfer") or (task == "Post_and_Sleeve"):
             # Untouch(1, Pole/Post): XXXX0 -> XXXX1
             if (int(currState[4]) == 0) and (int(nextState[4]) == 1):
@@ -506,7 +692,7 @@ baseDir = os.getcwd()
 # Transcript and video directories
 taskDir = os.path.join(baseDir, "Datasets", "dV", task)
 transcriptDir = os.path.join(taskDir,"transcriptions")
-gestureDir = os.path.join(taskDir,"gestures")
+#gestureDir = os.path.join(taskDir,"gestures")
 mpDir = os.path.join(taskDir, "motion_primitives")
 
 
@@ -515,6 +701,8 @@ if (task == "Suturing") or (task == "Needle_Passing"):
     context = GContext + SNPContext
 elif (task == "Knot_Tying"):
     context = GContext + KTContext
+elif (task == "Peg_Transfer") or (task == "Post_and_Sleeve"):
+    context = GContext + PegContext
 elif (task == "Pea_on_a_Peg"):
     context = GContext + PoaPContext
 else:
