@@ -146,10 +146,10 @@ def labelMPs(npGrouped):
         Pull(R, 2): XX2X1 -> XX2X0
 
         Knot Tying:
-        Wrap(L, 3): 3XXX0 -> 3XXX1   # make wrap around R
-        Wrap(R, 3): XX3X0 -> XX3X1   # make wrap around L
-        Unwrap(L, 3): 3XXX1 -> 3XXX0  # wrap around R comes undone
-        Unwrap(R, 3): XX3X1 -> XX3X1  # wrap around L comes undone
+        Pull(L, 3): 3XXX0 -> 3XXX1   # make wrap around R
+        Pull(R, 3): XX3X0 -> XX3X1   # make wrap around L
+        Pull(L, 3): 3XXX1 -> 3XXX0  # wrap around R comes undone
+        Pull(R, 3): XX3X1 -> XX3X1  # wrap around L comes undone
         Pull(L, 3) and Pull(R, 3): 3X3X1 -> 3X3X2  # pull tail through wrap
         Pull(L, 3) and Pull(R, 3): 3X3X2 -> 3X3X3  # tighten knot
 
@@ -401,10 +401,10 @@ def labelMPs(npGrouped):
 
         # Knot_Tying
         if (task == "Knot_Tying"):
-            # Wrap(L, 3): 3XXX0 -> 3XXX1   # make wrap around R
+            # Pull(L, 3): 3XXX0 -> 3XXX1   # make wrap around R
             if (int(currState[0]) == 3) and (int(currState[4]) == 0) and (int(nextState[4]) == 1):
                 tool = "L"
-                verb = "Wrap"
+                verb = "Pull"
                 obj = objects[3]
                 #print(verb + "(" + tool + ", " + obj +")")
                 if (tool != " "):
@@ -414,10 +414,10 @@ def labelMPs(npGrouped):
                 tool = " "
                 verb = " "
                 obj = " "
-            # Wrap(R, 3): XX3X0 -> XX3X1   # make wrap around L
+            # Pull(R, 3): XX3X0 -> XX3X1   # make wrap around L
             if (int(currState[2]) == 3) and (int(currState[4]) == 0) and (int(nextState[4]) == 1):
                 tool = "R"
-                verb = "Wrap"
+                verb = "Pull"
                 obj = objects[3]
                 #print(verb + "(" + tool + ", " + obj +")")
                 if (tool != " "):
@@ -427,10 +427,10 @@ def labelMPs(npGrouped):
                 tool = " "
                 verb = " "
                 obj = " "
-            # Unwrap(L, 3): 3XXX1 -> 3XXX0   # wrap around R comes undone
+            # Pull(L, 3): 3XXX1 -> 3XXX0   # wrap around R comes undone
             if (int(currState[0]) == 3) and (int(currState[4]) == 1) and (int(nextState[4]) == 0):
                 tool = "L"
-                verb = "Unwrap"
+                verb = "Pull"
                 obj = objects[3]
                 #print(verb + "(" + tool + ", " + obj +")")
                 if (tool != " "):
@@ -440,10 +440,10 @@ def labelMPs(npGrouped):
                 tool = " "
                 verb = " "
                 obj = " "
-            # Unwrap(R, 3): XX3X1 -> XX3X0   # wrap around L comes undone
+            # Pull(R, 3): XX3X1 -> XX3X0   # wrap around L comes undone
             if (int(currState[2]) == 3) and (int(currState[4]) == 1) and (int(nextState[4]) == 0):
                 tool = "R"
-                verb = "Unwrap"
+                verb = "Pull"
                 obj = objects[3]
                 #print(verb + "(" + tool + ", " + obj +")")
                 if (tool != " "):
