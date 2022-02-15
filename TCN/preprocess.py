@@ -23,11 +23,11 @@ def processArguments(args):
     try:
         set=args[1]
         # Check if valid set
-        if set not in ["DESK", "JIGSAWS"]: # , "ROSMA", "All"]:
-            print("Please choose set: DESK, JIGSAWS") #, ROSMA, All")
+        if set not in ["DESK", "JIGSAWS", "All"]: # , "ROSMA", "All"]:
+            print("Please choose set: DESK, JIGSAWS, All") #, ROSMA, All")
             sys.exit()
     except:
-        print("Please choose set: DESK, JIGSAWS") #, ROSMA, All")
+        print("Please choose set: DESK, JIGSAWS, All") #, ROSMA, All")
         sys.exit()
 
     # Get orientation or velocity from command line
@@ -77,6 +77,20 @@ def loadConfig(dataset_name, var, labeltype):
     else:
         print("Please specify input size.")
 
+    # Kernel size is shortest average label duration based on set and label type
+    if (dataset_name == "JIGSAWS") and (labeltype == "gesture"):
+        kernel_size = 89
+    elif (dataset_name == "DESK") and (labeltype == "gesture"):
+        kernel_size = 29
+    elif (dataset_name == "JIGSAWS") and (labeltype == "MP"):
+        kernel_size = 23   # need to update with consensus
+    elif (dataset_name == "DESK") and (labeltype == "MP"):
+        kernel_size = 45
+    elif (dataset_name == "All") and (labeltype == "MP"):
+        kernel_size = 22  # need to update with consensus
+    else:
+        print("Please specify kernel size.")
+
 
     # Path to processed files in 'preprocessed' folder
     # raw_feature_dir contains a list of paths to the preprocessed folder of
@@ -86,7 +100,7 @@ def loadConfig(dataset_name, var, labeltype):
     # Number of label classes
     #gesture_class_num = all_params[dataset_name]["gesture_class_num"]
     if labeltype == "MP":
-        gesture_class_num = 8  # actually 6 I think...
+        gesture_class_num = 6
     elif (dataset_name == "JIGSAWS") and (labeltype == "gesture"):
         gesture_class_num = 14
     elif (dataset_name == "DESK") and (labeltype == "gesture"):
@@ -105,12 +119,12 @@ def loadConfig(dataset_name, var, labeltype):
     validation_trial = all_params[dataset_name]["validation_trial"]
     validation_trial_train = [2,3,4,5,6]
 
-    return all_params, tcn_model_params, input_size, num_class, raw_feature_dir,\
+    return all_params, tcn_model_params, input_size, kernel_size, num_class, raw_feature_dir,\
      test_trial, train_trial, sample_rate, gesture_class_num, validation_trial, validation_trial_train
 
 # Modify config.json values based on command line arguements and
 # processed results from loadConfig
-def updateJSON(dataset_name, var, labeltype, input_size, num_class):
+def updateJSON(dataset_name, var, labeltype, input_size, kernel_size, num_class):
     # dataset_name passed as argument from command line
     print("Updating config for " + dataset_name + " with " + var + " and " + labeltype + "...")
 
@@ -129,6 +143,8 @@ def updateJSON(dataset_name, var, labeltype, input_size, num_class):
     # Update tcn params
     all_params[dataset_name]["tcn_params"]["model_params"]["class_num"] = num_class
     all_params[dataset_name]["tcn_params"]["model_params"]["encoder_params"]["input_size"] = input_size
+    all_params[dataset_name]["tcn_params"]["model_params"]["encoder_params"]["kernel_size"] = kernel_size
+    all_params[dataset_name]["tcn_params"]["model_params"]["decoder_params"]["kernel_size"] = kernel_size
 
     # LOCS
     if var == "velocity":
@@ -332,12 +348,12 @@ if __name__ == "__main__":
     # Process arugments from command line and get set, var, and labeltype
     set, var, labeltype = processArguments(sys.argv)
     # Load model parameters from config.json
-    all_params, tcn_model_params, input_size, num_class, raw_feature_dir,\
+    all_params, tcn_model_params, input_size, kernel_size, num_class, raw_feature_dir,\
      test_trial, train_trial, sample_rate, gesture_class_num, validation_trial, validation_trial_train = loadConfig(set, var, labeltype)
 
     # Many other files look to config.json for parameters, so need to update
     # it based on set, var, and labeltype
-    tcn_model_params, LOCS = updateJSON(set, var, labeltype, input_size, num_class)
+    tcn_model_params, LOCS = updateJSON(set, var, labeltype, input_size, kernel_size, num_class)
 
     # Preprocess files and save into preprocessed folder
     preprocess(set, var, labeltype, raw_feature_dir)

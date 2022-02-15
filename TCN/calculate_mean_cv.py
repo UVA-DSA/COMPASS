@@ -37,7 +37,7 @@ def analyze():
         tb['v_f_scores_50'].rolling(window=5).mean().iloc[-1], \
         tb['v_f_scores_75'].rolling(window=5).mean().iloc[-1]]
         result.append(vals)
-        #print(vals)
+        print(vals)
 
 
     result = np.array(result)
@@ -51,6 +51,10 @@ def analyze():
     print("v_f_scores_25: " + str(np.mean(result,axis = 0)[4]))
     print("v_f_scores_50: " + str(np.mean(result,axis = 0)[5]))
     print("v_f_scores_75: " + str(np.mean(result,axis = 0)[6]))
+
+    print("v_accuracy: " + str(np.std(result,axis = 0)[0]))
+    print("v_edit_score: " + str(np.std(result,axis = 0)[1]))
+    print("v_loss: " + str(np.std(result,axis = 0)[2]))
 
 '''
 tcn : v_accuracy: {}, v_edit_score: {}, v_loss: {}, v_f_scores_10: {}, v_f_scores_25: {}, v_f_scores_50: {}, v_f_scores_75: {}'.format(np.mean(result,axis = 0)[0],\\
@@ -66,8 +70,9 @@ tcn : v_accuracy: {} ({}), v_edit_score: {} ({}), v_loss: {} ({}), v_f_scores_10
 '''
 
 
+if __name__ == "__main__":
 
-#analyze()
+    analyze()
 
 
 '''

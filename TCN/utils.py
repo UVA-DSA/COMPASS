@@ -1,7 +1,3 @@
-"""
-taken from https://github.com/Finspire13/RL-Surgical-Gesture-Segmentation/
-"""
-
 from __future__ import division
 from __future__ import print_function
 from curses import raw
@@ -45,6 +41,85 @@ def get_all_trail():
     trail_list = [t.strip() for t in trail_list]
 
     return trail_list
+
+
+def get_cross_val_splits_LOUO(validation = False):
+    from config import raw_feature_dir, validation_trial, validation_trial_train, test_trial, train_trial
+    if validation ==True:
+        cross_val_splits=[]
+        test_dir = []
+        train_dir = []
+        if len(raw_feature_dir)!=1:
+            for i in raw_feature_dir:
+                print(os.path.join(i,'*{}_*'.format(validation_trial)))
+                test = glob.glob(os.path.join(i,'*{}_*'.format(validation_trial)))
+                test_dir.extend(test)
+                tri=[j for j in validation_trial_train]
+                a = "*["+",".join(['{}']*len(validation_trial_train))+"]_*"
+                train = glob.glob(os.path.join(i,a.format(*tri)))
+                    #train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
+                     #   train_trial[idx][2],train_trial[idx][3])))
+
+                print(os.path.join(i,a.format(*tri)))
+                train_dir.extend(train)
+
+            return {'train':train_dir,'test':test_dir,'name':'tune'}
+        else:
+            i = raw_feature_dir[0]
+            print(os.path.join(i,'*{}_*'.format(validation_trial)))
+            test = glob.glob(os.path.join(i,'*{}_*'.format(validation_trial)))
+            test_dir.extend(test)
+            tri=[j for j in validation_trial_train]
+            a = "*["+",".join(['{}']*len(validation_trial_train))+"]_*"
+            train = glob.glob(os.path.join(i,a.format(*tri)))
+                    #train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
+                     #   train_trial[idx][2],train_trial[idx][3])))
+            print(os.path.join(i,a.format(*tri)))
+            #breakpoint()
+            train_dir.extend(train)
+
+            return {'train':train_dir,'test':test_dir,'name':'tune'}
+
+    else:
+        cross_val_splits = []
+        for idx, test_num in enumerate(test_trial):
+            train_dir = []
+            test_dir = []
+            if len(raw_feature_dir)!=1:
+                for i in raw_feature_dir:
+                    test = glob.glob(os.path.join(i,'*{}_*'.format(test_num)))
+                    test_dir.extend(test)
+                    #breakpoint()
+                    tri=[j for j in train_trial[idx]]
+                    a = "*["+",".join(['{}']*len(train_trial[idx]))+"]_*"
+                    train = glob.glob(os.path.join(i,a.format(*tri)))
+                    #train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
+                     #   train_trial[idx][2],train_trial[idx][3])))
+                    print(os.path.join(i,a.format(*tri)))
+
+                    train_dir.extend(train)
+            else:
+                i = raw_feature_dir[0]
+                test = glob.glob(os.path.join(i,'*{}_*'.format(test_num)))
+                test_dir.extend(test)
+                #breakpoint()
+                tri=[j for j in train_trial[idx]]
+                a = "*["+",".join(['{}']*len(train_trial[idx]))+"]_*"
+                train = glob.glob(os.path.join(i,a.format(*tri)))
+                    #train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],train_trial[idx][2],train_trial[idx][3])))
+                     #
+                print(os.path.join(i,a.format(*tri)))
+                #breakpoint()
+
+                train_dir.extend(train)
+
+            #breakpoint()
+            cross_val_splits.append({'train': train_dir,
+                                    'test': test_dir,
+                                    'name': 'test_{}'.format(test_num)})
+
+        return cross_val_splits
+
 
 def get_cross_val_splits(validation = False):
     from config import raw_feature_dir, validation_trial, validation_trial_train, test_trial, train_trial

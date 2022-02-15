@@ -1,8 +1,3 @@
-"""
-taken from https://github.com/Finspire13/RL-Surgical-Gesture-Segmentation/
-
-"""
-
 from __future__ import division
 from __future__ import print_function
 
@@ -51,7 +46,7 @@ class RawFeatureDataset(Dataset):
             #print(trail_name)
             #breakpoint()
 
-            if dataset_name in ['JIGSAWS', 'DESK']:
+            if dataset_name in ['JIGSAWS', 'DESK', 'All']:
                 data_file = trail_name
                 with open(data_transform_path, 'rb') as f:  #('/home/student/Documents/Research/MICCAI_2022/TCN/JIGSAWS-TRANSFORM.pkl','rb') as f:
                     label_transform =  pickle.load(f)

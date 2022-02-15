@@ -20,172 +20,17 @@ import utils
 import pdb
 import json
 
-from calculate_mean_cv import analyze
+#from calculate_mean_cv import analyze
 
 # for parameter tuning LSTM/TCN
-from utils import get_cross_val_splits
+from utils import get_cross_val_splits, get_cross_val_splits_LOUO
 import ray
 from ray import tune
 from tcn_model import EncoderDecoderNet
 
 # Import from config, should be consistent with updates from preprocess.py
 from config import tcn_model_params, dataset_name, gesture_class_num
-
-# Process arguments from command line
-# returns set, input variables, and labeltype
-def processArguments(args):
-    # Get arguments from command line
-    try:
-        set=args[1]
-        # Check if valid set
-        if set not in ["DESK", "JIGSAWS"]: # , "ROSMA", "All"]:
-            print("Please choose set: DESK, JIGSAWS") #, ROSMA, All")
-            sys.exit()
-    except:
-        print("Please choose set: DESK, JIGSAWS") #, ROSMA, All")
-        sys.exit()
-
-    # Get orientation or velocity from command line
-    try:
-        var = args[2]
-        # Check if valid var
-        if var not in ["velocity", "orientation", "all"]:
-            print("Please choose input variable: velocity orientation all")
-            sys.exit()
-    except:
-        print("Please choose input variable: velocity orientation all")
-        sys.exit()
-
-    # Get MP or gesture from command line
-    try:
-        labeltype = args[3]
-        # Check if valid labeltype
-        if labeltype not in ["MP", "gesture"]:
-            print("Please choose label type: MP gesture")
-            sys.exit()
-    except:
-        print("Please choose label type: MP gesture")
-        sys.exit()
-
-    # return arguments
-    return set, var, labeltype
-
-# Load config parameters
-def loadConfig(dataset_name, var, labeltype):
-    # dataset_name passed as argument from command line
-    print("Loading config for " + dataset_name + " with " + var + " and " + labeltype + "...")
-
-    # Load saved parameters from json
-    all_params = json.load(open('config.json'))
-
-    # Get tcn model params and sizes, and input size and number of label classes
-    tcn_model_params = all_params[dataset_name]["tcn_params"]
-
-    # Calculate input size based on set and var
-    if (var == "velocity"):
-        input_size = 14
-    elif (var == "orientation"):
-        input_size = 16
-    elif (var == "all"):
-        input_size = 22
-    else:
-        print("Please specify input size.")
-
-
-    # Path to processed files in 'preprocessed' folder
-    # raw_feature_dir contains a list of paths to the preprocessed folder of
-    # the each task that will be included in the training set
-    raw_feature_dir = all_params[dataset_name]["raw_feature_dir"]
-
-    # Number of label classes
-    #gesture_class_num = all_params[dataset_name]["gesture_class_num"]
-    if labeltype == "MP":
-        gesture_class_num = 8  # actually 6 I think...
-    elif (dataset_name == "JIGSAWS") and (labeltype == "gesture"):
-        gesture_class_num = 14
-    elif (dataset_name == "DESK") and (labeltype == "gesture"):
-        gesture_class_num = 7
-    else:
-        print("Please specify number of label classes.")
-        sys.exit()
-    num_class = gesture_class_num
-
-    # Sets for cross validation
-    test_trial=all_params[dataset_name]["test_trial"]
-    train_trial = all_params[dataset_name]["train_trial"]
-    sample_rate = all_params[dataset_name]["sample_rate"]
-
-    # For parameter tuning
-    validation_trial = all_params[dataset_name]["validation_trial"]
-    validation_trial_train = [2,3,4,5,6]
-
-    return all_params, tcn_model_params, input_size, num_class, raw_feature_dir,\
-     test_trial, train_trial, sample_rate, gesture_class_num, validation_trial, validation_trial_train
-
-
-# Modify config.json values based on command line arguements and
-# processed results from loadConfig
-def updateJSON(dataset_name, var, labeltype, input_size, num_class):
-    # dataset_name passed as argument from command line
-    print("Updating config for " + dataset_name + " with " + var + " and " + labeltype + "...")
-
-    # Load saved parameters from json
-    all_params = json.load(open('config.json'))
-
-
-    # Make changes to params:
-    # Update dataset_name
-    all_params["dataset_name"] = dataset_name
-    # Update input size
-    all_params[dataset_name]["input_size"] = input_size
-    # Update num classes
-    all_params[dataset_name]["gesture_class_num"] = num_class
-
-    # Update tcn params
-    all_params[dataset_name]["tcn_params"]["model_params"]["class_num"] = num_class
-    all_params[dataset_name]["tcn_params"]["model_params"]["encoder_params"]["input_size"] = input_size
-
-    # LOCS
-    if var == "velocity":
-        LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z", \
-                "PSML_velocity_x", "PSML_velocity_y", "PSML_velocity_z", \
-                "PSML_gripper_angle", \
-                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z", \
-                "PSMR_velocity_x", "PSMR_velocity_y", "PSMR_velocity_z", \
-                "PSMR_gripper_angle"]
-    elif var == "orientation":
-        LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z", \
-                "PSML_orientation_x", "PSML_orientation_y", "PSML_orientation_z", "PSML_orientation_w",\
-                "PSML_gripper_angle", \
-                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z", \
-                "PSMR_orientation_x", "PSMR_orientation_y", "PSMR_orientation_z", "PSMR_orientation_w",\
-                "PSMR_gripper_angle"]
-    else:
-        LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z",\
-                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
-                "PSML_orientation_x", "PSML_orientation_y", "PSML_orientation_z", "PSML_orientation_w",\
-                "PSML_gripper_angle", \
-                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
-                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
-                "PSMR_orientation_x", "PSMR_orientation_y", "PSMR_orientation_z", "PSMR_orientation_w",\
-                "PSMR_gripper_angle"]
-    all_params[dataset_name]["locs"] = LOCS
-
-    # Update pickle file name
-    pklFile = dataset_name + "_TRANSFORM_" + var + "_" + labeltype + ".pkl"
-    all_params[dataset_name]["data_transform_path"] = os.path.join(os.getcwd(), dataset_name, pklFile)
-
-    # Write updated params to config.json
-    with open('config.json', 'w') as jF:
-        json.dump(all_params, jF, indent=4, sort_keys=True)
-
-    # Get updated tcn model params
-    with open('config.json', 'r'):
-        tcn_model_params = all_params[dataset_name]["tcn_params"]
-
-    # return updated tcn params and LOCS
-    return tcn_model_params, LOCS
-
+from preprocess import processArguments, loadConfig, updateJSON
 
 
 def train_model(config,type,train_dataset,val_dataset,input_size, num_class,num_epochs,
@@ -303,7 +148,7 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
         model = EncoderDecoderNet(**tcn_model_params['model_params'])
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model = model.to(device)
-    paths = get_cross_val_splits(validation = True)
+    paths = get_cross_val_splits_LOUO(validation=True) #get_cross_val_splits(validation = True)
 
     train_trail_list = paths["train"]
     test_trail_list = paths["test"]
@@ -522,12 +367,45 @@ def cross_validate(dataset_name,net_name):
     '''
     # Update after running parameter tuning
     if net_name =='tcn':
-        num_epochs = 30 # about 25 mins for 5 fold cross validation
+        num_epochs = 60 # about 25 mins for 5 fold cross validation
         #config = {'learning_rate': 0.0003042861945575232, 'batch_size': 1, 'weight_decay': 0.00012035748692105724} #EPOCH=30 tcn
         # DESK MPs best config
         #config = {'learning_rate': 0.000303750997737948, 'batch_size': 1, 'weight_decay': 0.0003482923872868488}
         # DESK surgemes best confg
-        config = {'learning_rate': 3.963963013042929e-05, 'batch_size': 1, 'weight_decay': 0.00027159256985286403}
+        #config = {'learning_rate': 3.963963013042929e-05, 'batch_size': 1, 'weight_decay': 0.00027159256985286403}
+        # JIGSAWS velocity MP
+        #config = {'learning_rate': 0.0001576343084838018, 'batch_size': 1, 'weight_decay': 0.00023773851327890498}
+
+        # JIGSAWS velocity gesture
+        #config = {'learning_rate': 2.5826153934209526e-05, 'batch_size': 1, 'weight_decay': 0.004858510195728743}  # 2/11/22 with kernel_size=89
+        #config = {'learning_rate': 0.00016366977236766027, 'batch_size': 1, 'weight_decay': 0.008127289637042961}
+        #config = {'learning_rate': 0.00014231599843812342, 'batch_size': 1, 'weight_decay': 0.00030737153854922043}  # 2/13/22 LOUO
+        #config = {'learning_rate': 0.00020022531960136458, 'batch_size': 1, 'weight_decay': 0.00014092727832934972}  # 2/13/22 LOUO
+        # DESK velocity gesture
+        #config = {'learning_rate': 7.169049601430846e-05, 'batch_size': 1, 'weight_decay': 0.0006724637388961114}  # 2/11/22 with kernel_size=29
+        #config = {'learning_rate': 0.00025031047039607583, 'batch_size': 1, 'weight_decay': 0.0009766401294135894}
+        #config = {'learning_rate': 0.000566937505891035, 'batch_size': 1, 'weight_decay': 0.00012182323546170875}  # LOUO
+        # JIGSAWS velocity MP
+        #config = {'learning_rate': 8.863231228512165e-05, 'batch_size': 1, 'weight_decay': 0.009514818942409369}   # 2/11/22 with kernel_size=23
+        # DESK velocity MP
+        #config = {'learning_rate': 0.0004998087380888688, 'batch_size': 1, 'weight_decay': 0.008574253154000755}
+        # DESK velocity MP consensus
+        #config = {'learning_rate': 0.0009516004370271217, 'batch_size': 1, 'weight_decay': 0.007131571108569991}
+        #config = {'learning_rate': 0.0005338645537130718, 'batch_size': 1, 'weight_decay': 0.001632334147284145}  # LOUO
+        # DESK velocity gesture LOUO, consensus, kernel_size=45
+        #config = {'learning_rate': 0.00059835623472427, 'batch_size': 1, 'weight_decay': 0.009372709880483896}
+
+        # DESK all MP, LOUO
+        #config = {'learning_rate': 0.0009317393319254369, 'batch_size': 1, 'weight_decay': 0.007328315522134738}
+        #config = {'learning_rate': 0.00015569956670242064, 'batch_size': 1, 'weight_decay': 0.0008577704981125022}
+        # DESK all gesture, LOUO
+        #config = {'learning_rate': 0.00030989384781463376, 'batch_size': 1, 'weight_decay': 0.00042974511488755003}
+        # DESK orientation gesture
+        #config = {'learning_rate': 0.0001109740677026585, 'batch_size': 1, 'weight_decay': 0.0011757798863368475}
+        # DESK velocity gesture LOUO
+        config = {'learning_rate': 2.0303285012661874e-05, 'batch_size': 1, 'weight_decay': 0.005270918479633022}
+
+
     if net_name=='lstm':
         num_epochs = 60
         config =  {'hidden_size': 128 , 'learning_rate': 0.000145129 ,  'num_layers': 3 ,'batch_size': 1, 'weight_decay':0.00106176 } # Epoch =60 lstm
@@ -536,7 +414,7 @@ def cross_validate(dataset_name,net_name):
 
     # Get trial splits
     print("Getting cross validation splits")
-    cross_val_splits = utils.get_cross_val_splits()
+    cross_val_splits = utils.get_cross_val_splits_LOUO() #utils.get_cross_val_splits()
     #breakpoint()
 
 
@@ -600,18 +478,18 @@ if __name__ == "__main__":
     dataset_name = set
 
     # Load model parameters from config.json
-    all_params, tcn_model_params, input_size, num_class, raw_feature_dir,\
+    all_params, tcn_model_params, input_size, kernel_size, num_class, raw_feature_dir,\
      test_trial, train_trial, sample_rate, gesture_class_num, validation_trial, validation_trial_train = loadConfig(set, var, labeltype)
 
     # Many other files look to config.json for parameters, so need to update
     # it based on set, var, and labeltype (should now be redundant with the
     # same updates from the same function, but run in the preprocess.py script)
-    tcn_model_params, LOCS = updateJSON(set, var, labeltype, input_size, num_class)
+    tcn_model_params, LOCS = updateJSON(set, var, labeltype, input_size, kernel_size, num_class)
 
 
 
     # Train, test, and cross validate
-    cross_validate(set,'tcn') #, sample_rate, input_size, num_class)
+    cross_validate(set,'tcn') #'tcn') #, sample_rate, input_size, num_class)
 
     # Call analyze() from calculate_mean_cv and print results
     #analyze()  doesn't work yet b/c hard coded file paths!
