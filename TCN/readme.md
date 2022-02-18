@@ -4,7 +4,7 @@ Check for file path errors
 
 
 
-Go into config.json and change "raw_feature_dir" to the correct paths to each task's 'preprocessed' folder.
+Go into config.json and change "raw_feature_dir" to the correct paths to each task's 'preprocessed' folder. \
 In the terminal run
 ```
 python preprocess.py <set> <var> <labeltype> <valtype>
