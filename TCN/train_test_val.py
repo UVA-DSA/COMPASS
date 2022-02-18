@@ -22,7 +22,6 @@ import utils
 import pdb
 import json
 import shutil
-import pdb
 
 #from calculate_mean_cv import analyze
 
@@ -128,10 +127,10 @@ def train_model(config,type,train_dataset,val_dataset,input_size, num_class,num_
         if log_dir is not None:
             if not os.path.exists(log_dir):
                     os.makedirs(log_dir, exist_ok=True)
-            train_result = test_model(model, train_dataset, loss_weights,name = "train",log_dir =log_dir )
+            train_result = test_model(model, train_dataset, loss_weights)
             t_accuracy, t_edit_score, t_loss, t_f_scores = train_result
 
-            val_result = test_model(model, val_dataset, loss_weights,name="test",log_dir =log_dir )
+            val_result = test_model(model, val_dataset, loss_weights)
             v_accuracy, v_edit_score, v_loss, v_f_scores = val_result
             df.loc[epoch] = [t_accuracy, t_edit_score,t_loss, t_f_scores[0], t_f_scores[1], t_f_scores[2], t_f_scores[3],\
                 v_accuracy, v_edit_score,v_loss, v_f_scores[0], v_f_scores[1], v_f_scores[2], v_f_scores[3]]
@@ -154,10 +153,10 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
         model = model.to(device)
 
     # Get paths for LOSO or LOUO val setup
-    if valtype == "LOSO":
-        paths = get_cross_val_splits(validation = True)
-    elif valtype == "LOUO":
-        paths = get_cross_val_splits_LOUO(validation=True)
+    #if valtype == "LOSO":
+    paths = get_cross_val_splits(validation = True)
+    #elif valtype == "LOUO":
+        #paths = get_cross_val_splits_LOUO(validation=True)
 
     train_trail_list = paths["train"]
     test_trail_list = paths["test"]
@@ -191,7 +190,6 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
                         weight=torch.Tensor(loss_weights).to(device), #.cuda()
                         ignore_index=-1)
 
-    
     # Logger
     if log_dir is not None:
         logger = Logger(log_dir)
@@ -290,14 +288,8 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
 
 
 
-def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'default',plot_naming=None):
+def test_model(model, test_dataset, loss_weights=None, plot_naming=None):
 
-    if log_dir!=None:
-        test_data_file = 'tcn_{}.npy'.format(name)
-
-        np.save(os.path.join(log_dir, test_data_file), 
-                                            test_dataset)
-    
     test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
                                         batch_size=1, shuffle=False)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -311,22 +303,15 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
                         weight=torch.Tensor(loss_weights).to(device), #.cuda()
                         ignore_index=-1)
 
-    import json,pickle
-    all_params = json.load(open('config.json'))
-    transform_path = all_params[dataset_name]["data_transform_path"]
-    with open(transform_path, 'rb') as f: 
-            label_transform =  pickle.load(f)
     #Test the Model
     total_loss = 0
     preditions = []
     gts=[]
 
-
     with torch.no_grad():
         for i, data in enumerate(test_loader):
             # Access name of kinematic file and pull out the trial name (task, subject, and trial number)
             trialName = data['name'][0].split("/")[-1].split(".")[0]
-            naming=data['name'][0].split("/")[-1][:-4]
             #print(trialName)
 
             feature = data['feature'].float()
@@ -352,13 +337,6 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
 
             preditions.append(pred.cpu().numpy())
             gts.append(gesture.data.cpu().numpy())
-            if log_dir!=None:
-                model_conv_pred = label_transform.inverse_transform(pred.cpu().numpy())
-            #breakpoint()
-
-                model_conv_gt = label_transform.inverse_transform(gesture.data.cpu().numpy())
-                test_data_naming_pred_gt = '{}_{}_pred_gt.npy'.format(name,naming)
-                np.save(os.path.join(log_dir, test_data_naming_pred_gt), [data['feature'][:,:trail_len,:].float(),model_conv_pred,model_conv_gt])
 
             # Call inverse_transform on the preditions to get the original labels
             #print(np.shape(preditions))
@@ -376,10 +354,6 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
             #                        pred=pred.cpu().numpy(),
             #                        visited_pos=None,
             #                        show=False, save_file=graph_file)
-
-    
-    
-   
 
     bg_class = 0 if dataset_name != 'JIGSAWS' else None
 
