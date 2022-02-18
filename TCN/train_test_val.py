@@ -340,9 +340,10 @@ def test_model(model, test_dataset, loss_weights=None, plot_naming=None):
 
             # Call inverse_transform on the preditions to get the original labels
             #print(np.shape(preditions))
-            #predictions = list(le.inverse_transform(np.transpose(preditions)))
+            predictions = list(le.inverse_transform(np.transpose(preditions)))
+            print(predictions)
 
-            sys.exit()
+            #sys.exit()
 
             # Plot   [Errno 2] No such file or directory: './graph/JIGSAWS/Suturing/sensor_run_1_split_1_seq_0.png' 12/7/21
             # if plot_naming:
