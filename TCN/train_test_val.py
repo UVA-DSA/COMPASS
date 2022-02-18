@@ -127,10 +127,10 @@ def train_model(config,type,train_dataset,val_dataset,input_size, num_class,num_
         if log_dir is not None:
             if not os.path.exists(log_dir):
                     os.makedirs(log_dir, exist_ok=True)
-            train_result = test_model(model, train_dataset, loss_weights)
+            train_result = test_model(model, train_dataset, loss_weights,name = "train",log_dir =log_dir )
             t_accuracy, t_edit_score, t_loss, t_f_scores = train_result
 
-            val_result = test_model(model, val_dataset, loss_weights)
+            val_result = test_model(model, val_dataset, loss_weights,name="test",log_dir =log_dir )
             v_accuracy, v_edit_score, v_loss, v_f_scores = val_result
             df.loc[epoch] = [t_accuracy, t_edit_score,t_loss, t_f_scores[0], t_f_scores[1], t_f_scores[2], t_f_scores[3],\
                 v_accuracy, v_edit_score,v_loss, v_f_scores[0], v_f_scores[1], v_f_scores[2], v_f_scores[3]]
@@ -190,6 +190,7 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
                         weight=torch.Tensor(loss_weights).to(device), #.cuda()
                         ignore_index=-1)
 
+    
     # Logger
     if log_dir is not None:
         logger = Logger(log_dir)
@@ -288,8 +289,13 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
 
 
 
-def test_model(model, test_dataset, loss_weights=None, plot_naming=None):
+def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'default',plot_naming=None):
 
+    test_data_file = 'tcn_{}.npy'.format(name)
+
+    np.save(os.path.join(log_dir, test_data_file), 
+                                            test_dataset)
+    
     test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
                                         batch_size=1, shuffle=False)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -340,7 +346,7 @@ def test_model(model, test_dataset, loss_weights=None, plot_naming=None):
 
             # Call inverse_transform on the preditions to get the original labels
             #print(np.shape(preditions))
-            predictions = list(le.inverse_transform(np.transpose(preditions)))
+            #predictions = list(le.inverse_transform(np.transpose(preditions)))
             #print(predictions)
 
             #sys.exit()
@@ -355,6 +361,11 @@ def test_model(model, test_dataset, loss_weights=None, plot_naming=None):
             #                        visited_pos=None,
             #                        show=False, save_file=graph_file)
 
+    test_data_result = 'tcn_{}_prediction.npy'.format(name)
+    np.save(os.path.join(log_dir, test_data_result), preditions)
+    
+    test_data_result_expected = 'tcn_{}_expected.npy'.format(name)
+    np.save(os.path.join(log_dir, test_data_result_expected),gts)
     bg_class = 0 if dataset_name != 'JIGSAWS' else None
 
     avg_loss = total_loss / len(test_loader.dataset)
