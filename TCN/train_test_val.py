@@ -22,6 +22,7 @@ import utils
 import pdb
 import json
 import shutil
+import pdb
 
 #from calculate_mean_cv import analyze
 
@@ -309,15 +310,22 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
                         weight=torch.Tensor(loss_weights).to(device), #.cuda()
                         ignore_index=-1)
 
+    import json,pickle
+    all_params = json.load(open('config.json'))
+    transform_path = all_params[dataset_name]["data_transform_path"]
+    with open(transform_path, 'rb') as f: 
+            label_transform =  pickle.load(f)
     #Test the Model
     total_loss = 0
     preditions = []
     gts=[]
 
+
     with torch.no_grad():
         for i, data in enumerate(test_loader):
             # Access name of kinematic file and pull out the trial name (task, subject, and trial number)
             trialName = data['name'][0].split("/")[-1].split(".")[0]
+            naming=data['name'][0].split("/")[-1][:-4]
             #print(trialName)
 
             feature = data['feature'].float()
@@ -343,6 +351,11 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
 
             preditions.append(pred.cpu().numpy())
             gts.append(gesture.data.cpu().numpy())
+            model_conv_pred = label_transform.inverse_transform(pred.cpu().numpy())
+            #breakpoint()
+            model_conv_gt = label_transform.inverse_transform(gesture.data.cpu().numpy())
+            #test_data_naming_pred_gt = '{}_{}_pred_gt.npy'.format(name,naming)
+            #np.save(os.path.join(log_dir, test_data_naming_pred_gt), [data['feature'][:,:trail_len,:].float(),model_conv_pred,model_conv_gt])
 
             # Call inverse_transform on the preditions to get the original labels
             #print(np.shape(preditions))
@@ -361,11 +374,10 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
             #                        visited_pos=None,
             #                        show=False, save_file=graph_file)
 
-    test_data_result = 'tcn_{}_prediction.npy'.format(name)
-    np.save(os.path.join(log_dir, test_data_result), preditions)
     
-    test_data_result_expected = 'tcn_{}_expected.npy'.format(name)
-    np.save(os.path.join(log_dir, test_data_result_expected),gts)
+    
+   
+
     bg_class = 0 if dataset_name != 'JIGSAWS' else None
 
     avg_loss = total_loss / len(test_loader.dataset)
