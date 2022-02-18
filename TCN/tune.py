@@ -1,8 +1,8 @@
 # Tune learning rate, batch size weight decay, and number of epochs
-# Make sure to run preprocess.py <set> <var> <labeltype>
+# Make sure to run preprocess.py <set> <var> <labeltype> <valtype>
 # before tune.py with the same arguments
 
-from config import input_size, num_class, raw_feature_dir, validation_trial, validation_trial_train, sample_rate,dataset_name
+from config import input_size, val_type, num_class, raw_feature_dir, validation_trial, validation_trial_train, sample_rate,dataset_name
 import ray
 from ray import tune
 from ray.tune.schedulers import ASHAScheduler
@@ -23,6 +23,35 @@ import torch
 import torch.nn as nn
 
 from preprocess import processArguments
+
+global val_type
+
+# Modify config.json values based on best config found
+def updateJSONtcnparams(dataset_name, batch_size, epoch, learning_rate, weight_decay):
+    # dataset_name passed as argument from command line
+    print("Updating tcn params in config for " + dataset_name + " with " + var + " and " + labeltype + "...")
+
+    # Load saved parameters from json
+    all_params = json.load(open('config.json'))
+
+
+    # Make changes to params:
+    # Update tcn params
+    all_params[dataset_name]["tcn_params"]["config"]["batch_size"] = batch_size
+    all_params[dataset_name]["tcn_params"]["config"]["epoch"] = epoch
+    all_params[dataset_name]["tcn_params"]["config"]["learning_rate"] = learning_rate
+    all_params[dataset_name]["tcn_params"]["config"]["weight_decay"] = weight_decay
+
+    # Write updated params to config.json
+    with open('config.json', 'w') as jF:
+        json.dump(all_params, jF, indent=4, sort_keys=True)
+
+
+
+
+
+
+
 
 
 def tuneParams(rate, size, decay, num_samples=1, max_num_epochs=50):
@@ -64,7 +93,7 @@ def tuneParams(rate, size, decay, num_samples=1, max_num_epochs=50):
 
 
 if __name__ == "__main__":
-
+    global valtype
     # Process arguments from command line and get set, var, and labeltype
     set, var, labeltype, valtype = processArguments(sys.argv)
 
@@ -77,5 +106,11 @@ if __name__ == "__main__":
     # sure to change if running on a different computer
     # First, tune learning rate, batch size, and weight decay
     rate, size, decay = tuneParams(0, 0, 0, num_samples=100, max_num_epochs=60)
+
+    # Hard coded for now...
+    epoch = 50
+    # Update json
+    updateJSONtcnparams(set, size, epoch, rate, decay)
+
     # Then, pass returned config to next tuning loop to tune number of epochs
     tuneParams(rate, size, decay, num_samples=1, max_num_epochs=60)

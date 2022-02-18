@@ -7,6 +7,7 @@ import math
 
 all_params = json.load(open('config.json'))
 dataset_name = all_params['dataset_name']
+val_type = all_params["experiment_setup"]["val_type"]
 tcn_model_params = all_params[dataset_name]["tcn_params"]
 input_size = all_params[dataset_name]["input_size"]
 num_class=all_params[dataset_name]["gesture_class_num"]
