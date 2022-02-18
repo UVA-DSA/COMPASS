@@ -17,7 +17,7 @@ from sklearn import preprocessing
 import pickle
 
 # Process arguments from command line
-# returns set, input variables, and labeltype
+# returns set, input variables, labeltype, and valtype
 def processArguments(args):
     # Get arguments from command line
     try:
@@ -52,12 +52,25 @@ def processArguments(args):
         print("Please choose label type: MP gesture")
         sys.exit()
 
+    # Get LOSO or LOUO from command line
+    try:
+        valtype = args[4]
+        # Check if valid labeltype
+        if valtype not in ["LOSO", "LOUO"]:
+            print("Please choose label type: LOSO LOUO")
+            sys.exit()
+    except:
+        print("Please choose label type: LOSO LOUO")
+        sys.exit()
+
+
+
     # return arguments
-    return set, var, labeltype
+    return set, var, labeltype, valtype
 
 
 # Load config parameters
-def loadConfig(dataset_name, var, labeltype):
+def loadConfig(dataset_name, var, labeltype, valtype):
     # dataset_name passed as argument from command line
     print("Loading config for " + dataset_name + " with " + var + " and " + labeltype + "...")
 
@@ -124,7 +137,7 @@ def loadConfig(dataset_name, var, labeltype):
 
 # Modify config.json values based on command line arguements and
 # processed results from loadConfig
-def updateJSON(dataset_name, var, labeltype, input_size, kernel_size, num_class):
+def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, num_class):
     # dataset_name passed as argument from command line
     print("Updating config for " + dataset_name + " with " + var + " and " + labeltype + "...")
 
@@ -139,6 +152,44 @@ def updateJSON(dataset_name, var, labeltype, input_size, kernel_size, num_class)
     all_params[dataset_name]["input_size"] = input_size
     # Update num classes
     all_params[dataset_name]["gesture_class_num"] = num_class
+
+
+    # Update LOSO/LOUO trial lists
+    # Sets for cross validation
+    if valtype == "LOSO":
+        if dataset_name == "DESK":
+            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6]
+            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6],[1,3,4,5,6],[1,2,4,5,6],[1,2,3,5,6],[1,2,3,4,6],[1,2,3,4,5]]
+            all_params[dataset_name]["validation_trial"] = 1
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6]
+
+        elif dataset_name == "JIGSAWS":
+            all_params[dataset_name]["test_trial"] = [1,2,3,4,5]
+            all_params[dataset_name]["train_trial"] = [[2,3,4,5],[1,3,4,5],[1,2,4,5],[1,2,3,5],[1,2,3,4]]
+            all_params[dataset_name]["validation_trial"] = 2
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5]
+
+        elif dataset_name == "All":
+            print("No LOSO or LOUO splits created yet for All. Please add.")
+            sys.exit()
+
+    elif valtype == "LOUO":
+        if dataset_name == "DESK":
+            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6,7,8]
+            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
+            all_params[dataset_name]["validation_trial"] = 1
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
+
+        elif dataset_name == "JIGSAWS":
+            all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
+            all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
+            all_params[dataset_name]["validation_trial"] = 2
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
+
+        elif dataset_name == "All":
+            print("No LOSO or LOUO splits created yet. Please add.")
+            sys.exit()
+
 
     # Update tcn params
     all_params[dataset_name]["tcn_params"]["model_params"]["class_num"] = num_class
@@ -331,6 +382,7 @@ def encode(set, var, labeltype, raw_feature_dir):
     le = preprocessing.LabelEncoder()
     le.fit(g_total)
     #z=le.transform(list(g_total))
+    #print(list(le.classes_))
 
     # Save to pkl file, should be same as data_transform_path from updateJSON function
     pklFile = set + "_TRANSFORM_" + var + "_" + labeltype + ".pkl"
@@ -339,6 +391,9 @@ def encode(set, var, labeltype, raw_feature_dir):
     with open(pklFile,'wb') as f:
         pickle.dump(le,f)
 
+    # Return encoded label classes
+    return le
+
 
 
 
@@ -346,14 +401,14 @@ def encode(set, var, labeltype, raw_feature_dir):
 if __name__ == "__main__":
 
     # Process arugments from command line and get set, var, and labeltype
-    set, var, labeltype = processArguments(sys.argv)
+    set, var, labeltype, valtype = processArguments(sys.argv)
     # Load model parameters from config.json
     all_params, tcn_model_params, input_size, kernel_size, num_class, raw_feature_dir,\
-     test_trial, train_trial, sample_rate, gesture_class_num, validation_trial, validation_trial_train = loadConfig(set, var, labeltype)
+     test_trial, train_trial, sample_rate, gesture_class_num, validation_trial, validation_trial_train = loadConfig(set, var, labeltype, valtype)
 
     # Many other files look to config.json for parameters, so need to update
     # it based on set, var, and labeltype
-    tcn_model_params, LOCS = updateJSON(set, var, labeltype, input_size, kernel_size, num_class)
+    tcn_model_params, LOCS = updateJSON(set, var, labeltype, valtype, input_size, kernel_size, num_class)
 
     # Preprocess files and save into preprocessed folder
     preprocess(set, var, labeltype, raw_feature_dir)
@@ -362,6 +417,3 @@ if __name__ == "__main__":
     encode(set, var, labeltype, raw_feature_dir)
 
     #print(gesture_class_num)
-
-    # Location of dataset folder
-    dir=os.getcwd()

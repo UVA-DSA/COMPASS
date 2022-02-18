@@ -21,7 +21,7 @@ def analyze():
     for i in range(1,6):
         # Path to log files
         #path = '/home/student/Documents/Research/MICCAI_2022/TCN/DESK/tcn/test_{}/log/train_test_result.csv'.format(i)
-        path = '/home/student/Documents/Research/MICCAI_2022/TCN/DESK/tcn/test_{}/log/train_test_result.csv'.format(i)
+        path = '/home/student/Documents/Research/MICCAI_2022/TCN/JIGSAWS/tcn/test_{}/log/train_test_result.csv'.format(i)
         #print(path)
 
         # Read CSV

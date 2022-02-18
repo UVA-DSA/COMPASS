@@ -7,6 +7,8 @@ from __future__ import print_function
 import os
 import sys
 import glob
+import time
+from datetime import datetime
 import numpy as np
 from ray.tune.session import checkpoint_dir
 import torch
@@ -19,6 +21,7 @@ from logger import Logger
 import utils
 import pdb
 import json
+import shutil
 
 #from calculate_mean_cv import analyze
 
@@ -30,7 +33,7 @@ from tcn_model import EncoderDecoderNet
 
 # Import from config, should be consistent with updates from preprocess.py
 from config import tcn_model_params, dataset_name, gesture_class_num
-from preprocess import processArguments, loadConfig, updateJSON
+from preprocess import processArguments, loadConfig, updateJSON, preprocess, encode
 
 
 def train_model(config,type,train_dataset,val_dataset,input_size, num_class,num_epochs,
@@ -148,7 +151,12 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
         model = EncoderDecoderNet(**tcn_model_params['model_params'])
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model = model.to(device)
-    paths = get_cross_val_splits_LOUO(validation=True) #get_cross_val_splits(validation = True)
+
+    # Get paths for LOSO or LOUO val setup
+    if valtype == "LOSO":
+        paths = get_cross_val_splits(validation = True)
+    elif valtype == "LOUO":
+        paths = get_cross_val_splits_LOUO(validation=True)
 
     train_trail_list = paths["train"]
     test_trail_list = paths["test"]
@@ -302,6 +310,9 @@ def test_model(model, test_dataset, loss_weights=None, plot_naming=None):
 
     with torch.no_grad():
         for i, data in enumerate(test_loader):
+            # Access name of kinematic file and pull out the trial name (task, subject, and trial number)
+            trialName = data['name'][0].split("/")[-1].split(".")[0]
+            #print(trialName)
 
             feature = data['feature'].float()
             feature = feature.to(device) #.cuda()
@@ -327,6 +338,12 @@ def test_model(model, test_dataset, loss_weights=None, plot_naming=None):
             preditions.append(pred.cpu().numpy())
             gts.append(gesture.data.cpu().numpy())
 
+            # Call inverse_transform on the preditions to get the original labels
+            #print(np.shape(preditions))
+            #predictions = list(le.inverse_transform(np.transpose(preditions)))
+
+            sys.exit()
+
             # Plot   [Errno 2] No such file or directory: './graph/JIGSAWS/Suturing/sensor_run_1_split_1_seq_0.png' 12/7/21
             # if plot_naming:
             #     graph_file = os.path.join(graph_dir, '{}_seq_{}'.format(
@@ -342,6 +359,8 @@ def test_model(model, test_dataset, loss_weights=None, plot_naming=None):
     avg_loss = total_loss / len(test_loader.dataset)
     edit_score = utils.get_edit_score_colin(preditions, gts,
                                             bg_class=bg_class)
+
+
     accuracy = utils.get_accuracy_colin(preditions, gts)
     #accuracy = utils.get_accuracy(preditions, gts)
 
@@ -361,7 +380,7 @@ def test_model(model, test_dataset, loss_weights=None, plot_naming=None):
 
 
 ######################### Main Process #########################
-def cross_validate(dataset_name,net_name):
+def cross_validate(dataset_name,net_name, logDir):
     '''
 
     '''
@@ -403,8 +422,29 @@ def cross_validate(dataset_name,net_name):
         # DESK orientation gesture
         #config = {'learning_rate': 0.0001109740677026585, 'batch_size': 1, 'weight_decay': 0.0011757798863368475}
         # DESK velocity gesture LOUO
-        config = {'learning_rate': 2.0303285012661874e-05, 'batch_size': 1, 'weight_decay': 0.005270918479633022}
+        #config = {'learning_rate': 2.0303285012661874e-05, 'batch_size': 1, 'weight_decay': 0.005270918479633022}
 
+        # JIGSAWS orientation gesture LOUO
+        #config = {'learning_rate': 9.608896965822702e-05, 'batch_size': 1, 'weight_decay': 0.00022315394809092768}
+        # JIGSAWS velocity MP LOUO
+        #config = {'learning_rate': 0.00010232828782048709, 'batch_size': 1, 'weight_decay': 0.00012579766622720006}
+        # JIGSAWS orientation MP LOUO
+        #config = {'learning_rate': 0.00010196958676399468, 'batch_size': 1, 'weight_decay': 0.0005628660100559107}
+
+        # DESK velocity MP LOUO
+        config = {'learning_rate': 0.0008462722570188893, 'batch_size': 1, 'weight_decay': 0.007276418590007963}
+        # DESK orientation MP LOUO
+        #config = {'learning_rate': 0.00015336293603963178, 'batch_size': 1, 'weight_decay': 0.007524253091245142}
+        # DESK orientation gesture LOUO
+        #config = {'learning_rate': 0.00017412325738076886, 'batch_size': 1, 'weight_decay': 0.00015381673554134805}
+        # DESK all gesture LOUO
+        #config = {'learning_rate': 0.00014823443003321956, 'batch_size': 1, 'weight_decay': 0.003528467199695913}
+        # DESK all MP LOUO
+        #config = {'learning_rate': 0.0006676844356521238, 'batch_size': 1, 'weight_decay': 0.00600167182602091}
+        # JIGSAWS all MP LOUO
+        #config = {'learning_rate': 0.0001409820043930154, 'batch_size': 1, 'weight_decay': 0.0009490365329227817}
+        # JIGSAWS all gesture LOUO
+        #config = {'learning_rate': 0.00024387030796133854, 'batch_size': 1, 'weight_decay': 0.00010980490384303342}
 
     if net_name=='lstm':
         num_epochs = 60
@@ -414,7 +454,12 @@ def cross_validate(dataset_name,net_name):
 
     # Get trial splits
     print("Getting cross validation splits")
-    cross_val_splits = utils.get_cross_val_splits_LOUO() #utils.get_cross_val_splits()
+    if valtype == "LOSO":
+        cross_val_splits = utils.get_cross_val_splits()
+    elif valtype == "LOUO":
+        cross_val_splits = utils.get_cross_val_splits_LOUO()
+
+    #cross_val_splits = utils.get_cross_val_splits_LOUO() #utils.get_cross_val_splits()
     #breakpoint()
 
 
@@ -452,7 +497,7 @@ def cross_validate(dataset_name,net_name):
         loss_weights = utils.get_class_weights(train_dataset)
         # make directories
         path = os.getcwd()
-        trained_model_dir=  os.path.join(path,dataset_name,net_name,name) # contain name of the testing set
+        trained_model_dir=  os.path.join(logDir, net_name, name)  #os.path.join(path,dataset_name,net_name,name) # contain name of the testing set
         os.makedirs(trained_model_dir, exist_ok=True)
         log_dir = os.path.join(trained_model_dir,'log')
         checkpoint_dir = os.path.join(trained_model_dir,'checkpoints')
@@ -469,27 +514,47 @@ def cross_validate(dataset_name,net_name):
 
 # MAIN -------------------------------------------------------------------------
 if __name__ == "__main__":
-
+    global valtype, dataset_name
     # Process arugments from command line and get set, var, and labeltype
-    set, var, labeltype = processArguments(sys.argv)
+    set, var, labeltype, valtype = processArguments(sys.argv)
 
     # Some functions require dataset_name, which returned as set from processArguments
-    global dataset_name
     dataset_name = set
 
     # Load model parameters from config.json
     all_params, tcn_model_params, input_size, kernel_size, num_class, raw_feature_dir,\
-     test_trial, train_trial, sample_rate, gesture_class_num, validation_trial, validation_trial_train = loadConfig(set, var, labeltype)
+     test_trial, train_trial, sample_rate, gesture_class_num, validation_trial, validation_trial_train = loadConfig(set, var, labeltype, valtype)
 
     # Many other files look to config.json for parameters, so need to update
     # it based on set, var, and labeltype (should now be redundant with the
     # same updates from the same function, but run in the preprocess.py script)
-    tcn_model_params, LOCS = updateJSON(set, var, labeltype, input_size, kernel_size, num_class)
+    #tcn_model_params, LOCS = updateJSON(set, var, labeltype, valtype, input_size, kernel_size, num_class)
 
 
+    # Create folder for results
+    dir = os.getcwd()
+    resultsDir = os.path.join(dir, "Results")
+    # Create folder named by current time and config
+    now = datetime.now()
+    timeNow = now.strftime("%m_%d_%Y_%H%M")
+    logFolder = set +"_"+ var +"_"+ labeltype +"_"+ valtype +"_"+ timeNow
+    logDir =  os.path.join(resultsDir, logFolder)
+    os.mkdir(logDir)
+
+    print("Results will be stored in: " + logDir)
+    # Copy config file over first
+    # path to config file
+    configPath = os.path.join(dir, "config.json")
+    shutil.copy2(configPath, logDir)
+
+
+    # Encode labels again and get the encoder so inverse_transform can be used
+    # Encode labels from preprocessed data files
+    le = encode(set, var, labeltype, raw_feature_dir)
+    print(list(le.classes_))
 
     # Train, test, and cross validate
-    cross_validate(set,'tcn') #'tcn') #, sample_rate, input_size, num_class)
+    cross_validate(set,'tcn', logDir) #'tcn') #, sample_rate, input_size, num_class)
 
     # Call analyze() from calculate_mean_cv and print results
     #analyze()  doesn't work yet b/c hard coded file paths!

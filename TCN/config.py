@@ -19,5 +19,6 @@ gesture_class_num = all_params[dataset_name]["gesture_class_num"]
 data_transform_path = all_params[dataset_name]["data_transform_path"]
 # for parameter tuning
 validation_trial = all_params[dataset_name]["validation_trial"]
-validation_trial_train = [2,3,4,5,6] #"Desk" or [2,3,4,5]"JIGSAWS"
+validation_trial_train = all_params[dataset_name]["validation_trial_train"]
+#[2,3,4,5,6] #"Desk" or [2,3,4,5]"JIGSAWS"
 LOCS =all_params[dataset_name]["locs"]

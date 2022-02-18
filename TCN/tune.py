@@ -66,7 +66,7 @@ def tuneParams(rate, size, decay, num_samples=1, max_num_epochs=50):
 if __name__ == "__main__":
 
     # Process arguments from command line and get set, var, and labeltype
-    set, var, labeltype = processArguments(sys.argv)
+    set, var, labeltype, valtype = processArguments(sys.argv)
 
     # loadConfig() not needed here assuming preprocess.py was run
     # immediately before this which correctly updates config.json
