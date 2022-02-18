@@ -292,9 +292,10 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
 
 def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'default',plot_naming=None):
 
-    test_data_file = 'tcn_{}.npy'.format(name)
+    if log_dir!=None:
+        test_data_file = 'tcn_{}.npy'.format(name)
 
-    np.save(os.path.join(log_dir, test_data_file), 
+        np.save(os.path.join(log_dir, test_data_file), 
                                             test_dataset)
     
     test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
@@ -351,11 +352,13 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
 
             preditions.append(pred.cpu().numpy())
             gts.append(gesture.data.cpu().numpy())
-            model_conv_pred = label_transform.inverse_transform(pred.cpu().numpy())
+            if log_dir!=None:
+                model_conv_pred = label_transform.inverse_transform(pred.cpu().numpy())
             #breakpoint()
-            model_conv_gt = label_transform.inverse_transform(gesture.data.cpu().numpy())
-            test_data_naming_pred_gt = '{}_{}_pred_gt.npy'.format(name,naming)
-            np.save(os.path.join(log_dir, test_data_naming_pred_gt), [data['feature'][:,:trail_len,:].float(),model_conv_pred,model_conv_gt])
+
+                model_conv_gt = label_transform.inverse_transform(gesture.data.cpu().numpy())
+                test_data_naming_pred_gt = '{}_{}_pred_gt.npy'.format(name,naming)
+                np.save(os.path.join(log_dir, test_data_naming_pred_gt), [data['feature'][:,:trail_len,:].float(),model_conv_pred,model_conv_gt])
 
             # Call inverse_transform on the preditions to get the original labels
             #print(np.shape(preditions))
