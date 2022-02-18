@@ -354,8 +354,8 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
             model_conv_pred = label_transform.inverse_transform(pred.cpu().numpy())
             #breakpoint()
             model_conv_gt = label_transform.inverse_transform(gesture.data.cpu().numpy())
-            #test_data_naming_pred_gt = '{}_{}_pred_gt.npy'.format(name,naming)
-            #np.save(os.path.join(log_dir, test_data_naming_pred_gt), [data['feature'][:,:trail_len,:].float(),model_conv_pred,model_conv_gt])
+            test_data_naming_pred_gt = '{}_{}_pred_gt.npy'.format(name,naming)
+            np.save(os.path.join(log_dir, test_data_naming_pred_gt), [data['feature'][:,:trail_len,:].float(),model_conv_pred,model_conv_gt])
 
             # Call inverse_transform on the preditions to get the original labels
             #print(np.shape(preditions))
