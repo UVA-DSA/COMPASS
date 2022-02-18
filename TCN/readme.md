@@ -9,10 +9,10 @@ In the terminal run
 ```
 python preprocess.py <set> <var> <labeltype> <valtype>
 ```
-Options for set are: DESK, JIGSAWS
-Options for var are: velocity, orientation, all 
-Options for labeltype are: MP, gesture
-Options for valtype are: LOSO, LOUO
+Options for set are: DESK, JIGSAWS \
+Options for var are: velocity, orientation, all \
+Options for labeltype are: MP, gesture \
+Options for valtype are: LOSO, LOUO \
 
 Then, to tune or train, run:
 ```
