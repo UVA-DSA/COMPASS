@@ -71,8 +71,7 @@ Start Stop Motion Primitive
 1970 2119 Release(R, Nothing) Touch(Ball/Block/Sleeve, Peg)
 2120 2134 Untouch(R, Ball/Block/Sleeve)
 2135 2209 Touch(R, Ball/Block/Sleeve)
-2210 2219
-2220 2224 Grasp(R, Ball/Block/Sleeve)
+2210 2224 Grasp(R, Ball/Block/Sleeve)
 2225 2234 Pull(R, Ball/Block/Sleeve)
 2235 2239 Release(R, Ball/Block/Sleeve)
 2240 2269 Touch(R, Ball/Block/Sleeve)

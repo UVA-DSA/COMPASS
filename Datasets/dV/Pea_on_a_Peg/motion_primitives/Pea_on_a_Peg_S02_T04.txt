@@ -30,12 +30,11 @@ Start Stop Motion Primitive
 950 959 Pull(L, Ball/Block/Sleeve)
 960 974 Release(L, Ball/Block/Sleeve)
 975 1019 Touch(L, Ball/Block/Sleeve)
-1020 1029
-1030 1034 Untouch(L, Ball/Block/Sleeve)
+1020 1034 Untouch(L, Ball/Block/Sleeve)
 1035 1079 Touch(L, Ball/Block/Sleeve)
-1080 1094 Grasp(L, Ball/Block/Sleeve)
-1095 1099
-1100 1124 Touch(R, Ball/Block/Sleeve)
+1080 1099 Grasp(L, Ball/Block/Sleeve)
+1100 1114 Pull(L, Ball/Block/Sleeve)
+1115 1124 Touch(R, Ball/Block/Sleeve)
 1125 1134 Untouch(R, Ball/Block/Sleeve)
 1135 1139 Touch(R, Ball/Block/Sleeve)
 1140 1149 Untouch(Ball/Block/Sleeve, Ball/Block/Sleeve)

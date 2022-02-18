@@ -5,8 +5,7 @@ Start Stop Motion Primitive
 85 104 Touch(R, Ball/Block/Sleeve)
 105 134 Untouch(R, Ball/Block/Sleeve)
 135 149 Touch(R, Ball/Block/Sleeve)
-150 164
-165 169 Grasp(R, Ball/Block/Sleeve)
+150 169 Grasp(R, Ball/Block/Sleeve)
 170 174 Release(R, Ball/Block/Sleeve)
 175 224 Touch(R, Ball/Block/Sleeve)
 225 234 Grasp(R, Ball/Block/Sleeve)
