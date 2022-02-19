@@ -73,6 +73,11 @@ def condenseContext(df):
     if task == "Knot_Tying":
         dfContext['Context'] = dfContext['Context'].replace(["00003"],"00000")
 
+    # If task is Pea on a Peg, convert 00004 into 00000 because the transition 00004 -> 00000 doesn't mean anything
+    # and 00004 is an invalid state because the pea state is only used if a pea is held
+    if task == "Pea_on_a_Peg":
+        dfContext['Context'] = dfContext['Context'].replace(["00004"],"00000")
+
     return dfContext
 
 
