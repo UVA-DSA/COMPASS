@@ -96,11 +96,11 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     elif (dataset_name == "DESK") and (labeltype == "gesture"):
         kernel_size = 29
     elif (dataset_name == "JIGSAWS") and (labeltype == "MP"):
-        kernel_size = 23   # need to update with consensus
+        kernel_size = 24
     elif (dataset_name == "DESK") and (labeltype == "MP"):
         kernel_size = 45
     elif (dataset_name == "All") and (labeltype == "MP"):
-        kernel_size = 22  # need to update with consensus
+        kernel_size = 29 
     else:
         print("Please specify kernel size.")
 
@@ -155,6 +155,7 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
 
 
     # Update LOSO/LOUO trial lists
+    all_params["experiment_setup"]["val_type"] = valtype
     # Sets for cross validation
     if valtype == "LOSO":
         if dataset_name == "DESK":
