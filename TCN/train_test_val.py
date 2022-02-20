@@ -162,6 +162,20 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
 
     train_trail_list = paths["train"]
     test_trail_list = paths["test"]
+
+    import fnmatch
+    if  dataset_name=="All-5a":
+        test_dir_5a=[dir  for dir in test_trail_list if fnmatch.fnmatch(dir,"*[Suturing,Needle_Passing,Knot_Tying]*")]
+        
+        other_train = [dir  for dir in test_trail_list if not fnmatch.fnmatch(dir,"*[Suturing,Needle_Passing,Knot_Tying]*")]
+        train_trail_list.extend(other_train)
+        test_trail_list = test_dir_5a
+        
+    if  dataset_name=="All-5b":
+        test_dir_5b = [dir  for dir in test_trail_list if fnmatch.fnmatch(dir,"*Peg_Transfer*")]
+        other_train = [dir  for dir in test_trail_list if not fnmatch.fnmatch(dir,"*Peg_Transfer*")]
+        train_trail_list.extend(other_train)
+        test_trail_list = test_dir_5b
     train_dataset = RawFeatureDataset(dataset_name,
                                         train_trail_list,
                                         feature_type="sensor",
@@ -408,12 +422,16 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
 
 
 ######################### Main Process #########################
-def cross_validate(dataset_name,net_name, logDir):
+def cross_validate(dataset_name,net_name, logDir):  
     '''
     '''
     # Update after running parameter tuning
     if net_name =='tcn':
-        num_epochs = 60 # about 25 mins for 5 fold cross validation
+        num_epochs = 60 # about 25 mins for 5 fold cross validation 60
+        #All-5a MP LOUO
+        config= {'learning_rate': 0.0006470601710309771, 'batch_size': 1, 'weight_decay': 0.00791446726521923}
+        #All-5a MP LOSO 
+        #config= {'learning_rate': 0.0006470601710309771, 'batch_size': 1, 'weight_decay': 0.00791446726521923}
         #config = {'learning_rate': 0.0003042861945575232, 'batch_size': 1, 'weight_decay': 0.00012035748692105724} #EPOCH=30 tcn
         # DESK MPs best config
         #config = {'learning_rate': 0.000303750997737948, 'batch_size': 1, 'weight_decay': 0.0003482923872868488}
@@ -459,7 +477,7 @@ def cross_validate(dataset_name,net_name, logDir):
         #config = {'learning_rate': 0.00010196958676399468, 'batch_size': 1, 'weight_decay': 0.0005628660100559107}
 
         # DESK velocity MP LOUO
-        config = {'learning_rate': 0.0008462722570188893, 'batch_size': 1, 'weight_decay': 0.007276418590007963}
+       # config = {'learning_rate': 0.0008462722570188893, 'batch_size': 1, 'weight_decay': 0.007276418590007963}
         # DESK orientation MP LOUO
         #config = {'learning_rate': 0.00015336293603963178, 'batch_size': 1, 'weight_decay': 0.007524253091245142}
         # DESK orientation gesture LOUO
@@ -488,7 +506,12 @@ def cross_validate(dataset_name,net_name, logDir):
 
     #cross_val_splits = utils.get_cross_val_splits_LOUO() #utils.get_cross_val_splits()
     #breakpoint()
+    all_params = json.load(open('config.json'))
 
+
+    # Make changes to params:
+    # Update dataset_name
+    dataset_name = all_params["dataset_name"] 
 
     # Cross-Validation Result
     #result = []
@@ -500,6 +523,20 @@ def cross_validate(dataset_name,net_name, logDir):
         train_dir, test_dir,name = data['train'], data['test'],data['name']
         print("Loading training data")
 
+        import fnmatch
+        if  dataset_name=="All-5a":
+            test_dir_5a=[dir  for dir in test_dir if fnmatch.fnmatch(dir,"*[Suturing,Needle_Passing,Knot_Tying]*")]
+            
+            other_train = [dir  for dir in test_dir if not fnmatch.fnmatch(dir,"*[Suturing,Needle_Passing,Knot_Tying]*")]
+            train_dir.extend(other_train)
+            test_dir = test_dir_5a
+            
+        if  dataset_name=="All-5b":
+            test_dir_5b = [dir  for dir in test_dir if fnmatch.fnmatch(dir,"*DESKpegtransfer*")]
+            other_train = [dir  for dir in test_dir if not fnmatch.fnmatch(dir,"*DESKpegtransfer*")]
+            train_dir.extend(other_train)
+            test_dir = test_dir_5b
+        
         # Useful debugging note:
         #print("If KeyError: ['PSML_var', ...]... occurs here, it may be because the data_loading.py file doesn't have the updated LOCS.")
         #print("Try running train_test_val.py again with the same set, var, and labeltype configuration.")

@@ -23,11 +23,11 @@ def processArguments(args):
     try:
         set=args[1]
         # Check if valid set
-        if set not in ["DESK", "JIGSAWS", "All"]: # , "ROSMA", "All"]:
+        if set not in ["DESK", "JIGSAWS", "All-5a","All-5b"]: # , "ROSMA", "All"]:
             print("Please choose set: DESK, JIGSAWS, All") #, ROSMA, All")
             sys.exit()
     except:
-        print("Please choose set: DESK, JIGSAWS, All") #, ROSMA, All")
+        print("Please choose set: DESK, JIGSAWS, All-5a,All-5b") #, ROSMA, All
         sys.exit()
 
     # Get orientation or velocity from command line
@@ -96,11 +96,11 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     elif (dataset_name == "DESK") and (labeltype == "gesture"):
         kernel_size = 29
     elif (dataset_name == "JIGSAWS") and (labeltype == "MP"):
-        kernel_size = 24
+        kernel_size = 23   # need to update with consensus
     elif (dataset_name == "DESK") and (labeltype == "MP"):
         kernel_size = 45
-    elif (dataset_name == "All") and (labeltype == "MP"):
-        kernel_size = 29 
+    elif (dataset_name == "All-5a" or dataset_name == "All-5b") and (labeltype == "MP"):
+        kernel_size = 23  # need to update with consensus
     else:
         print("Please specify kernel size.")
 
@@ -108,6 +108,7 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     # Path to processed files in 'preprocessed' folder
     # raw_feature_dir contains a list of paths to the preprocessed folder of
     # the each task that will be included in the training set
+
     raw_feature_dir = all_params[dataset_name]["raw_feature_dir"]
 
     # Number of label classes
@@ -155,7 +156,6 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
 
 
     # Update LOSO/LOUO trial lists
-    all_params["experiment_setup"]["val_type"] = valtype
     # Sets for cross validation
     if valtype == "LOSO":
         if dataset_name == "DESK":
@@ -167,12 +167,22 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
         elif dataset_name == "JIGSAWS":
             all_params[dataset_name]["test_trial"] = [1,2,3,4,5]
             all_params[dataset_name]["train_trial"] = [[2,3,4,5],[1,3,4,5],[1,2,4,5],[1,2,3,5],[1,2,3,4]]
-            all_params[dataset_name]["validation_trial"] = 2
+            all_params[dataset_name]["validation_trial"] = 1
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5]
 
-        elif dataset_name == "All":
-            print("No LOSO or LOUO splits created yet for All. Please add.")
-            sys.exit()
+        elif dataset_name == "All-5a":
+            all_params[dataset_name]["test_trial"] = [1,2,3,4,5]
+            all_params[dataset_name]["train_trial"] = [[2,3,4,5],[1,3,4,5],[1,2,4,5],[1,2,3,5],[1,2,3,4]]
+            all_params[dataset_name]["validation_trial"] = 1
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5]
+        elif dataset_name== "All-5b":
+            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6]
+            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6],[1,3,4,5,6],[1,2,4,5,6],[1,2,3,5,6],[1,2,3,4,6],[1,2,3,4,5]]
+            all_params[dataset_name]["validation_trial"] = 1
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6]
+
+
+            #sys.exit()
 
     elif valtype == "LOUO":
         if dataset_name == "DESK":
@@ -184,12 +194,20 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
         elif dataset_name == "JIGSAWS":
             all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
             all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
-            all_params[dataset_name]["validation_trial"] = 2
+            all_params[dataset_name]["validation_trial"] = 1
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
 
-        elif dataset_name == "All":
-            print("No LOSO or LOUO splits created yet. Please add.")
-            sys.exit()
+        elif dataset_name == "All-5a":
+            all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
+            all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
+            all_params[dataset_name]["validation_trial"] = 1
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
+        elif dataset_name == "All-5b":
+            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6,7,8]
+            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
+            all_params[dataset_name]["validation_trial"] = 1
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
+            #sys.exit()
 
 
     # Update tcn params
@@ -340,7 +358,15 @@ def preprocess(set, var, labeltype, raw_feature_dir):
                     end_ = nrows-1
                     fill = [label]*int(end_-start_+1)
                 tb.loc[start_:end_,"Y"]=fill
+            all_params = json.load(open('config.json'))
 
+
+    # Make changes to params:
+    # Update dataset_name
+            
+
+
+       
             save_dir = os.path.join(os.path.join("/".join(sub.split('/')[0:-1]),'preprocessed'),kin_dir.split('/')[-1])
 
             # Save dataframe to csv
@@ -389,8 +415,8 @@ def encode(set, var, labeltype, raw_feature_dir):
     pklFile = set + "_TRANSFORM_" + var + "_" + labeltype + ".pkl"
     pklFile = os.path.join(os.getcwd(), set, pklFile)
     print("Encoded labels written to " + pklFile)
-    with open(pklFile,'wb') as f:
-        pickle.dump(le,f)
+    #with open(pklFile,'wb') as f:
+    pickle.dump(le, open(pklFile, 'wb'))
 
     # Return encoded label classes
     return le

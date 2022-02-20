@@ -75,7 +75,7 @@ def tuneParams(rate, size, decay, num_samples=1, max_num_epochs=50):
         partial(train_model_parameter,type='tcn',input_size=input_size,\
              num_class=num_class,num_epochs=max_num_epochs,dataset_name=dataset_name,\
                  sample_rate=sample_rate),
-        resources_per_trial={"cpu": 14, "gpu": 1},
+        resources_per_trial={"cpu": 8, "gpu": 1},
         config=config,
         num_samples=num_samples,
         scheduler=scheduler,
@@ -105,12 +105,13 @@ if __name__ == "__main__":
     # Number of CPU and GPU resources are hard coded in main_tcn, make
     # sure to change if running on a different computer
     # First, tune learning rate, batch size, and weight decay
-    rate, size, decay = tuneParams(0, 0, 0, num_samples=100, max_num_epochs=60)
+    rate, size, decay = tuneParams(0, 0, 0, num_samples=100, max_num_epochs=30) #100,60
 
     # Hard coded for now...
     epoch = 50
     # Update json
+    import json
     updateJSONtcnparams(set, size, epoch, rate, decay)
 
     # Then, pass returned config to next tuning loop to tune number of epochs
-    tuneParams(rate, size, decay, num_samples=1, max_num_epochs=60)
+    tuneParams(rate, size, decay, num_samples=1, max_num_epochs=60 )#60

@@ -46,7 +46,7 @@ class RawFeatureDataset(Dataset):
             #print(trail_name)
             #breakpoint()
 
-            if dataset_name in ['JIGSAWS', 'DESK', 'All']:
+            if dataset_name in ['JIGSAWS', 'DESK', 'All-5a','All-5b']:
                 data_file = trail_name
                 with open(data_transform_path, 'rb') as f:  #('/home/student/Documents/Research/MICCAI_2022/TCN/JIGSAWS-TRANSFORM.pkl','rb') as f:
                     label_transform =  pickle.load(f)
@@ -54,8 +54,7 @@ class RawFeatureDataset(Dataset):
                 #print(data_file)
 
                 # need to add the new dataset name
-            elif dataset_name == 'GTEA':
-                data_file = trail_name
+          
             else:
                 raise Exception('Invalid Dataset Name!')
 
