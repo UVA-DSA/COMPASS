@@ -411,9 +411,27 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
 def cross_validate(dataset_name,net_name, logDir):
     '''
     '''
+
+    # Load num_epochs, learning_rate, batch_size, and weight_decay from config.json
+    numepochs = tcn_model_params["config"]["epoch"]
+    learningrate = tcn_model_params["config"]["learning_rate"]
+    batchsize = tcn_model_params["config"]["batch_size"]
+    weightdecay = tcn_model_params["config"]["weight_decay"]
+
+    print("Config parameters:")
+    print("num_epochs: "+ str(numepochs))
+    #print(learningrate)
+    #print(type(learningrate))
+    print("learning_rate: " + str(learningrate))
+    print("batch_size: " + str(batchsize))
+    print("weight_decay: " + str(weightdecay))
+
+    #print(type(learningrate))
+    #print(type(batchsize))
+
     # Update after running parameter tuning
     if net_name =='tcn':
-        num_epochs = 60 # about 25 mins for 5 fold cross validation
+        num_epochs = numepochs # about 25 mins for 5 fold cross validation
         #config = {'learning_rate': 0.0003042861945575232, 'batch_size': 1, 'weight_decay': 0.00012035748692105724} #EPOCH=30 tcn
         # DESK MPs best config
         #config = {'learning_rate': 0.000303750997737948, 'batch_size': 1, 'weight_decay': 0.0003482923872868488}
@@ -459,7 +477,7 @@ def cross_validate(dataset_name,net_name, logDir):
         #config = {'learning_rate': 0.00010196958676399468, 'batch_size': 1, 'weight_decay': 0.0005628660100559107}
 
         # DESK velocity MP LOUO
-        config = {'learning_rate': 0.0008462722570188893, 'batch_size': 1, 'weight_decay': 0.007276418590007963}
+        #config = {'learning_rate': 0.0008462722570188893, 'batch_size': 1, 'weight_decay': 0.007276418590007963}
         # DESK orientation MP LOUO
         #config = {'learning_rate': 0.00015336293603963178, 'batch_size': 1, 'weight_decay': 0.007524253091245142}
         # DESK orientation gesture LOUO
@@ -472,6 +490,7 @@ def cross_validate(dataset_name,net_name, logDir):
         #config = {'learning_rate': 0.0001409820043930154, 'batch_size': 1, 'weight_decay': 0.0009490365329227817}
         # JIGSAWS all gesture LOUO
         #config = {'learning_rate': 0.00024387030796133854, 'batch_size': 1, 'weight_decay': 0.00010980490384303342}
+        config = {'learning_rate': learningrate, 'batch_size': batchsize, 'weight_decay': weightdecay}
 
     if net_name=='lstm':
         num_epochs = 60

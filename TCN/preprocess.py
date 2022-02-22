@@ -96,11 +96,11 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     elif (dataset_name == "DESK") and (labeltype == "gesture"):
         kernel_size = 29
     elif (dataset_name == "JIGSAWS") and (labeltype == "MP"):
-        kernel_size = 24
+        kernel_size = 23
     elif (dataset_name == "DESK") and (labeltype == "MP"):
         kernel_size = 45
     elif (dataset_name == "All") and (labeltype == "MP"):
-        kernel_size = 29 
+        kernel_size = 29
     else:
         print("Please specify kernel size.")
 

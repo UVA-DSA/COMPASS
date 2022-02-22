@@ -63,6 +63,14 @@ for set in sets[0:2]:
                 #print(tuneTask)
                 subprocess.call(tuneTask, shell=True)
 
+                # Train
+                # File to pipe outputs to
+                print("Training " + set + " " + var + " " + labeltype + " " + valtype)
+                trainOut = os.path.join(logDir, "train.txt")
+                trainTask = "python train_test_val.py " + set + " " + var + " " + labeltype + " " + valtype + " > " + trainOut
+                #print(trainTask)
+                subprocess.call(trainTask, shell=True)
+
 print("Done!")
 
 

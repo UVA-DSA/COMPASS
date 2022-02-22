@@ -20,10 +20,12 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Downloads/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed",
-            "/home/student/Downloads/COMPASS-main/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Downloads/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed",
-            "/home/student/Downloads/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed"
+            "/home/student/Desktop/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed",
+            "/home/student/Desktop/COMPASS-main/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Desktop/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed",
+            "/home/student/Desktop/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed",
+            "/home/student/Desktop/COMPASS-main/Datasets/dV/Pea_on_a_Peg/preprocessed",
+            "/home/student/Desktop/COMPASS-main/Datasets/dV/Post_and_Sleeve/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -121,8 +123,8 @@
         "validation_trial": 1
     },
     "DESK": {
-        "data_transform_path": "/home/student/Downloads/COMPASS-main/TCN/DESK/DESK_TRANSFORM_velocity_MP.pkl",
-        "gesture_class_num": 6,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/DESK/DESK_TRANSFORM_velocity_gesture.pkl",
+        "gesture_class_num": 7,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -141,21 +143,21 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Downloads/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
-                "epoch": 150,
-                "learning_rate": 0.0009814991496677643,
-                "weight_decay": 0.009702430951493164
+                "epoch": 60,
+                "learning_rate": 0.0008535540817941002,
+                "weight_decay": 0.00019186735561222025
             },
             "model_params": {
-                "class_num": 6,
+                "class_num": 7,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 45,
+                    "kernel_size": 29,
                     "layer_sizes": [
                         96,
                         64,
@@ -167,7 +169,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 45,
+                    "kernel_size": 29,
                     "layer_sizes": [
                         64,
                         96,
@@ -246,7 +248,7 @@
         ]
     },
     "JIGSAWS": {
-        "data_transform_path": "/home/student/Downloads/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
         "gesture_class_num": 6,
         "input_size": 14,
         "locs": [
@@ -266,17 +268,17 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Downloads/COMPASS-main/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Downloads/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed",
-            "/home/student/Downloads/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
-                "learning_rate": 0.00027347155281573553,
-                "num_epochs": 30,
-                "weight_decay": 0.00037328332914909917
+                "epoch": 60,
+                "learning_rate": 0.000184044750792346,
+                "weight_decay": 0.00012073992371766958
             },
             "model_params": {
                 "class_num": 6,
@@ -312,42 +314,87 @@
             }
         },
         "test_trial": [
-            1,
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
         ],
         "train_trial": [
             [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
                 2,
                 3,
                 4,
-                5
+                6,
+                7,
+                8,
+                9
             ],
             [
-                1,
+                2,
                 3,
                 4,
-                5
+                5,
+                7,
+                8,
+                9
             ],
             [
-                1,
                 2,
+                3,
                 4,
-                5
+                5,
+                6,
+                8,
+                9
             ],
             [
-                1,
                 2,
                 3,
-                5
+                4,
+                5,
+                6,
+                7,
+                9
             ],
             [
-                1,
                 2,
                 3,
-                4
+                4,
+                5,
+                6,
+                7,
+                8
             ]
         ],
         "validation_trial": 2,
@@ -355,7 +402,11 @@
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
         ]
     },
     "dataset_name": "DESK",

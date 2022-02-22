@@ -21,6 +21,7 @@ from logger import Logger
 import utils
 import torch
 import torch.nn as nn
+import json
 
 from preprocess import processArguments
 
@@ -55,7 +56,9 @@ def updateJSONtcnparams(dataset_name, batch_size, epoch, learning_rate, weight_d
 
 
 def tuneParams(rate, size, decay, num_samples=1, max_num_epochs=50):
-
+    #print(rate)
+    #print(size)
+    #print(decay)
     # For parameter tuning:
     if rate == 0:
         config = {"learning_rate":tune.loguniform(1e-5,1e-3), "batch_size":1, "weight_decay": tune.loguniform(1e-4,1e-2)}
@@ -89,6 +92,12 @@ def tuneParams(rate, size, decay, num_samples=1, max_num_epochs=50):
     print("Best trial final validation accuracy: {}".format(
         best_trial.last_result["accuracy"]))
 
+    #print(best_trial.config)
+    rate = best_trial.config['learning_rate']
+    #print(rate)
+    size = best_trial.config['batch_size']
+    decay = best_trial.config['weight_decay']
+
     return rate, size, decay
 
 
@@ -108,7 +117,7 @@ if __name__ == "__main__":
     rate, size, decay = tuneParams(0, 0, 0, num_samples=100, max_num_epochs=60)
 
     # Hard coded for now...
-    epoch = 50
+    epoch = 60
     # Update json
     updateJSONtcnparams(set, size, epoch, rate, decay)
 
