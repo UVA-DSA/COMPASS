@@ -5,12 +5,12 @@ import numpy as np
 
 
 # Path to logs, but is changed in the loop
-path = '/home/student/Documents/Research/MICCAI_2022/TCN/DESK/tcn/test_1/log/train_test_result.csv'
+#path = '/home/student/Documents/Research/MICCAI_2022/TCN/DESK/tcn/test_1/log/train_test_result.csv'
 #print(path)
-tb=pd.read_csv(path)
+#tb=pd.read_csv(path)
 #print(tb)
 
-tb.columns
+#tb.columns
 #print(tb.columns)
 
 
@@ -18,10 +18,10 @@ def analyze():
     print("Starting analysis")
     #print('v_accuracy, \t v_edit_score, \t  v_loss, \t v_f_scores_10, \t v_f_scores_25, \t v_f_scores_50, \t v_f_scores_75')
     result = []
-    for i in range(1,6):
+    for i in range(1,9):
         # Path to log files
-        #path = '/home/student/Documents/Research/MICCAI_2022/TCN/DESK/tcn/test_{}/log/train_test_result.csv'.format(i)
-        path = '/home/student/Documents/Research/MICCAI_2022/TCN/JIGSAWS/tcn/test_{}/log/train_test_result.csv'.format(i)
+        path = 'Results/All-5b_velocity_MP_LOUO_02_22_2022_0954/tcn/test_{}/log/train_test_result.csv'.format(i)
+        #path = 'Results/All-5a_velocity_MP_LOUO_02_21_2022_2144/tcn/test_{}/log/train_test_result.csv'.format(i)
         #print(path)
 
         # Read CSV

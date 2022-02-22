@@ -428,8 +428,14 @@ def cross_validate(dataset_name,net_name, logDir):
     # Update after running parameter tuning
     if net_name =='tcn':
         num_epochs = 60 # about 25 mins for 5 fold cross validation 60
+        # All-5b MP LOUO -only JIGSAWS & DESK
+        config= {'learning_rate': 1.3236364929313378e-05, 'batch_size': 1, 'weight_decay': 0.0010118212833655962}
+        # All-5a MP LOUO -only JIGSAWS & DESK
+        #config= {'learning_rate': 7.036338013182113e-05, 'batch_size': 1, 'weight_decay': 0.0038766466368545436}
+        #All-5a MP LOSO -only JIGSAWS & DESK
+        #config= {'learning_rate': 0.00010016797453830202, 'batch_size': 1, 'weight_decay': 0.000559693497272878}
         #All-5a MP LOUO
-        config= {'learning_rate': 0.0006470601710309771, 'batch_size': 1, 'weight_decay': 0.00791446726521923}
+        #config= {'learning_rate': 0.0006470601710309771, 'batch_size': 1, 'weight_decay': 0.00791446726521923}
         #All-5a MP LOSO 
         #config= {'learning_rate': 0.0006470601710309771, 'batch_size': 1, 'weight_decay': 0.00791446726521923}
         #config = {'learning_rate': 0.0003042861945575232, 'batch_size': 1, 'weight_decay': 0.00012035748692105724} #EPOCH=30 tcn
@@ -532,8 +538,8 @@ def cross_validate(dataset_name,net_name, logDir):
             test_dir = test_dir_5a
             
         if  dataset_name=="All-5b":
-            test_dir_5b = [dir  for dir in test_dir if fnmatch.fnmatch(dir,"*DESKpegtransfer*")]
-            other_train = [dir  for dir in test_dir if not fnmatch.fnmatch(dir,"*DESKpegtransfer*")]
+            test_dir_5b = [dir  for dir in test_dir if fnmatch.fnmatch(dir,"*Peg_Transfer*")]
+            other_train = [dir  for dir in test_dir if not fnmatch.fnmatch(dir,"*Peg_Transfer*")]
             train_dir.extend(other_train)
             test_dir = test_dir_5b
         

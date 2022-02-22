@@ -156,6 +156,7 @@ def get_cross_val_splits(validation = False):
             if len(raw_feature_dir)!=1:
                 for i in raw_feature_dir:
                     test = glob.glob(os.path.join(i,'*{}.*'.format(test_num)))
+                    #print(len(test))
                     test_dir.extend(test)
                     #breakpoint()
                     train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\

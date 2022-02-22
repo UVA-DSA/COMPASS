@@ -194,14 +194,14 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
         elif dataset_name == "JIGSAWS":
             all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
             all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
-            all_params[dataset_name]["validation_trial"] = 1
-            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
+            all_params[dataset_name]["validation_trial"] = 2
+            all_params[dataset_name]["validation_trial_train"] = [3,4,5,6,7,8,9]
 
         elif dataset_name == "All-5a":
             all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
             all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
-            all_params[dataset_name]["validation_trial"] = 1
-            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
+            all_params[dataset_name]["validation_trial"] = 2
+            all_params[dataset_name]["validation_trial_train"] = [3,4,5,6,7,8,9]
         elif dataset_name == "All-5b":
             all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6,7,8]
             all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
