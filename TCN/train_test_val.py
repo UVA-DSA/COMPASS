@@ -132,7 +132,7 @@ def train_model(config,type,train_dataset,val_dataset,input_size, num_class,num_
             train_result = test_model(model, train_dataset, loss_weights,name = "train",log_dir =log_dir )
             t_accuracy, t_edit_score, t_loss, t_f_scores = train_result
 
-            val_result = test_model(model, val_dataset, loss_weights,name="test",log_dir =log_dir )
+            val_result = test_model(model, val_dataset, loss_weights,name="test",log_dir =log_dir,epoch=epoch )
             v_accuracy, v_edit_score, v_loss, v_f_scores = val_result
             df.loc[epoch] = [t_accuracy, t_edit_score,t_loss, t_f_scores[0], t_f_scores[1], t_f_scores[2], t_f_scores[3],\
                 v_accuracy, v_edit_score,v_loss, v_f_scores[0], v_f_scores[1], v_f_scores[2], v_f_scores[3]]
@@ -305,7 +305,7 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
 
 
 
-def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'default',plot_naming=None):
+def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'default',plot_naming=None,epoch='default'):
 
     if log_dir!=None:
         test_data_file = 'tcn_{}.npy'.format(name)
@@ -367,13 +367,15 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
 
             preditions.append(pred.cpu().numpy())
             gts.append(gesture.data.cpu().numpy())
-            if log_dir!=None:
+            if log_dir!=None and name!='train':
                 model_conv_pred = label_transform.inverse_transform(pred.cpu().numpy())
             #breakpoint()
 
                 model_conv_gt = label_transform.inverse_transform(gesture.data.cpu().numpy())
                 test_data_naming_pred_gt = '{}_{}_pred_gt.npy'.format(name,naming)
-                np.save(os.path.join(log_dir, test_data_naming_pred_gt), [data['feature'][:,:trail_len,:].float(),model_conv_pred,model_conv_gt])
+                if not os.path.exists(os.path.join(log_dir, 'epoch_{}'.format(epoch))):
+                    os.makedirs(os.path.join(log_dir, 'epoch_{}'.format(epoch)), exist_ok=True)
+                np.save(os.path.join(log_dir, 'epoch_{}'.format(epoch),test_data_naming_pred_gt), [data['feature'][:,:trail_len,:].float(),model_conv_pred,model_conv_gt])
 
             # Call inverse_transform on the preditions to get the original labels
             #print(np.shape(preditions))
