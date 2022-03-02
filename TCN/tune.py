@@ -114,10 +114,10 @@ if __name__ == "__main__":
     # Number of CPU and GPU resources are hard coded in main_tcn, make
     # sure to change if running on a different computer
     # First, tune learning rate, batch size, and weight decay
-    rate, size, decay = tuneParams(0, 0, 0, num_samples=100, max_num_epochs=60)
+    rate, size, decay = tuneParams(0, 0, 0, num_samples=100, max_num_epochs=30)
 
     # Hard coded for now...
-    epoch = 60
+    epoch = 50
     # Update json
     updateJSONtcnparams(set, size, epoch, rate, decay)
 

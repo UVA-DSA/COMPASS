@@ -132,7 +132,7 @@ def train_model(config,type,train_dataset,val_dataset,input_size, num_class,num_
             train_result = test_model(model, train_dataset, loss_weights,name = "train",log_dir =log_dir )
             t_accuracy, t_edit_score, t_loss, t_f_scores = train_result
 
-            val_result = test_model(model, val_dataset, loss_weights,name="test",log_dir =log_dir )
+            val_result = test_model(model, val_dataset, loss_weights,name="test",log_dir =log_dir, epoch=epoch)
             v_accuracy, v_edit_score, v_loss, v_f_scores = val_result
             df.loc[epoch] = [t_accuracy, t_edit_score,t_loss, t_f_scores[0], t_f_scores[1], t_f_scores[2], t_f_scores[3],\
                 v_accuracy, v_edit_score,v_loss, v_f_scores[0], v_f_scores[1], v_f_scores[2], v_f_scores[3]]
@@ -162,6 +162,22 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
 
     train_trail_list = paths["train"]
     test_trail_list = paths["test"]
+
+
+    import fnmatch
+    if  dataset_name=="All-5a":
+        test_dir_5a=[dir  for dir in test_trail_list if fnmatch.fnmatch(dir,"*[Suturing,Needle_Passing,Knot_Tying]*")]
+
+        other_train = [dir  for dir in test_trail_list if not fnmatch.fnmatch(dir,"*[Suturing,Needle_Passing,Knot_Tying]*")]
+        train_trail_list.extend(other_train)
+        test_trail_list = test_dir_5a
+
+    if  dataset_name=="All-5b":
+        test_dir_5b = [dir  for dir in test_trail_list if fnmatch.fnmatch(dir,"*Peg_Transfer*")]
+        other_train = [dir  for dir in test_trail_list if not fnmatch.fnmatch(dir,"*Peg_Transfer*")]
+        train_trail_list.extend(other_train)
+        test_trail_list = test_dir_5b
+
     train_dataset = RawFeatureDataset(dataset_name,
                                         train_trail_list,
                                         feature_type="sensor",
@@ -291,7 +307,7 @@ def train_model_parameter( config, type,input_size, num_class,num_epochs,dataset
 
 
 
-def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'default',plot_naming=None):
+def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'default',plot_naming=None, epoch='default'):
 
     if log_dir!=None:
         test_data_file = 'tcn_{}.npy'.format(name)
@@ -317,6 +333,7 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
     transform_path = data_transform_path  #all_params[dataset_name]["data_transform_path"]
     with open(transform_path, 'rb') as f:
             label_transform =  pickle.load(f)
+            #print(list(label_transform.classes_))
     #Test the Model
     total_loss = 0
     preditions = []
@@ -353,13 +370,17 @@ def test_model(model, test_dataset, loss_weights=None, log_dir =None, name = 'de
 
             preditions.append(pred.cpu().numpy())
             gts.append(gesture.data.cpu().numpy())
-            if log_dir!=None:
+            if log_dir!=None and name !='train':
                 model_conv_pred = label_transform.inverse_transform(pred.cpu().numpy())
             #breakpoint()
 
                 model_conv_gt = label_transform.inverse_transform(gesture.data.cpu().numpy())
                 test_data_naming_pred_gt = '{}_{}_pred_gt.npy'.format(name,naming)
-                np.save(os.path.join(log_dir, test_data_naming_pred_gt), [data['feature'][:,:trail_len,:].float(),model_conv_pred,model_conv_gt])
+                #np.save(os.path.join(log_dir, test_data_naming_pred_gt), [data['feature'][:,:trail_len,:].float(),model_conv_pred,model_conv_gt])
+                # Updated saving code
+                if not os.path.exists(os.path.join(log_dir, 'epoch_{}'.format(epoch))):
+                    os.makedirs(os.path.join(log_dir, 'epoch_{}'.format(epoch)), exist_ok=True)
+                np.save(os.path.join(log_dir, 'epoch_{}'.format(epoch),test_data_naming_pred_gt), [data['feature'][:,:trail_len,:].float(),model_conv_pred,model_conv_gt])
 
             # Call inverse_transform on the preditions to get the original labels
             #print(np.shape(preditions))
@@ -518,6 +539,20 @@ def cross_validate(dataset_name,net_name, logDir):
         # Dataset
         train_dir, test_dir,name = data['train'], data['test'],data['name']
         print("Loading training data")
+
+        import fnmatch
+        if  dataset_name=="All-5a":
+            test_dir_5a=[dir  for dir in test_dir if fnmatch.fnmatch(dir,"*[Suturing,Needle_Passing,Knot_Tying]*")]
+
+            other_train = [dir  for dir in test_dir if not fnmatch.fnmatch(dir,"*[Suturing,Needle_Passing,Knot_Tying]*")]
+            train_dir.extend(other_train)
+            test_dir = test_dir_5a
+
+        if  dataset_name=="All-5b":
+            test_dir_5b = [dir  for dir in test_dir if fnmatch.fnmatch(dir,"*Peg_Transfer*")]
+            other_train = [dir  for dir in test_dir if not fnmatch.fnmatch(dir,"*Peg_Transfer*")]
+            train_dir.extend(other_train)
+            test_dir = test_dir_5b
 
         # Useful debugging note:
         #print("If KeyError: ['PSML_var', ...]... occurs here, it may be because the data_loading.py file doesn't have the updated LOCS.")

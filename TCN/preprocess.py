@@ -23,11 +23,11 @@ def processArguments(args):
     try:
         set=args[1]
         # Check if valid set
-        if set not in ["DESK", "JIGSAWS", "All"]: # , "ROSMA", "All"]:
-            print("Please choose set: DESK, JIGSAWS, All") #, ROSMA, All")
+        if set not in ["DESK", "JIGSAWS", "All-5a","All-5b"]: # , "ROSMA", "All"]:
+            print("Please choose set: DESK, JIGSAWS, All-5a, All-5b") #, ROSMA, All")
             sys.exit()
     except:
-        print("Please choose set: DESK, JIGSAWS, All") #, ROSMA, All")
+        print("Please choose set: DESK, JIGSAWS, All-5a, All-5b") #, ROSMA, All")
         sys.exit()
 
     # Get orientation or velocity from command line
@@ -99,8 +99,8 @@ def loadConfig(dataset_name, var, labeltype, valtype):
         kernel_size = 23
     elif (dataset_name == "DESK") and (labeltype == "MP"):
         kernel_size = 45
-    elif (dataset_name == "All") and (labeltype == "MP"):
-        kernel_size = 29
+    elif (dataset_name == "All-5a" or dataset_name == "All-5b") and (labeltype == "MP"):
+        kernel_size = 23   # update with consensus
     else:
         print("Please specify kernel size.")
 
@@ -112,7 +112,9 @@ def loadConfig(dataset_name, var, labeltype, valtype):
 
     # Number of label classes
     #gesture_class_num = all_params[dataset_name]["gesture_class_num"]
-    if labeltype == "MP":
+    if (dataset_name == "DESK") and (labeltype == "MP"):
+        gesture_class_num = 4  # DESK only has four found MP classes and using 6 seems to cause issues with inverse_transform for decoding the predictions and saving them
+    elif labeltype == "MP":
         gesture_class_num = 6
     elif (dataset_name == "JIGSAWS") and (labeltype == "gesture"):
         gesture_class_num = 14
@@ -170,9 +172,17 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["validation_trial"] = 2
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5]
 
-        elif dataset_name == "All":
-            print("No LOSO or LOUO splits created yet for All. Please add.")
-            sys.exit()
+        elif dataset_name == "All-5a":
+            all_params[dataset_name]["test_trial"] = [1,2,3,4,5]
+            all_params[dataset_name]["train_trial"] = [[2,3,4,5],[1,3,4,5],[1,2,4,5],[1,2,3,5],[1,2,3,4]]
+            all_params[dataset_name]["validation_trial"] = 1
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5]
+        elif dataset_name== "All-5b":
+            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6]
+            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6],[1,3,4,5,6],[1,2,4,5,6],[1,2,3,5,6],[1,2,3,4,6],[1,2,3,4,5]]
+            all_params[dataset_name]["validation_trial"] = 1
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6]
+
 
     elif valtype == "LOUO":
         if dataset_name == "DESK":
@@ -187,9 +197,16 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["validation_trial"] = 2
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
 
-        elif dataset_name == "All":
-            print("No LOSO or LOUO splits created yet. Please add.")
-            sys.exit()
+        elif dataset_name == "All-5a":
+            all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
+            all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
+            all_params[dataset_name]["validation_trial"] = 2
+            all_params[dataset_name]["validation_trial_train"] = [3,4,5,6,7,8,9]
+        elif dataset_name == "All-5b":
+            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6,7,8]
+            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
+            all_params[dataset_name]["validation_trial"] = 1
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
 
 
     # Update tcn params
@@ -389,8 +406,9 @@ def encode(set, var, labeltype, raw_feature_dir):
     pklFile = set + "_TRANSFORM_" + var + "_" + labeltype + ".pkl"
     pklFile = os.path.join(os.getcwd(), set, pklFile)
     print("Encoded labels written to " + pklFile)
-    with open(pklFile,'wb') as f:
-        pickle.dump(le,f)
+    #with open(pklFile,'wb') as f:
+        #pickle.dump(le,f)
+    pickle.dump(le, open(pklFile, 'wb'))
 
     # Return encoded label classes
     return le
