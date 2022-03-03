@@ -143,6 +143,10 @@ if __name__ == "__main__":
         tasks = [allTasks[4]]
     elif set == "PaS":
         tasks = [allTasks[5]]
+    elif set == "SNP":
+        tasks = allTasks[0:2]
+    elif set == "PTPaS":
+        tasks = [allTasks[3], allTasks[5]]
     #print(tasks)
 
     # Dictionaries to store number of instances of label class and total duration
