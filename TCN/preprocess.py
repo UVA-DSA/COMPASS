@@ -23,11 +23,11 @@ def processArguments(args):
     try:
         set=args[1]
         # Check if valid set
-        if set not in ["DESK", "JIGSAWS", "All-5a","All-5b"]: # , "ROSMA", "All"]:
-            print("Please choose set: DESK, JIGSAWS, All-5a, All-5b") #, ROSMA, All")
+        if set not in ["DESK", "JIGSAWS", "All-5a","All-5b", "S", "NP", "KT", "PoaP", "PaS", "SNP", "PTPaS"]: # , "ROSMA", "All"]:
+            print("Please choose set: DESK, JIGSAWS, All-5a, All-5b, S, NP, KT, PoaP, Pas, SNP, PTPaS") #, ROSMA, All")
             sys.exit()
     except:
-        print("Please choose set: DESK, JIGSAWS, All-5a, All-5b") #, ROSMA, All")
+        print("Please choose set: DESK, JIGSAWS, All-5a, All-5b, S, NP, KT, PoaP, Pas, SNP, PTPaS") #, ROSMA, All")
         sys.exit()
 
     # Get orientation or velocity from command line
@@ -91,6 +91,7 @@ def loadConfig(dataset_name, var, labeltype, valtype):
         print("Please specify input size.")
 
     # Kernel size is shortest average label duration based on set and label type
+    # Round up to odd number; determined using stats.py
     if (dataset_name == "JIGSAWS") and (labeltype == "gesture"):
         kernel_size = 89
     elif (dataset_name == "DESK") and (labeltype == "gesture"):
@@ -101,6 +102,26 @@ def loadConfig(dataset_name, var, labeltype, valtype):
         kernel_size = 45
     elif (dataset_name == "All-5a" or dataset_name == "All-5b") and (labeltype == "MP"):
         kernel_size = 23   # update with consensus
+    elif (dataset_name == "S") and (labeltype == "MP"):
+        kernel_size = 23
+    elif (dataset_name == "NP") and (labeltype == "MP"):
+        kernel_size = 25
+    elif (dataset_name == "KT") and (labeltype == "MP"):
+        kernel_size = 19
+    elif (dataset_name == "PoaP") and (labeltype == "MP"):
+        kernel_size = 19
+    elif (dataset_name == "PaS") and (labeltype == "MP"):
+        kernel_size = 27
+    elif (dataset_name == "S") and (labeltype == "gesture"):
+        kernel_size = 63
+    elif (dataset_name == "NP") and (labeltype == "gesture"):
+        kernel_size = 97
+    elif (dataset_name == "KT") and (labeltype == "gesture"):
+        kernel_size = 87
+    elif (dataset_name == "SNP") and (labeltype == "MP"):
+        kernel_size = 23
+    elif (dataset_name == "PTPaS") and (labeltype == "MP"):
+        kernel_size = 31
     else:
         print("Please specify kernel size.")
 
@@ -112,14 +133,27 @@ def loadConfig(dataset_name, var, labeltype, valtype):
 
     # Number of label classes
     #gesture_class_num = all_params[dataset_name]["gesture_class_num"]
+    # Determined using stats.py
     if (dataset_name == "DESK") and (labeltype == "MP"):
         gesture_class_num = 4  # DESK only has four found MP classes and using 6 seems to cause issues with inverse_transform for decoding the predictions and saving them
-    elif labeltype == "MP":
-        gesture_class_num = 6
-    elif (dataset_name == "JIGSAWS") and (labeltype == "gesture"):
-        gesture_class_num = 14
     elif (dataset_name == "DESK") and (labeltype == "gesture"):
         gesture_class_num = 7
+    elif (dataset_name == "JIGSAWS") and (labeltype == "gesture"):
+        gesture_class_num = 14
+    elif (dataset_name == "S") and (labeltype == "gesture"):
+        gesture_class_num = 10
+    elif (dataset_name == "NP") and (labeltype == "gesture"):
+        gesture_class_num = 10
+    elif (dataset_name == "KT") and (labeltype == "gesture"):
+        gesture_class_num = 6
+    elif (dataset_name == "PoaP") and (labeltype == "MP"):
+        gesture_class_num = 6
+    elif (dataset_name == "PaS") and (labeltype == "MP"):
+        gesture_class_num = 4
+    elif (dataset_name == "PTPaS") and (labeltype == "MP"):
+        gesture_class_num = 4
+    elif labeltype == "MP":
+        gesture_class_num = 6
     else:
         print("Please specify number of label classes.")
         sys.exit()
@@ -166,7 +200,7 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["validation_trial"] = 1
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6]
 
-        elif dataset_name == "JIGSAWS":
+        elif dataset_name in ["JIGSAWS", "S", "NP", "KT", "SNP"]:
             all_params[dataset_name]["test_trial"] = [1,2,3,4,5]
             all_params[dataset_name]["train_trial"] = [[2,3,4,5],[1,3,4,5],[1,2,4,5],[1,2,3,5],[1,2,3,4]]
             all_params[dataset_name]["validation_trial"] = 2
@@ -177,11 +211,22 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["train_trial"] = [[2,3,4,5],[1,3,4,5],[1,2,4,5],[1,2,3,5],[1,2,3,4]]
             all_params[dataset_name]["validation_trial"] = 1
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5]
-        elif dataset_name== "All-5b":
+
+        elif dataset_name == "All-5b":
             all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6]
             all_params[dataset_name]["train_trial"] = [[2,3,4,5,6],[1,3,4,5,6],[1,2,4,5,6],[1,2,3,5,6],[1,2,3,4,6],[1,2,3,4,5]]
             all_params[dataset_name]["validation_trial"] = 1
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6]
+
+        elif dataset_name in ["PoaP", "PaS"]:
+            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6]
+            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6],[1,3,4,5,6],[1,2,4,5,6],[1,2,3,5,6],[1,2,3,4,6],[1,2,3,4,5]]
+            all_params[dataset_name]["validation_trial"] = 1
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6]
+
+        elif dataset_name == "PTPaS":
+            print("test/train/val splits not defined yet")
+            sys.exit()
 
 
     elif valtype == "LOUO":
@@ -191,7 +236,7 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["validation_trial"] = 1
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
 
-        elif dataset_name == "JIGSAWS":
+        elif dataset_name  in ["JIGSAWS", "S", "NP", "KT", "SNP"]:
             all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
             all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
             all_params[dataset_name]["validation_trial"] = 2
@@ -202,11 +247,22 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
             all_params[dataset_name]["validation_trial"] = 2
             all_params[dataset_name]["validation_trial_train"] = [3,4,5,6,7,8,9]
+
         elif dataset_name == "All-5b":
             all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6,7,8]
             all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
             all_params[dataset_name]["validation_trial"] = 1
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
+
+        elif dataset_name in ["PoaP", "PaS"]:
+            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6,7,8,9,10,11,12]
+            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8,9,10,11,12],[1,3,4,5,6,7,8,9,10,11,12],[1,2,4,5,6,7,8,9,10,11,12],[1,2,3,5,6,7,8,9,10,11,12],[1,2,3,4,6,7,8,9,10,11,12],[1,2,3,4,5,7,8,9,10,11,12],[1,2,3,4,5,6,8,9,10,11,12],[1,2,3,4,5,6,7,9,10,11,12],[1,2,3,4,5,6,7,8,10,11,12],[1,2,3,4,5,6,7,8,9,11,12],[1,2,3,4,5,6,7,8,9,10,12],[1,2,3,4,5,6,7,8,9,10,11]]
+            all_params[dataset_name]["validation_trial"] = 1
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9,10,11,12]
+
+        elif dataset_name == "PTPaS":
+            print("test/train/val splits not defined yet")
+            sys.exit()
 
 
     # Update tcn params
@@ -343,7 +399,7 @@ def preprocess(set, var, labeltype, raw_feature_dir):
                     end_ = int(tg.iloc[i,1])
                     label = tg.iloc[i,2]
                     #gesture = label
-                elif set == "JIGSAWS":
+                elif set in ["JIGSAWS", "S", "NP", "KT"]:
                     start_ = int(tg.iloc[i,0])
                     end_ = int(tg.iloc[i,1])
                     label = tg.iloc[i,2]

@@ -1,6 +1,6 @@
 {
-    "All": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/TCN/All/All_TRANSFORM_velocity_MP.pkl",
+    "All-5a": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/All-5a/All-5a_TRANSFORM_velocity_MP.pkl",
         "gesture_class_num": 6,
         "input_size": 14,
         "locs": [
@@ -20,26 +20,26 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Desktop/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed",
-            "/home/student/Desktop/COMPASS-main/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Desktop/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed",
-            "/home/student/Desktop/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed",
-            "/home/student/Desktop/COMPASS-main/Datasets/dV/Pea_on_a_Peg/preprocessed",
-            "/home/student/Desktop/COMPASS-main/Datasets/dV/Post_and_Sleeve/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Pea_on_a_Peg/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Post_and_Sleeve/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
-                "epoch": 150,
-                "learning_rate": 0.0009814991496677643,
-                "weight_decay": 0.009702430951493164
+                "epoch": 50,
+                "learning_rate": 0.0006195046854690717,
+                "weight_decay": 0.000274112750596277
             },
             "model_params": {
                 "class_num": 6,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 51,
+                    "kernel_size": 23,
                     "layer_sizes": [
                         96,
                         64,
@@ -51,7 +51,171 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 51,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        64,
+                        96,
+                        128
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel"
+                },
+                "fc_size": 32,
+                "mid_lstm_params": {
+                    "hidden_size": 64,
+                    "input_size": 128,
+                    "layer_num": 1
+                }
+            }
+        },
+        "test_trial": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+        ],
+        "train_trial": [
+            [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                4,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                4,
+                5,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                4,
+                5,
+                6,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                9
+            ],
+            [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+            ]
+        ],
+        "validation_trial": 2,
+        "validation_trial_train": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+        ]
+    },
+    "All-5b": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/All-5b/All-5b_TRANSFORM_velocity_MP.pkl",
+        "gesture_class_num": 6,
+        "input_size": 14,
+        "locs": [
+            "PSML_position_x",
+            "PSML_position_y",
+            "PSML_position_z",
+            "PSML_velocity_x",
+            "PSML_velocity_y",
+            "PSML_velocity_z",
+            "PSML_gripper_angle",
+            "PSMR_position_x",
+            "PSMR_position_y",
+            "PSMR_position_z",
+            "PSMR_velocity_x",
+            "PSMR_velocity_y",
+            "PSMR_velocity_z",
+            "PSMR_gripper_angle"
+        ],
+        "raw_feature_dir": [
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Pea_on_a_Peg/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Post_and_Sleeve/preprocessed"
+        ],
+        "sample_rate": 1,
+        "tcn_params": {
+            "config": {
+                "batch_size": 1,
+                "epoch": 50,
+                "learning_rate": 9.878789504402886e-05,
+                "weight_decay": 0.00033764011859932096
+            },
+            "model_params": {
+                "class_num": 6,
+                "decoder_params": {
+                    "input_size": 128,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        96,
+                        64,
+                        64
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel",
+                    "transposed_conv": true
+                },
+                "encoder_params": {
+                    "input_size": 14,
+                    "kernel_size": 23,
                     "layer_sizes": [
                         64,
                         96,
@@ -74,7 +238,9 @@
             3,
             4,
             5,
-            6
+            6,
+            7,
+            8
         ],
         "train_trial": [
             [
@@ -82,49 +248,88 @@
                 3,
                 4,
                 5,
-                6
+                6,
+                7,
+                8
             ],
             [
                 1,
                 3,
                 4,
                 5,
-                6
+                6,
+                7,
+                8
             ],
             [
                 1,
                 2,
                 4,
                 5,
-                6
+                6,
+                7,
+                8
             ],
             [
                 1,
                 2,
                 3,
                 5,
-                6
+                6,
+                7,
+                8
             ],
             [
                 1,
                 2,
                 3,
                 4,
-                6
+                6,
+                7,
+                8
             ],
             [
                 1,
                 2,
                 3,
                 4,
-                5
+                5,
+                7,
+                8
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                8
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
             ]
         ],
-        "validation_trial": 1
+        "validation_trial": 1,
+        "validation_trial_train": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+        ]
     },
     "DESK": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/DESK/DESK_TRANSFORM_velocity_gesture.pkl",
-        "gesture_class_num": 7,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/DESK/DESK_TRANSFORM_velocity_MP.pkl",
+        "gesture_class_num": 4,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -150,14 +355,14 @@
             "config": {
                 "batch_size": 1,
                 "epoch": 60,
-                "learning_rate": 0.0008535540817941002,
-                "weight_decay": 0.00019186735561222025
+                "learning_rate": 0.00020636627601312228,
+                "weight_decay": 0.0005133502533711807
             },
             "model_params": {
-                "class_num": 7,
+                "class_num": 4,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 29,
+                    "kernel_size": 45,
                     "layer_sizes": [
                         96,
                         64,
@@ -169,7 +374,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 29,
+                    "kernel_size": 45,
                     "layer_sizes": [
                         64,
                         96,
@@ -277,8 +482,724 @@
             "config": {
                 "batch_size": 1,
                 "epoch": 60,
-                "learning_rate": 0.000184044750792346,
-                "weight_decay": 0.00012073992371766958
+                "learning_rate": 0.00014888519562090418,
+                "weight_decay": 0.00016753428662299148
+            },
+            "model_params": {
+                "class_num": 6,
+                "decoder_params": {
+                    "input_size": 128,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        96,
+                        64,
+                        64
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel",
+                    "transposed_conv": true
+                },
+                "encoder_params": {
+                    "input_size": 14,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        64,
+                        96,
+                        128
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel"
+                },
+                "fc_size": 32,
+                "mid_lstm_params": {
+                    "hidden_size": 64,
+                    "input_size": 128,
+                    "layer_num": 1
+                }
+            }
+        },
+        "test_trial": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ],
+        "train_trial": [
+            [
+                2,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                4
+            ]
+        ],
+        "validation_trial": 2,
+        "validation_trial_train": [
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    "KT": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
+        "gesture_class_num": 6,
+        "input_size": 14,
+        "locs": [
+            "PSML_position_x",
+            "PSML_position_y",
+            "PSML_position_z",
+            "PSML_velocity_x",
+            "PSML_velocity_y",
+            "PSML_velocity_z",
+            "PSML_gripper_angle",
+            "PSMR_position_x",
+            "PSMR_position_y",
+            "PSMR_position_z",
+            "PSMR_velocity_x",
+            "PSMR_velocity_y",
+            "PSMR_velocity_z",
+            "PSMR_gripper_angle"
+        ],
+        "raw_feature_dir": [
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed"
+        ],
+        "sample_rate": 1,
+        "tcn_params": {
+            "config": {
+                "batch_size": 1,
+                "epoch": 60,
+                "learning_rate": 0.00014888519562090418,
+                "weight_decay": 0.00016753428662299148
+            },
+            "model_params": {
+                "class_num": 6,
+                "decoder_params": {
+                    "input_size": 128,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        96,
+                        64,
+                        64
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel",
+                    "transposed_conv": true
+                },
+                "encoder_params": {
+                    "input_size": 14,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        64,
+                        96,
+                        128
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel"
+                },
+                "fc_size": 32,
+                "mid_lstm_params": {
+                    "hidden_size": 64,
+                    "input_size": 128,
+                    "layer_num": 1
+                }
+            }
+        },
+        "test_trial": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ],
+        "train_trial": [
+            [
+                2,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                4
+            ]
+        ],
+        "validation_trial": 2,
+        "validation_trial_train": [
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    "NP": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/NP/NP_TRANSFORM_velocity_MP.pkl",
+        "gesture_class_num": 6,
+        "input_size": 14,
+        "locs": [
+            "PSML_position_x",
+            "PSML_position_y",
+            "PSML_position_z",
+            "PSML_velocity_x",
+            "PSML_velocity_y",
+            "PSML_velocity_z",
+            "PSML_gripper_angle",
+            "PSMR_position_x",
+            "PSMR_position_y",
+            "PSMR_position_z",
+            "PSMR_velocity_x",
+            "PSMR_velocity_y",
+            "PSMR_velocity_z",
+            "PSMR_gripper_angle"
+        ],
+        "raw_feature_dir": [
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed"
+        ],
+        "sample_rate": 1,
+        "tcn_params": {
+            "config": {
+                "batch_size": 1,
+                "epoch": 50,
+                "learning_rate": 0.00019552709622848292,
+                "weight_decay": 0.00017348688735412387
+            },
+            "model_params": {
+                "class_num": 6,
+                "decoder_params": {
+                    "input_size": 128,
+                    "kernel_size": 25,
+                    "layer_sizes": [
+                        96,
+                        64,
+                        64
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel",
+                    "transposed_conv": true
+                },
+                "encoder_params": {
+                    "input_size": 14,
+                    "kernel_size": 25,
+                    "layer_sizes": [
+                        64,
+                        96,
+                        128
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel"
+                },
+                "fc_size": 32,
+                "mid_lstm_params": {
+                    "hidden_size": 64,
+                    "input_size": 128,
+                    "layer_num": 1
+                }
+            }
+        },
+        "test_trial": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+        ],
+        "train_trial": [
+            [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                4,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                4,
+                5,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                4,
+                5,
+                6,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                9
+            ],
+            [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+            ]
+        ],
+        "validation_trial": 2,
+        "validation_trial_train": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+        ]
+    },
+    "PTPaS": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
+        "gesture_class_num": 6,
+        "input_size": 14,
+        "locs": [
+            "PSML_position_x",
+            "PSML_position_y",
+            "PSML_position_z",
+            "PSML_velocity_x",
+            "PSML_velocity_y",
+            "PSML_velocity_z",
+            "PSML_gripper_angle",
+            "PSMR_position_x",
+            "PSMR_position_y",
+            "PSMR_position_z",
+            "PSMR_velocity_x",
+            "PSMR_velocity_y",
+            "PSMR_velocity_z",
+            "PSMR_gripper_angle"
+        ],
+        "raw_feature_dir": [
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Post_and_Sleeve/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed"
+        ],
+        "sample_rate": 1,
+        "tcn_params": {
+            "config": {
+                "batch_size": 1,
+                "epoch": 60,
+                "learning_rate": 0.00014888519562090418,
+                "weight_decay": 0.00016753428662299148
+            },
+            "model_params": {
+                "class_num": 6,
+                "decoder_params": {
+                    "input_size": 128,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        96,
+                        64,
+                        64
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel",
+                    "transposed_conv": true
+                },
+                "encoder_params": {
+                    "input_size": 14,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        64,
+                        96,
+                        128
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel"
+                },
+                "fc_size": 32,
+                "mid_lstm_params": {
+                    "hidden_size": 64,
+                    "input_size": 128,
+                    "layer_num": 1
+                }
+            }
+        },
+        "test_trial": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ],
+        "train_trial": [
+            [
+                2,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                4
+            ]
+        ],
+        "validation_trial": 2,
+        "validation_trial_train": [
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    "PaS": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
+        "gesture_class_num": 6,
+        "input_size": 14,
+        "locs": [
+            "PSML_position_x",
+            "PSML_position_y",
+            "PSML_position_z",
+            "PSML_velocity_x",
+            "PSML_velocity_y",
+            "PSML_velocity_z",
+            "PSML_gripper_angle",
+            "PSMR_position_x",
+            "PSMR_position_y",
+            "PSMR_position_z",
+            "PSMR_velocity_x",
+            "PSMR_velocity_y",
+            "PSMR_velocity_z",
+            "PSMR_gripper_angle"
+        ],
+        "raw_feature_dir": [
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Post_and_Sleeve/preprocessed"
+        ],
+        "sample_rate": 1,
+        "tcn_params": {
+            "config": {
+                "batch_size": 1,
+                "epoch": 60,
+                "learning_rate": 0.00014888519562090418,
+                "weight_decay": 0.00016753428662299148
+            },
+            "model_params": {
+                "class_num": 6,
+                "decoder_params": {
+                    "input_size": 128,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        96,
+                        64,
+                        64
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel",
+                    "transposed_conv": true
+                },
+                "encoder_params": {
+                    "input_size": 14,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        64,
+                        96,
+                        128
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel"
+                },
+                "fc_size": 32,
+                "mid_lstm_params": {
+                    "hidden_size": 64,
+                    "input_size": 128,
+                    "layer_num": 1
+                }
+            }
+        },
+        "test_trial": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ],
+        "train_trial": [
+            [
+                2,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                4
+            ]
+        ],
+        "validation_trial": 2,
+        "validation_trial_train": [
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    "PoaP": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
+        "gesture_class_num": 6,
+        "input_size": 14,
+        "locs": [
+            "PSML_position_x",
+            "PSML_position_y",
+            "PSML_position_z",
+            "PSML_velocity_x",
+            "PSML_velocity_y",
+            "PSML_velocity_z",
+            "PSML_gripper_angle",
+            "PSMR_position_x",
+            "PSMR_position_y",
+            "PSMR_position_z",
+            "PSMR_velocity_x",
+            "PSMR_velocity_y",
+            "PSMR_velocity_z",
+            "PSMR_gripper_angle"
+        ],
+        "raw_feature_dir": [
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Pea_on_a_Peg/preprocessed"
+        ],
+        "sample_rate": 1,
+        "tcn_params": {
+            "config": {
+                "batch_size": 1,
+                "epoch": 60,
+                "learning_rate": 0.00014888519562090418,
+                "weight_decay": 0.00016753428662299148
+            },
+            "model_params": {
+                "class_num": 6,
+                "decoder_params": {
+                    "input_size": 128,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        96,
+                        64,
+                        64
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel",
+                    "transposed_conv": true
+                },
+                "encoder_params": {
+                    "input_size": 14,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        64,
+                        96,
+                        128
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel"
+                },
+                "fc_size": 32,
+                "mid_lstm_params": {
+                    "hidden_size": 64,
+                    "input_size": 128,
+                    "layer_num": 1
+                }
+            }
+        },
+        "test_trial": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ],
+        "train_trial": [
+            [
+                2,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                4
+            ]
+        ],
+        "validation_trial": 2,
+        "validation_trial_train": [
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    "S": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/S/S_TRANSFORM_velocity_MP.pkl",
+        "gesture_class_num": 6,
+        "input_size": 14,
+        "locs": [
+            "PSML_position_x",
+            "PSML_position_y",
+            "PSML_position_z",
+            "PSML_velocity_x",
+            "PSML_velocity_y",
+            "PSML_velocity_z",
+            "PSML_gripper_angle",
+            "PSMR_position_x",
+            "PSMR_position_y",
+            "PSMR_position_z",
+            "PSMR_velocity_x",
+            "PSMR_velocity_y",
+            "PSMR_velocity_z",
+            "PSMR_gripper_angle"
+        ],
+        "raw_feature_dir": [
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Suturing/preprocessed"
+        ],
+        "sample_rate": 1,
+        "tcn_params": {
+            "config": {
+                "batch_size": 1,
+                "epoch": 50,
+                "learning_rate": 0.0003127705721472367,
+                "weight_decay": 0.0005675603331364945
             },
             "model_params": {
                 "class_num": 6,
@@ -409,9 +1330,121 @@
             9
         ]
     },
-    "dataset_name": "DESK",
+    "SNP": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
+        "gesture_class_num": 6,
+        "input_size": 14,
+        "locs": [
+            "PSML_position_x",
+            "PSML_position_y",
+            "PSML_position_z",
+            "PSML_velocity_x",
+            "PSML_velocity_y",
+            "PSML_velocity_z",
+            "PSML_gripper_angle",
+            "PSMR_position_x",
+            "PSMR_position_y",
+            "PSMR_position_z",
+            "PSMR_velocity_x",
+            "PSMR_velocity_y",
+            "PSMR_velocity_z",
+            "PSMR_gripper_angle"
+        ],
+        "raw_feature_dir": [
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed"
+        ],
+        "sample_rate": 1,
+        "tcn_params": {
+            "config": {
+                "batch_size": 1,
+                "epoch": 60,
+                "learning_rate": 0.00014888519562090418,
+                "weight_decay": 0.00016753428662299148
+            },
+            "model_params": {
+                "class_num": 6,
+                "decoder_params": {
+                    "input_size": 128,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        96,
+                        64,
+                        64
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel",
+                    "transposed_conv": true
+                },
+                "encoder_params": {
+                    "input_size": 14,
+                    "kernel_size": 23,
+                    "layer_sizes": [
+                        64,
+                        96,
+                        128
+                    ],
+                    "layer_type": "TempConv",
+                    "norm_type": "Channel"
+                },
+                "fc_size": 32,
+                "mid_lstm_params": {
+                    "hidden_size": 64,
+                    "input_size": 128,
+                    "layer_num": 1
+                }
+            }
+        },
+        "test_trial": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ],
+        "train_trial": [
+            [
+                2,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                3,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                4,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                5
+            ],
+            [
+                1,
+                2,
+                3,
+                4
+            ]
+        ],
+        "validation_trial": 2,
+        "validation_trial_train": [
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    "dataset_name": "NP",
     "experiment_setup": {
         "sample_rate": 1,
-        "val_type": "LOSO"
+        "val_type": "LOUO"
     }
 }

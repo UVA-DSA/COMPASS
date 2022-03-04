@@ -15,7 +15,7 @@ import shutil
 
 
 # Model options
-sets = ["DESK", "JIGSAWS", "All"]
+sets = ["DESK", "JIGSAWS", "All-5a", "All-5b", "S", "NP", "KT", "PoaP", "PaS", "SNP", "PTPaS"]
 vars = ["velocity", "orientation", "all"]
 labeltypes = ["MP", "gesture"]
 valtypes = ["LOSO", "LOUO"]
@@ -27,9 +27,9 @@ resultsDir = os.path.join(dir, "Results")
 
 
 # Iterate through each combination of settings
-for set in sets[0:2]:
+for set in sets[4:9]:
     for var in vars[0:1]:
-        for labeltype in labeltypes:
+        for labeltype in labeltypes[0:1]:
             for valtype in valtypes:
 
                 # Create folder named by current time and config
