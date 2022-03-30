@@ -43,8 +43,12 @@ def get_all_trail():
     return trail_list
 
 
-def get_cross_val_splits_LOUO(validation = False):
-    from config import raw_feature_dir, validation_trial, validation_trial_train, test_trial, train_trial
+def get_cross_val_splits_LOUO(validation = False,tune_data=['Suturing-gesture','Needle_Passing-gesture']):
+    from config import tune_dir, raw_feature_dir, validation_trial, validation_trial_train, test_trial, train_trial
+    if tune_data!=None:
+        raw_feature_dir=[tune_dir[i] for i in tune_data ]
+        # keep validation trial and validation trial train fixed to be the same across different datasets
+        # save the preprocessing in to directories to access as shown in config.py
     if validation ==True:
         cross_val_splits=[]
         test_dir = []
@@ -121,20 +125,32 @@ def get_cross_val_splits_LOUO(validation = False):
         return cross_val_splits
 
 
-def get_cross_val_splits(validation = False):
-    from config import raw_feature_dir, validation_trial, validation_trial_train, test_trial, train_trial
+def get_cross_val_splits(validation = False,tune_data=['Suturing-gesture','Needle_Passing-gesture']):
+    ''''
+        tune_data is a list of datasets names
+    '''
+    from config import tune_dir, raw_feature_dir, validation_trial, validation_trial_train, test_trial, train_trial
+    if tune_data!=None and validation ==True:
+        raw_feature_dir=[tune_dir[i] for i in tune_data ]
+        # keep validation trial and validation trial train fixed to be the same across different datasets
+        # save the preprocessing in to directories to access as shown in config.py
+        
     if validation ==True:
         cross_val_splits=[]
         test_dir = []
         train_dir = []
+        bracket_ = ''.join('{},'*len(validation_trial_train))
+        bracket=bracket_[:-1]
         if len(raw_feature_dir)!=1:
+           
+                
             for i in raw_feature_dir:
                 print(os.path.join(i,'*{}.*'.format(validation_trial)))
                 test = glob.glob(os.path.join(i,'*{}.*'.format(validation_trial)))
                 test_dir.extend(test)
-                train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(validation_trial_train[0],\
-                    validation_trial_train[1],validation_trial_train[2],validation_trial_train[3])))
+                train = glob.glob(os.path.join(i,'*[{}].*'.format(bracket).format(*validation_trial_train)))
                 train_dir.extend(train)
+                print(os.path.join(i,'*[{}].*'.format(bracket).format(*validation_trial_train)))
 
             return {'train':train_dir,'test':test_dir,'name':'tune'}
         else:
@@ -142,26 +158,29 @@ def get_cross_val_splits(validation = False):
             print(os.path.join(i,'*{}.*'.format(validation_trial)))
             test = glob.glob(os.path.join(i,'*{}.*'.format(validation_trial)))
             test_dir.extend(test)
-            train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(validation_trial_train[0],\
-                validation_trial_train[1],validation_trial_train[2],validation_trial_train[3])))
+            train = glob.glob(os.path.join(i,'*[{}].*'.format(bracket).format(*validation_trial_train)))
             train_dir.extend(train)
+            print(os.path.join(i,'*[{}].*'.format(bracket).format(*validation_trial_train)))
+
 
             return {'train':train_dir,'test':test_dir,'name':'tune'}
 
     else:
+        
         cross_val_splits = []
         for idx, test_num in enumerate(test_trial):
             train_dir = []
             test_dir = []
+            bracket_ = ''.join('{},'*len(train_trial[idx]))
+            bracket=bracket_[:-1]
             if len(raw_feature_dir)!=1:
                 for i in raw_feature_dir:
                     test = glob.glob(os.path.join(i,'*{}.*'.format(test_num)))
+                    #print(len(test))
                     test_dir.extend(test)
                     #breakpoint()
-                    train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
-                        train_trial[idx][2],train_trial[idx][3])))
-                    print(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
-                        train_trial[idx][2],train_trial[idx][3])))
+                    train = glob.glob(os.path.join(i,'*[{}].*'.format(bracket).format(*train_trial[idx])))
+                    print(os.path.join(i,'*[{}].*'.format(bracket).format(*train_trial[idx])))
 
                     train_dir.extend(train)
             else:
@@ -169,10 +188,9 @@ def get_cross_val_splits(validation = False):
                 test = glob.glob(os.path.join(i,'*{}.*'.format(test_num)))
                 test_dir.extend(test)
                 #breakpoint()
-                train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
-                    train_trial[idx][2],train_trial[idx][3])))
-                print(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
-                    train_trial[idx][2],train_trial[idx][3])))
+                train = glob.glob(os.path.join(i,'*[{}].*'.format(bracket).format(*train_trial[idx])))
+                print(os.path.join(i,'*[{}].*'.format(bracket).format(*train_trial[idx])))
+
 
                 train_dir.extend(train)
 

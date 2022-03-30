@@ -23,3 +23,11 @@ validation_trial = all_params[dataset_name]["validation_trial"]
 validation_trial_train = all_params[dataset_name]["validation_trial_train"]
 #[2,3,4,5,6] #"Desk" or [2,3,4,5]"JIGSAWS"
 LOCS =all_params[dataset_name]["locs"]
+tune_dir = {'Peg_transfer-gesture':"/home/aurora/Documents/MICCAI2022_baseline/COMPASS-main-1/COMPASS-main/Datasets/dV/Peg_Transfer/data/gesture",\
+'Suturing-gesture':"/home/aurora/Documents/MICCAI2022_baseline/COMPASS-main-1/COMPASS-main/Datasets/dV/Suturing/data/gesture",\
+'Needle_Passing-gesture':"/home/aurora/Documents/MICCAI2022_baseline/COMPASS-main-1/COMPASS-main/Datasets/dV/Needle_Passing/data/gesture",\
+'Knot_Tying-gesture':"/home/aurora/Documents/MICCAI2022_baseline/COMPASS-main-1/COMPASS-main/Datasets/dV/Knot_Tying/data/gesture",\
+  'Peg_Transfer-MP':  "/home/aurora/Documents/MICCAI2022_baseline/COMPASS-main-1/COMPASS-main/Datasets/dV/Peg_Transfer/data/MP",\
+'Suturing-MP':"/home/aurora/Documents/MICCAI2022_baseline/COMPASS-main-1/COMPASS-main/Datasets/dV/Suturing/data/MP",\
+'Needle_Passing-MP':"/home/aurora/Documents/MICCAI2022_baseline/COMPASS-main-1/COMPASS-main/Datasets/dV/Needle_Passing/data/MP",\
+'Knot_Tying-MP':"/home/aurora/Documents/MICCAI2022_baseline/COMPASS-main-1/COMPASS-main/Datasets/dV/Knot_Tying/data/MP"}
