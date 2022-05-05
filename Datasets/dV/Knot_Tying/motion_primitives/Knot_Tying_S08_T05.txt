@@ -18,3 +18,4 @@ Start Stop Motion Primitive
 1060 1169 Grasp(R, Thread)
 1170 1229 Pull(L, Thread) Pull(R, Thread)
 1230 1299 Pull(L, Thread) Pull(R, Thread)
+1300 1379 Release(L, Thread) Release(R, Thread)

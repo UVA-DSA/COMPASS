@@ -25,3 +25,4 @@ Start Stop Motion Primitive
 1740 1839 Pull(L, Thread) Pull(R, Thread)
 1840 1859 Release(R, Thread)
 1860 1869 Release(L, Thread)
+1870 1969 Touch(L, Thread)

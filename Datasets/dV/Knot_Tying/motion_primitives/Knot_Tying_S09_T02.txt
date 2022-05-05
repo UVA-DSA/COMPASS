@@ -36,3 +36,4 @@ Start Stop Motion Primitive
 2210 2219 Release(R, Nothing)
 2220 2229 Untouch(R, Thread)
 2230 2299 Touch(L, Thread)
+2300 2319 Untouch(L, Thread)
