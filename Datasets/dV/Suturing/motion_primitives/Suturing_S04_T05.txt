@@ -49,3 +49,4 @@ Start Stop Motion Primitive
 1660 1679 Touch(R, Thread)
 1680 1709 Untouch(R, Thread)
 1710 1719 Release(L, Needle) Touch(Needle, Fabric/Tissue)
+1720 1769 Touch(L, Fabric/Tissue) Touch(R, Fabric/Tissue)

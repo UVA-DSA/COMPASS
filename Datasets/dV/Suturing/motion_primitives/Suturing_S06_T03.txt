@@ -38,3 +38,4 @@ Start Stop Motion Primitive
 1980 2049 Touch(Needle, Fabric/Tissue)
 2050 2069 Push(Needle, Fabric/Tissue)
 2070 2079 Release(R, Nothing)
+2080 2089 Untouch(R, Needle)

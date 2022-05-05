@@ -41,3 +41,4 @@ Start Stop Motion Primitive
 3000 3039 Release(R, Needle)
 3040 3099 Pull(L, Needle)
 3100 3219 Release(L, Needle)
+3220 3269 Touch(R, Fabric/Tissue)

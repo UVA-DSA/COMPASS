@@ -40,3 +40,4 @@ Start Stop Motion Primitive
 2230 2279 Touch(Needle, Fabric/Tissue)
 2280 2299 Push(Needle, Fabric/Tissue)
 2300 2319 Release(R, Needle)
+2320 2359 Touch(L, Fabric/Tissue) Touch(R, Fabric/Tissue)

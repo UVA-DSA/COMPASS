@@ -72,3 +72,4 @@ Start Stop Motion Primitive
 4560 4829 Grasp(L, Needle)
 4830 4859 Release(R, Needle)
 4860 4939 Pull(L, Needle)
+4940 5049 Release(L, Needle) Touch(Needle, Fabric/Tissue)
