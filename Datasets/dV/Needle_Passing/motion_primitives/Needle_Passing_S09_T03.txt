@@ -49,3 +49,4 @@ Start Stop Motion Primitive
 4510 4609 Grasp(R, Ring)
 4610 4639 Pull(L, Needle)
 4640 4669 Release(R, Ring)
+4670 4689 Release(L, Needle)

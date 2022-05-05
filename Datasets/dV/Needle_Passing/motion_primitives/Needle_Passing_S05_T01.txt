@@ -38,3 +38,4 @@ Start Stop Motion Primitive
 2740 2829 Grasp(L, Needle)
 2830 2859 Release(R, Needle)
 2860 2919 Pull(L, Needle)
+2920 3109 Release(L, Needle)
