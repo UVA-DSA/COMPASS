@@ -17,7 +17,7 @@ import shutil
 # Model options
 sets = ["DESK", "JIGSAWS", "All-5a", "All-5b", "S", "NP", "KT", "PoaP", "PaS", "SNP", "PTPaS"]
 vars = ["velocity", "orientation", "all", "vis", "vis2"]
-labeltypes = ["gesture", "MP_baseline", "MP_combined", "MP_left", "MP_right"]
+labeltypes = ["gesture", "MPbaseline", "MPcombined", "MPleft", "MPright"]
 valtypes = ["LOSO", "LOUO"]
 
 
