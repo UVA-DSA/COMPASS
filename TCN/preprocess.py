@@ -58,11 +58,11 @@ def processArguments(args):
     try:
         labeltype = args[3]
         # Check if valid labeltype
-        if labeltype not in ["gesture", "MP_baseline", "MP_combined", "MP_left", "MP_right"]:
-            print("Please choose label type: gesture MP_baseline MP_combined MP_left MP_right")
+        if labeltype not in ["gesture", "MPbaseline", "MPcombined", "MPleft", "MPright"]:
+            print("Please choose label type: gesture MPbaseline MPcombined MPleft MPright")
             sys.exit()
     except:
-        print("Please choose label type: gesture MP_baseline MP_combined MP_left MP_right")
+        print("Please choose label type: gesture MPbaseline MPcombined MPleft MPright")
         sys.exit()
 
     # Get LOSO or LOUO from command line
@@ -117,16 +117,16 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     # Kernel size is shortest average label duration based on set and label type
     # 5/9/2022 changing to dictionary look up; rounded down to an odd number based on stats.py
     kernel_size_gesture_dict = {"DESK": 29, "JIGSAWS": 89, "S": 61, "NP": 97, "KT": 85}
-    kernel_size_MP_baseline_dict = {"DESK": 0, "JIGSAWS": 23, "All-5a": 0,\
+    kernel_size_MPbaseline_dict = {"DESK": 0, "JIGSAWS": 23, "All-5a": 0,\
         "All-5b": 0, "S": 21, "NP": 23, "KT": 17, "PoaP": 0, "PaS": 0, "SNP": 23, "PTPaS": 0}
-    kernel_size_MP_combined_dict = {"DESK": 0, "JIGSAWS": 27, "All-5a": 0,\
+    kernel_size_MPcombined_dict = {"DESK": 0, "JIGSAWS": 27, "All-5a": 0,\
         "All-5b": 0, "S": 25, "NP": 25, "KT": 21, "PoaP": 0, "PaS": 0, "SNP": 25, "PTPaS": 0}
-    kernel_size_MP_left_dict = {"DESK": 0, "JIGSAWS": 25, "All-5a": 0,\
+    kernel_size_MPleft_dict = {"DESK": 0, "JIGSAWS": 25, "All-5a": 0,\
         "All-5b": 0, "S": 25, "NP": 21, "KT": 15, "PoaP": 0, "PaS": 0, "SNP": 25, "PTPaS": 0}
-    kernel_size_MP_right_dict = {"DESK": 0, "JIGSAWS": 29, "All-5a": 0,\
+    kernel_size_MPright_dict = {"DESK": 0, "JIGSAWS": 29, "All-5a": 0,\
         "All-5b": 0, "S": 25, "NP": 15, "KT": 23, "PoaP": 0, "PaS": 0, "SNP": 27, "PTPaS": 0}
-    kernel_size_dict = {"gesture": kernel_size_gesture_dict, "MP_baseline": kernel_size_MP_baseline_dict, \
-        "MP_combined": kernel_size_MP_combined_dict, "MP_left": kernel_size_MP_left_dict, "MP_right": kernel_size_MP_right_dict}
+    kernel_size_dict = {"gesture": kernel_size_gesture_dict, "MPbaseline": kernel_size_MPbaseline_dict, \
+        "MPcombined": kernel_size_MPcombined_dict, "MPleft": kernel_size_MPleft_dict, "MPright": kernel_size_MPright_dict}
 
     # Get kernel_size
     kernel_size = kernel_size_dict[labeltype][dataset_name]
@@ -144,16 +144,16 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     # 5/9/2022 updating to dictionary look up
     # Determined using stats.py
     gesture_class_num_gesture_dict = {"DESK": 7, "JIGSAWS": 14, "S": 10, "NP": 10, "KT": 6}
-    gesture_class_num_MP_baseline_dict = {"DESK": 0, "JIGSAWS": 6, "All-5a": 0,\
+    gesture_class_num_MPbaseline_dict = {"DESK": 0, "JIGSAWS": 6, "All-5a": 0,\
         "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 0, "PaS": 0, "SNP": 6, "PTPaS": 0}
-    gesture_class_num_MP_combined_dict = {"DESK": 0, "JIGSAWS": 6, "All-5a": 0,\
+    gesture_class_num_MPcombined_dict = {"DESK": 0, "JIGSAWS": 6, "All-5a": 0,\
         "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 0, "PaS": 0, "SNP": 6, "PTPaS": 0}
-    gesture_class_num_MP_left_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
+    gesture_class_num_MPleft_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
         "All-5b": 0, "S": 7, "NP": 6, "KT": 6, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
-    gesture_class_num_MP_right_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
+    gesture_class_num_MPright_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
         "All-5b": 0, "S": 7, "NP": 7, "KT": 6, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
-    gesture_class_num_dict = {"gesture": gesture_class_num_gesture_dict, "MP_baseline": gesture_class_num_MP_baseline_dict, \
-        "MP_combined": gesture_class_num_MP_combined_dict, "MP_left": gesture_class_num_MP_left_dict, "MP_right": gesture_class_num_MP_right_dict}
+    gesture_class_num_dict = {"gesture": gesture_class_num_gesture_dict, "MPbaseline": gesture_class_num_MPbaseline_dict, \
+        "MPcombined": gesture_class_num_MPcombined_dict, "MPleft": gesture_class_num_MPleft_dict, "MPright": gesture_class_num_MPright_dict}
     # Get gesture_class_num
     gesture_class_num = gesture_class_num_dict[labeltype][dataset_name]
     # Exit if not a valid combination of model settings
@@ -385,13 +385,13 @@ def preprocess(set, var, labeltype, raw_feature_dir):
     for sub in raw_feature_dir:
 
         # List all transcription file paths of labels
-        if labeltype == "MP_baseline":
+        if labeltype == "MPbaseline":
             ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_baseline/*"))
-        elif labeltype == "MP_combined":
+        elif labeltype == "MPcombined":
             ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_combined/*"))
-        if labeltype == "MP_left":
+        if labeltype == "MPleft":
             ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_L/*"))
-        if labeltype == "MP_right":
+        if labeltype == "MPright":
             ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_R/*"))
         elif labeltype == "gesture":
             ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"gestures/*"))
@@ -409,19 +409,19 @@ def preprocess(set, var, labeltype, raw_feature_dir):
             # Read in label transcript
             if labeltype == "gesture":
                 tg = pd.read_table(ges_dir, sep="\s+", header=None)
-            else: # labeltype == "MP_baseline":
+            else: # labeltype == "MPbaseline":
                 tg = pd.read_table(ges_dir)
 
             #print(tg)
 
             # Get kin file associated with transcript
-            if labeltype == "MP_baseline":
+            if labeltype == "MPbaseline":
                 kin_dir = ges_dir.replace("motion_primitives_baseline", "velkinematics").replace(".txt", ".csv")
-            elif labeltype == "MP_combined":
+            elif labeltype == "MPcombined":
                 kin_dir = ges_dir.replace("motion_primitives_combined", "velkinematics").replace(".txt", ".csv")
-            elif labeltype == "MP_left":
+            elif labeltype == "MPleft":
                 kin_dir = ges_dir.replace("motion_primitives_L", "velkinematics").replace(".txt", ".csv")
-            elif labeltype == "MP_right":
+            elif labeltype == "MPright":
                 kin_dir = ges_dir.replace("motion_primitives_R", "velkinematics").replace(".txt", ".csv")
             elif labeltype == "gesture":
                 kin_dir = ges_dir.replace("gestures", "velkinematics").replace(".txt", ".csv")
@@ -535,7 +535,7 @@ def preprocess(set, var, labeltype, raw_feature_dir):
                     start_ = int(tg.iloc[i,0])
                     end_ = int(tg.iloc[i,1])
                     label = tg.iloc[i,2]
-                else: # labeltype == "MP_baseline":
+                else: # labeltype == "MPbaseline":
                     line = tg.iloc[i,0].split(" ")
                     start_ = int(line[0])  #int(tg.iloc[i,0])  #line[0])
                     end_ = int(line[1])   #int(tg.iloc[i,1])   #line[1])
