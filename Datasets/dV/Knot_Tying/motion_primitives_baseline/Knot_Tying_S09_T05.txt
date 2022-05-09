@@ -14,7 +14,7 @@ Start Stop Motion Primitive
 930 1049 Release(L, Thread) Release(R, Thread)
 1050 1149 Grasp(R, Thread)
 1150 1269 Touch(L, Thread)
-1270 1289 Grasp(L, Thread) Release(R, Nothing)
+1270 1289 Grasp(L, Thread) Release(R, Thread)
 1290 1299 Untouch(R, Thread)
 1300 1399 Grasp(R, Thread)
 1400 1509 Release(R, Thread)

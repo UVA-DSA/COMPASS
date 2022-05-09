@@ -14,7 +14,7 @@ Start Stop Motion Primitive
 380 419 Pull(L, Thread) Pull(R, Thread)
 420 499 Pull(L, Thread) Pull(R, Thread)
 500 549 Release(L, Thread)
-550 559 Untouch(L, Thread) Release(R, Nothing)
+550 559 Untouch(L, Thread) Release(R, Thread)
 560 569 Untouch(R, Thread)
 570 639 Touch(L, Thread)
 640 649 Untouch(L, Thread)

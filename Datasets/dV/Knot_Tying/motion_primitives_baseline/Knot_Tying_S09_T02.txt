@@ -37,7 +37,7 @@ Start Stop Motion Primitive
 1980 2109 Pull(L, Thread) Pull(R, Thread)
 2110 2159 Pull(L, Thread) Pull(R, Thread)
 2160 2209 Release(L, Thread)
-2210 2219 Release(R, Nothing)
+2210 2219 Release(R, Thread)
 2220 2229 Untouch(R, Thread)
 2230 2299 Touch(L, Thread)
 2300 2319 Untouch(L, Thread)
