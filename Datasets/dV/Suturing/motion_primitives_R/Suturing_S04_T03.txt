@@ -49,3 +49,4 @@ Start Stop Motion Primitive
 2240 2249 Idle(R)
 2250 2259 Touch(Needle, Fabric/Tissue)
 2260 2289 Touch(R, Fabric/Tissue)
+2290 2299 Idle(R)

@@ -38,3 +38,4 @@ Start Stop Motion Primitive
 3820 4019 Grasp(L, Needle)
 4020 4039 Idle(L)
 4040 4109 Pull(L, Needle)
+4110 4189 Release(L, Needle) Touch(Needle, Fabric/Tissue)

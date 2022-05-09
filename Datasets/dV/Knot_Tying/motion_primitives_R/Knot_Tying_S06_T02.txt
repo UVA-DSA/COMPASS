@@ -20,3 +20,4 @@ Start Stop Motion Primitive
 780 829 Grasp(R, Thread)
 830 859 Pull(R, Thread)
 860 919 Idle(R)
+920 929 Release(R, Thread)

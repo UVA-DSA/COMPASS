@@ -21,3 +21,4 @@ Start Stop Motion Primitive
 1010 1049 Pull(R, Thread)
 1050 1109 Pull(R, Thread)
 1110 1149 Idle(R)
+1150 1159 Release(R, Thread)

@@ -47,3 +47,4 @@ Start Stop Motion Primitive
 4190 4259 Touch(L, Fabric/Tissue)
 4260 4269 Untouch(L, Fabric/Tissue)
 4270 4279 Touch(L, Fabric/Tissue)
+4280 4289 Idle(L)

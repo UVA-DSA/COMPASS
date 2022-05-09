@@ -98,3 +98,4 @@ Start Stop Motion Primitive
 8680 8699 Idle(L)
 8700 8769 Pull(L, Needle)
 8770 8909 Touch(Needle, Fabric/Tissue)
+8910 8929 Release(L, Needle)

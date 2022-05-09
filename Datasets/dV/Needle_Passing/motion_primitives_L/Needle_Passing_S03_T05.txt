@@ -49,3 +49,4 @@ Start Stop Motion Primitive
 2110 2139 Idle(L)
 2140 2419 Idle(L)
 2420 2449 Pull(L, Needle)
+2450 2469 Release(L, Needle)

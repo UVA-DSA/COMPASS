@@ -45,3 +45,4 @@ Start Stop Motion Primitive
 1600 1649 Idle(R)
 1650 1669 Release(R, Needle)
 1670 1679 Idle(R)
+1680 1699 Idle(R)

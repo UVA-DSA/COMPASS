@@ -36,3 +36,4 @@ Start Stop Motion Primitive
 2770 2799 Idle(R)
 2800 2819 Idle(R)
 2820 2929 Idle(R)
+2930 2939 Touch(R, Fabric/Tissue)

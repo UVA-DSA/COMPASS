@@ -34,3 +34,4 @@ Start Stop Motion Primitive
 2910 3029 Idle(R)
 3030 3049 Release(R, Needle)
 3050 3259 Idle(R)
+3260 3319 Idle(R)

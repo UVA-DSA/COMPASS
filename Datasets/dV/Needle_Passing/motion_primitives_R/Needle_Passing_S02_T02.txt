@@ -33,3 +33,4 @@ Start Stop Motion Primitive
 2670 2689 Push(Needle, Fabric/Tissue)
 2690 2799 Idle(R)
 2800 2839 Release(R, Needle)
+2840 2889 Idle(R)

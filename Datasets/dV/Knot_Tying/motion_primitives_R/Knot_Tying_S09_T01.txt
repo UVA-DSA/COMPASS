@@ -4,7 +4,7 @@ Start Stop Motion Primitive
 200 209 Release(R, Thread)
 210 369 Idle(R)
 370 539 Touch(R, Thread)
-540 569 Pull(L, Thread)
+540 569 Untouch(R, Thread)
 570 939 Idle(R)
 940 1269 Grasp(R, Thread)
 1270 1339 Pull(R, Thread)
@@ -21,3 +21,4 @@ Start Stop Motion Primitive
 2030 2089 Release(R, Thread)
 2090 2109 Idle(R)
 2110 2119 Untouch(R, Thread)
+2120 2199 Idle(R)

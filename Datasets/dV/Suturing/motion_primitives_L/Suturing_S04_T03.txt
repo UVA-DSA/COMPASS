@@ -49,3 +49,4 @@ Start Stop Motion Primitive
 2240 2249 Release(L, Needle)
 2250 2259 Idle(L)
 2260 2289 Idle(L)
+2290 2299 Touch(L, Fabric/Tissue)

@@ -49,3 +49,4 @@ Start Stop Motion Primitive
 2110 2139 Release(R, Needle)
 2140 2419 Grasp(R, Ring)
 2420 2449 Idle(R)
+2450 2469 Release(R, Ring)

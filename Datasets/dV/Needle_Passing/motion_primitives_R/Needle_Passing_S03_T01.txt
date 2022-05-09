@@ -59,3 +59,4 @@ Start Stop Motion Primitive
 4040 4089 Grasp(R, Ring)
 4090 4159 Idle(R)
 4160 4189 Release(R, Ring)
+4190 4239 Idle(R)

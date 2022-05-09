@@ -19,3 +19,4 @@ Start Stop Motion Primitive
 860 869 Idle(R)
 870 889 Idle(R)
 890 909 Idle(R)
+910 929 Idle(R)
