@@ -306,7 +306,7 @@ def labelMPs(npGrouped):
         if (int(nextState[2]) == 0) and (int(nextState[3]) == int(currState[2]) > 0):
             tool = "R"
             verb = "Release"
-            obj = objects[int(currState[0])]
+            obj = objects[int(currState[2])]
         #print(verb + "(" + tool + ", " + obj +")")
         if (tool != " "):
             MPs.append(verb + "(" + tool + ", " + obj + ")")
@@ -693,12 +693,12 @@ except:
     sys.exit()
 
 # Directories
-baseDir = os.getcwd()
+baseDir = os.path.dirname(os.path.dirname(os.getcwd()))
 # Transcript and video directories
 taskDir = os.path.join(baseDir, "Datasets", "dV", task)
 transcriptDir = os.path.join(taskDir,"transcriptions")
 #gestureDir = os.path.join(taskDir,"gestures")
-mpDir = os.path.join(taskDir, "motion_primitives")
+mpDir = os.path.join(taskDir, "motion_primitives_baseline")
 
 
 # Based on task, create the context state list
