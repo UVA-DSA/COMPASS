@@ -25,7 +25,7 @@ Start Stop Motion Primitive
 1250 1259 Release(L, Needle)
 1260 1329 Touch(Needle, Fabric/Tissue)
 1330 1369 Push(Needle, Fabric/Tissue)
-1370 1539 Grasp(L, Needle) Release(R, Nothing)
+1370 1539 Grasp(L, Needle) Release(R, Needle)
 1540 1549 Untouch(R, Needle)
 1550 1559 Pull(L, Needle)
 1560 1679 Grasp(R, Needle)

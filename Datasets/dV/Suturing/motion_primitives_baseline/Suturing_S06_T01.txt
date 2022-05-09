@@ -43,7 +43,7 @@ Start Stop Motion Primitive
 2240 2249 Untouch(L, Thread)
 2250 2389 Touch(L, Needle)
 2390 2399 Untouch(L, Needle)
-2400 2409 Grasp(L, Needle) Release(R, Nothing)
+2400 2409 Grasp(L, Needle) Release(R, Needle)
 2410 2419 Untouch(R, Needle)
 2420 2449 Pull(L, Needle)
 2450 2569 Grasp(R, Needle)

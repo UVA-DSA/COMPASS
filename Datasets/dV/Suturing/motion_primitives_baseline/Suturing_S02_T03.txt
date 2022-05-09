@@ -36,7 +36,7 @@ Start Stop Motion Primitive
 2440 2469 Push(Needle, Fabric/Tissue)
 2470 2689 Touch(L, Needle)
 2690 2729 Untouch(L, Needle)
-2730 2739 Release(R, Nothing)
+2730 2739 Release(R, Needle)
 2740 2759 Untouch(R, Needle) Touch(R, Thread)
 2760 2779 Untouch(R, Thread)
 2780 2819 Touch(L, Needle)
