@@ -4,6 +4,19 @@ from __future__ import print_function
 # File for preprocessing the data and save it to csv files in the
 # preprocessed folder. Then, encodes labels and saves to .pkl file.
 
+# 4/25/22 Adding x,y coordinates for left and right grippers and needle
+# based on Cogito labels. This means that S, NP, and KT will have different
+# numbers of variables and different variables from the kinematics files and
+# additional if conditions need to be added to this file to handle that.
+
+# 5/6/22 Adding other MP label options: baseline, combined, left, and right
+# baseline is original context to MP labels
+# combined is [Touch,Grasp] -> Grasp and [Release,Untouch] -> Release combined
+# left and right are the combined transcript but split by relevant side and
+#     filled in with Idle(*) for that hand
+# TO DO:
+# add different MP paths to combined, left, and right
+
 import glob
 import sys
 import os
@@ -34,28 +47,28 @@ def processArguments(args):
     try:
         var = args[2]
         # Check if valid var
-        if var not in ["velocity", "orientation", "all"]:
-            print("Please choose input variable: velocity orientation all")
+        if var not in ["velocity", "orientation", "all", "vis", "vis2"]:
+            print("Please choose input variable: velocity orientation all vis vis2")
             sys.exit()
     except:
-        print("Please choose input variable: velocity orientation all")
+        print("Please choose input variable: velocity orientation all vis vis2")  # add vis2
         sys.exit()
 
     # Get MP or gesture from command line
     try:
         labeltype = args[3]
         # Check if valid labeltype
-        if labeltype not in ["MP", "gesture"]:
-            print("Please choose label type: MP gesture")
+        if labeltype not in ["gesture", "MP_baseline", "MP_combined", "MP_left", "MP_right"]:
+            print("Please choose label type: gesture MP_baseline MP_combined MP_left MP_right")
             sys.exit()
     except:
-        print("Please choose label type: MP gesture")
+        print("Please choose label type: gesture MP_baseline MP_combined MP_left MP_right")
         sys.exit()
 
     # Get LOSO or LOUO from command line
     try:
         valtype = args[4]
-        # Check if valid labeltype
+        # Check if valid crossval
         if valtype not in ["LOSO", "LOUO"]:
             print("Please choose label type: LOSO LOUO")
             sys.exit()
@@ -87,44 +100,40 @@ def loadConfig(dataset_name, var, labeltype, valtype):
         input_size = 16
     elif (var == "all"):
         input_size = 22
+    elif (var == "vis") and (dataset_name == "S"):
+        input_size = 20
+    elif (var == "vis") and (dataset_name == "NP"):
+        input_size = 20
+    elif (var == "vis") and (dataset_name == "KT"):
+        input_size = 18
+    elif (var == "vis2") and (dataset_name == "NP"):
+        input_size = 28
+    elif (var == "vis2") and (dataset_name == "KT"):
+        input_size = 58  # fill in, same as vis right now
     else:
         print("Please specify input size.")
+        sys.exit()
 
     # Kernel size is shortest average label duration based on set and label type
-    # Round up to odd number; determined using stats.py
-    if (dataset_name == "JIGSAWS") and (labeltype == "gesture"):
-        kernel_size = 89
-    elif (dataset_name == "DESK") and (labeltype == "gesture"):
-        kernel_size = 29
-    elif (dataset_name == "JIGSAWS") and (labeltype == "MP"):
-        kernel_size = 23
-    elif (dataset_name == "DESK") and (labeltype == "MP"):
-        kernel_size = 45
-    elif (dataset_name == "All-5a" or dataset_name == "All-5b") and (labeltype == "MP"):
-        kernel_size = 23   # update with consensus
-    elif (dataset_name == "S") and (labeltype == "MP"):
-        kernel_size = 23
-    elif (dataset_name == "NP") and (labeltype == "MP"):
-        kernel_size = 25
-    elif (dataset_name == "KT") and (labeltype == "MP"):
-        kernel_size = 19
-    elif (dataset_name == "PoaP") and (labeltype == "MP"):
-        kernel_size = 19
-    elif (dataset_name == "PaS") and (labeltype == "MP"):
-        kernel_size = 27
-    elif (dataset_name == "S") and (labeltype == "gesture"):
-        kernel_size = 63
-    elif (dataset_name == "NP") and (labeltype == "gesture"):
-        kernel_size = 97
-    elif (dataset_name == "KT") and (labeltype == "gesture"):
-        kernel_size = 87
-    elif (dataset_name == "SNP") and (labeltype == "MP"):
-        kernel_size = 23
-    elif (dataset_name == "PTPaS") and (labeltype == "MP"):
-        kernel_size = 31
-    else:
-        print("Please specify kernel size.")
+    # 5/9/2022 changing to dictionary look up; rounded down to an odd number based on stats.py
+    kernel_size_gesture_dict = {"DESK": 29, "JIGSAWS": 89, "S": 61, "NP": 97, "KT": 85}
+    kernel_size_MP_baseline_dict = {"DESK": 0, "JIGSAWS": 23, "All-5a": 0,\
+        "All-5b": 0, "S": 21, "NP": 23, "KT": 17, "PoaP": 0, "PaS": 0, "SNP": 23, "PTPaS": 0}
+    kernel_size_MP_combined_dict = {"DESK": 0, "JIGSAWS": 27, "All-5a": 0,\
+        "All-5b": 0, "S": 25, "NP": 25, "KT": 21, "PoaP": 0, "PaS": 0, "SNP": 25, "PTPaS": 0}
+    kernel_size_MP_left_dict = {"DESK": 0, "JIGSAWS": 25, "All-5a": 0,\
+        "All-5b": 0, "S": 25, "NP": 21, "KT": 15, "PoaP": 0, "PaS": 0, "SNP": 25, "PTPaS": 0}
+    kernel_size_MP_right_dict = {"DESK": 0, "JIGSAWS": 29, "All-5a": 0,\
+        "All-5b": 0, "S": 25, "NP": 15, "KT": 23, "PoaP": 0, "PaS": 0, "SNP": 27, "PTPaS": 0}
+    kernel_size_dict = {"gesture": kernel_size_gesture_dict, "MP_baseline": kernel_size_MP_baseline_dict, \
+        "MP_combined": kernel_size_MP_combined_dict, "MP_left": kernel_size_MP_left_dict, "MP_right": kernel_size_MP_right_dict}
 
+    # Get kernel_size
+    kernel_size = kernel_size_dict[labeltype][dataset_name]
+    # Exit if not a valid combination of model settings
+    if kernel_size == 0:
+        print("Kernel size not specified yet")
+        sys.exit()
 
     # Path to processed files in 'preprocessed' folder
     # raw_feature_dir contains a list of paths to the preprocessed folder of
@@ -132,31 +141,26 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     raw_feature_dir = all_params[dataset_name]["raw_feature_dir"]
 
     # Number of label classes
-    #gesture_class_num = all_params[dataset_name]["gesture_class_num"]
+    # 5/9/2022 updating to dictionary look up
     # Determined using stats.py
-    if (dataset_name == "DESK") and (labeltype == "MP"):
-        gesture_class_num = 4  # DESK only has four found MP classes and using 6 seems to cause issues with inverse_transform for decoding the predictions and saving them
-    elif (dataset_name == "DESK") and (labeltype == "gesture"):
-        gesture_class_num = 7
-    elif (dataset_name == "JIGSAWS") and (labeltype == "gesture"):
-        gesture_class_num = 14
-    elif (dataset_name == "S") and (labeltype == "gesture"):
-        gesture_class_num = 10
-    elif (dataset_name == "NP") and (labeltype == "gesture"):
-        gesture_class_num = 10
-    elif (dataset_name == "KT") and (labeltype == "gesture"):
-        gesture_class_num = 6
-    elif (dataset_name == "PoaP") and (labeltype == "MP"):
-        gesture_class_num = 6
-    elif (dataset_name == "PaS") and (labeltype == "MP"):
-        gesture_class_num = 4
-    elif (dataset_name == "PTPaS") and (labeltype == "MP"):
-        gesture_class_num = 4
-    elif labeltype == "MP":
-        gesture_class_num = 6
-    else:
-        print("Please specify number of label classes.")
+    gesture_class_num_gesture_dict = {"DESK": 7, "JIGSAWS": 14, "S": 10, "NP": 10, "KT": 6}
+    gesture_class_num_MP_baseline_dict = {"DESK": 0, "JIGSAWS": 6, "All-5a": 0,\
+        "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 0, "PaS": 0, "SNP": 6, "PTPaS": 0}
+    gesture_class_num_MP_combined_dict = {"DESK": 0, "JIGSAWS": 6, "All-5a": 0,\
+        "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 0, "PaS": 0, "SNP": 6, "PTPaS": 0}
+    gesture_class_num_MP_left_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
+        "All-5b": 0, "S": 7, "NP": 6, "KT": 6, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
+    gesture_class_num_MP_right_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
+        "All-5b": 0, "S": 7, "NP": 7, "KT": 6, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
+    gesture_class_num_dict = {"gesture": gesture_class_num_gesture_dict, "MP_baseline": gesture_class_num_MP_baseline_dict, \
+        "MP_combined": gesture_class_num_MP_combined_dict, "MP_left": gesture_class_num_MP_left_dict, "MP_right": gesture_class_num_MP_right_dict}
+    # Get gesture_class_num
+    gesture_class_num = gesture_class_num_dict[labeltype][dataset_name]
+    # Exit if not a valid combination of model settings
+    if gesture_class_num == 0:
+        print("Number of classes not specified yet")
         sys.exit()
+
     num_class = gesture_class_num
 
     # Sets for cross validation
@@ -286,7 +290,7 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
                 "PSMR_position_x", "PSMR_position_y", "PSMR_position_z", \
                 "PSMR_orientation_x", "PSMR_orientation_y", "PSMR_orientation_z", "PSMR_orientation_w",\
                 "PSMR_gripper_angle"]
-    else:
+    elif var == "all":
         LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z",\
                 "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
                 "PSML_orientation_x", "PSML_orientation_y", "PSML_orientation_z", "PSML_orientation_w",\
@@ -295,6 +299,67 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
                 "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
                 "PSMR_orientation_x", "PSMR_orientation_y", "PSMR_orientation_z", "PSMR_orientation_w",\
                 "PSMR_gripper_angle"]
+    elif (var == "vis") and (dataset_name == "S"):
+        LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                "PSML_gripper_angle", \
+                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                "PSMR_gripper_angle", \
+                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", "Needle_X", "Needle_Y"]
+    elif (var == "vis") and (dataset_name == "NP"):
+        LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                "PSML_gripper_angle", \
+                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                "PSMR_gripper_angle", \
+                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", "Needle_X", "Needle_Y"]
+    elif (var == "vis") and (dataset_name == "KT"):
+        LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                "PSML_gripper_angle", \
+                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                "PSMR_gripper_angle", \
+                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y"]
+    elif (var == "vis2") and (dataset_name == "NP"):
+        LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                "PSML_gripper_angle", \
+                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                "PSMR_gripper_angle", \
+                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", "Needle_X", "Needle_Y", \
+                "R_4_X", "R_4_Y", "R_5_X", "R_5_Y", "R_6_X", "R_6_Y", "R_7_X", "R_7_Y"]
+    elif (var == "vis2") and (dataset_name == "KT"):
+        LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                "PSML_gripper_angle", \
+                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                "PSMR_gripper_angle", \
+                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", \
+                "Thread_TL_1_X", "Thread_TL_1_Y", \
+                "Thread_TL_2_X", "Thread_TL_2_Y", \
+                "Thread_TL_3_X", "Thread_TL_3_Y", \
+                "Thread_TL_4_X", "Thread_TL_4_Y", \
+                "Thread_TL_5_X", "Thread_TL_5_Y", \
+                "Thread_TR_1_X", "Thread_TR_1_Y", \
+                "Thread_TR_2_X", "Thread_TR_2_Y", \
+                "Thread_TR_3_X", "Thread_TR_3_Y", \
+                "Thread_TR_4_X", "Thread_TR_4_Y", \
+                "Thread_TR_5_X", "Thread_TR_5_Y", \
+                "Thread_BL_1_X", "Thread_BL_1_Y", \
+                "Thread_BL_2_X", "Thread_BL_2_Y", \
+                "Thread_BL_3_X", "Thread_BL_3_Y", \
+                "Thread_BL_4_X", "Thread_BL_4_Y", \
+                "Thread_BL_5_X", "Thread_BL_5_Y", \
+                "Thread_BR_1_X", "Thread_BR_1_Y", \
+                "Thread_BR_2_X", "Thread_BR_2_Y", \
+                "Thread_BR_3_X", "Thread_BR_3_Y", \
+                "Thread_BR_4_X", "Thread_BR_4_Y", \
+                "Thread_BR_5_X", "Thread_BR_5_Y"]
     all_params[dataset_name]["locs"] = LOCS
 
     # Update pickle file name
@@ -320,8 +385,14 @@ def preprocess(set, var, labeltype, raw_feature_dir):
     for sub in raw_feature_dir:
 
         # List all transcription file paths of labels
-        if labeltype == "MP":
-            ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives/*"))
+        if labeltype == "MP_baseline":
+            ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_baseline/*"))
+        elif labeltype == "MP_combined":
+            ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_combined/*"))
+        if labeltype == "MP_left":
+            ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_L/*"))
+        if labeltype == "MP_right":
+            ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_R/*"))
         elif labeltype == "gesture":
             ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"gestures/*"))
         else:
@@ -336,15 +407,22 @@ def preprocess(set, var, labeltype, raw_feature_dir):
             print("\t Preprocessing: " + ges_dir)
 
             # Read in label transcript
-            if labeltype == "MP":
-                tg = pd.read_table(ges_dir)
-            elif labeltype == "gesture":
+            if labeltype == "gesture":
                 tg = pd.read_table(ges_dir, sep="\s+", header=None)
+            else: # labeltype == "MP_baseline":
+                tg = pd.read_table(ges_dir)
+
             #print(tg)
 
             # Get kin file associated with transcript
-            if labeltype == "MP":
-                kin_dir = ges_dir.replace("motion_primitives", "velkinematics").replace(".txt", ".csv")
+            if labeltype == "MP_baseline":
+                kin_dir = ges_dir.replace("motion_primitives_baseline", "velkinematics").replace(".txt", ".csv")
+            elif labeltype == "MP_combined":
+                kin_dir = ges_dir.replace("motion_primitives_combined", "velkinematics").replace(".txt", ".csv")
+            elif labeltype == "MP_left":
+                kin_dir = ges_dir.replace("motion_primitives_L", "velkinematics").replace(".txt", ".csv")
+            elif labeltype == "MP_right":
+                kin_dir = ges_dir.replace("motion_primitives_R", "velkinematics").replace(".txt", ".csv")
             elif labeltype == "gesture":
                 kin_dir = ges_dir.replace("gestures", "velkinematics").replace(".txt", ".csv")
 
@@ -374,8 +452,7 @@ def preprocess(set, var, labeltype, raw_feature_dir):
                                 "PSMR_position_x", "PSMR_position_y", "PSMR_position_z", \
                                 "PSMR_orientation_x", "PSMR_orientation_y", "PSMR_orientation_z", "PSMR_orientation_w",\
                                 "PSMR_gripper_angle"]]
-            # else take all vars
-            else:
+            elif var == "all":
                 tb = tb.loc[:, ["PSML_position_x", "PSML_position_y", "PSML_position_z",\
                                 "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
                                 "PSML_orientation_x", "PSML_orientation_y", "PSML_orientation_z", "PSML_orientation_w",\
@@ -384,25 +461,87 @@ def preprocess(set, var, labeltype, raw_feature_dir):
                                 "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
                                 "PSMR_orientation_x", "PSMR_orientation_y", "PSMR_orientation_z", "PSMR_orientation_w",\
                                 "PSMR_gripper_angle"]]
+            elif (var == "vis") and (set == "S"):
+                tb = tb.loc[:, ["PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                                "PSML_gripper_angle", \
+                                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                                "PSMR_gripper_angle", \
+                                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", "Needle_X", "Needle_Y"]]
+            elif (var == "vis") and (set == "NP"):
+                tb = tb.loc[:, ["PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                                "PSML_gripper_angle", \
+                                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                                "PSMR_gripper_angle", \
+                                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", "Needle_X", "Needle_Y"]]
+            elif (var == "vis") and (set == "KT"):
+                tb = tb.loc[:, ["PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                                "PSML_gripper_angle", \
+                                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                                "PSMR_gripper_angle", \
+                                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y"]]
+            elif (var == "vis2") and (set == "NP"):
+                tb = tb.loc[:, ["PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                                "PSML_gripper_angle", \
+                                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                                "PSMR_gripper_angle", \
+                                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", "Needle_X", "Needle_Y", \
+                                "R_4_X", "R_4_Y", "R_5_X", "R_5_Y", "R_6_X", "R_6_Y", "R_7_X", "R_7_Y"]]
+            elif (var == "vis2") and (set == "KT"):
+                tb = tb.loc[:, ["PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                                "PSML_gripper_angle", \
+                                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                                "PSMR_gripper_angle", \
+                                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", \
+                                "Thread_TL_1_X", "Thread_TL_1_Y", \
+                                "Thread_TL_2_X", "Thread_TL_2_Y", \
+                                "Thread_TL_3_X", "Thread_TL_3_Y", \
+                                "Thread_TL_4_X", "Thread_TL_4_Y", \
+                                "Thread_TL_5_X", "Thread_TL_5_Y", \
+                                "Thread_TR_1_X", "Thread_TR_1_Y", \
+                                "Thread_TR_2_X", "Thread_TR_2_Y", \
+                                "Thread_TR_3_X", "Thread_TR_3_Y", \
+                                "Thread_TR_4_X", "Thread_TR_4_Y", \
+                                "Thread_TR_5_X", "Thread_TR_5_Y", \
+                                "Thread_BL_1_X", "Thread_BL_1_Y", \
+                                "Thread_BL_2_X", "Thread_BL_2_Y", \
+                                "Thread_BL_3_X", "Thread_BL_3_Y", \
+                                "Thread_BL_4_X", "Thread_BL_4_Y", \
+                                "Thread_BL_5_X", "Thread_BL_5_Y", \
+                                "Thread_BR_1_X", "Thread_BR_1_Y", \
+                                "Thread_BR_2_X", "Thread_BR_2_Y", \
+                                "Thread_BR_3_X", "Thread_BR_3_Y", \
+                                "Thread_BR_4_X", "Thread_BR_4_Y", \
+                                "Thread_BR_5_X", "Thread_BR_5_Y"]]
 
             # For each line in the label transcript, get start frame, end frame,
             # and gesture label
             for i in range(tg.shape[0]):
-                if labeltype == "MP":
+                if (set == "DESK") and (labeltype == "gesture"):
+                    start_ = int(tg.iloc[i,0])
+                    end_ = int(tg.iloc[i,1])
+                    label = tg.iloc[i,2]
+                    #gesture = label
+                elif (set in ["JIGSAWS", "S", "NP", "KT"]) and (labeltype == 'gesture'):
+                    start_ = int(tg.iloc[i,0])
+                    end_ = int(tg.iloc[i,1])
+                    label = tg.iloc[i,2]
+                else: # labeltype == "MP_baseline":
                     line = tg.iloc[i,0].split(" ")
                     start_ = int(line[0])  #int(tg.iloc[i,0])  #line[0])
                     end_ = int(line[1])   #int(tg.iloc[i,1])   #line[1])
                     # Only use MP as label, no context
                     label = line[2].split("(")[0]   #tg.iloc[i,2].split("(")[0]  #line[2].split("(")
-                elif (set == "DESK") and (labeltype == "gesture"):
-                    start_ = int(tg.iloc[i,0])
-                    end_ = int(tg.iloc[i,1])
-                    label = tg.iloc[i,2]
-                    #gesture = label
-                elif set in ["JIGSAWS", "S", "NP", "KT"]:
-                    start_ = int(tg.iloc[i,0])
-                    end_ = int(tg.iloc[i,1])
-                    label = tg.iloc[i,2]
+
 
                 # Create array of labels of the size of the duration of the MP
                 fill = [label]*int(end_-start_+1)
