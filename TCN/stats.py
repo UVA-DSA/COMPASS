@@ -20,7 +20,7 @@ from preprocess import processArguments
 baseDir = os.path.dirname(os.getcwd())
 sysDir = os.path.join(baseDir, "Datasets", "dV")
 allTasks = ["Suturing", "Needle_Passing", "Knot_Tying", "Peg_Transfer", "Pea_on_a_Peg", "Post_and_Sleeve"]
-labeltypes = ["gesture", "MP_baseline", "MP_combined", "MP_left", "MP_right"]
+labeltypes = ["gesture", "MPbaseline", "MPcombined", "MPexchange", "MPleft", "MPright", "MPleftX", "MPrightX"]
 
 
 
@@ -40,7 +40,7 @@ def getStats(tasks, labeltype, durations, instances):
                 tg = pd.read_csv(fileIn, header=None)
             else: #if labeltype == "motion_primitives":
                 tg = pd.read_table(fileIn) #, sep="\s")
-            
+
             #print(tg)
 
             # For each line, get start and end frames and class label
@@ -91,14 +91,20 @@ if __name__ == "__main__":
     set, var, labeltype, valtype = processArguments(sys.argv)
     if labeltype == "gesture":
         labeltype = "gestures"
-    elif labeltype == "MP_baseline":
+    elif labeltype == "MPbaseline":
         labeltype = "motion_primitives_baseline"
-    elif labeltype == "MP_combined":
+    elif labeltype == "MPcombined":
         labeltype = "motion_primitives_combined"
-    elif labeltype == "MP_left":
+    elif labeltype == "MPexchange":
+        labeltype = "motion_primitives_exchange"
+    elif labeltype == "MPleft":
         labeltype = "motion_primitives_L"
-    elif labeltype == "MP_right":
+    elif labeltype == "MPright":
         labeltype = "motion_primitives_R"
+    elif labeltype == "MPleftX":
+        labeltype = "motion_primitives_LX"
+    elif labeltype == "MPrightX":
+        labeltype = "motion_primitives_RX"
 
     # Choose which set of tasks to analyze based on set
     if set == "All":
@@ -131,10 +137,10 @@ if __name__ == "__main__":
     # Dictionaries to store number of instances of label class and total duration
     durationsG = {"G1": [], "G2": [], "G3": [], "G4": [], "G5": [], "G6": [], "G7": [], "G8": [], "G9": [], "G10": [], "G11": [], "G12": [], "G13": [], "G14": [], "G15": []}
     durationsS = {"S1": [], "S2": [], "S3": [], "S4": [], "S5": [], "S6": [], "S7": []}
-    durationsMP = {"Grasp": [], "Release": [], "Touch": [], "Untouch": [], "Pull": [], "Push": [], "Idle": []}
+    durationsMP = {"Grasp": [], "Release": [], "Touch": [], "Untouch": [], "Pull": [], "Push": [], "Idle": [], "Exchange": []}
     instancesG = {"G1": 0, "G2": 0, "G3": 0, "G4": 0, "G5": 0, "G6": 0, "G7": 0, "G8": 0, "G9": 0, "G10": 0, "G11": 0, "G12": 0, "G13": 0, "G14": 0, "G15": 0}
     instancesS = {"S1": 0, "S2": 0, "S3": 0, "S4": 0, "S5": 0, "S6": 0, "S7": 0}
-    instancesMP = {"Grasp": 0, "Release": 0, "Touch": 0, "Untouch": 0, "Pull": 0, "Push": 0, "Idle": 0}
+    instancesMP = {"Grasp": 0, "Release": 0, "Touch": 0, "Untouch": 0, "Pull": 0, "Push": 0, "Idle": 0, "Exchange": 0}
 
     # Choose which set of dictionaries to use based on set and labeltype
     if (labeltype == "gestures") and (set == "JIGSAWS"):
