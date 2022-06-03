@@ -30,6 +30,8 @@ def group(dfMP):
 
     return dfGrouped
 
+
+
 # Convert list of labels to a transcript (intermediate step uses dataframes)
 def listToTranscript(list):
     dfMP = pd.DataFrame(list, columns=["Y"])
@@ -43,16 +45,20 @@ def listToTranscript(list):
 
     return transcript
 
+
+
 # Convert transcript to list of labels
 def transcriptToList(transcript):
     list = []
     #print(transcript)
     # For each label, fill in the list with that label from start to end sample number
     for t in transcript:
-        fill = [t[2]]*(int(t[1])-int(t[0]))
-        list[int(t[0]):int(t[1])] = fill
+        fill = [t[2]]*(int(t[1])-int(t[0])+1)
+        list[int(t[0]):int(t[1])+1] = fill
 
     return list
+
+
 
 # Convert transcript to sequence (one way conversion)
 def transcriptToSequence(transcript):
@@ -60,3 +66,28 @@ def transcriptToSequence(transcript):
     for i in transcript:
         sequence.append(i[2])
     return sequence
+
+
+
+# Sample usage for reading and working with an MP transcript
+if __name__ == "__main__":
+
+    # Set up paths and directories
+    dir = os.getcwd()
+    lDir = os.path.join(dir, "motion_primitives_L")
+    kDir = os.path.join(dir, "motion_primitives_LK")
+
+    # For each transcript
+    for f in os.listdir(kDir):
+        # Paths to the transcripts to compare
+        transcriptkPath = os.path.join(kDir, f)
+        transcriptlPath = os.path.join(lDir, f)
+
+        print("Comparing: " + f)
+
+        # Read in transcripts
+        linesk = readMPTranscript(transcriptkPath)
+        linesl = readMPTranscript(transcriptlPath)
+        # Convert to lists
+        listk = transcriptToList(linesk)
+        listl = transcriptToList(linesl)
