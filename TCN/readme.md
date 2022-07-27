@@ -1,7 +1,7 @@
-To do: Add code and instructions for using TCN model.
-Check for file path errors
-Replace All_5a and All_5b with a new All that uses LOUO_multi cross_val
-Add ROSMA option for training models with data from PoaP and PaS
+To do: Add code and instructions for using TCN model. \
+Check for file path errors \
+Replace All_5a and All_5b with a new All that uses LOUO_multi cross_val \
+Add ROSMA option for training models with data from PoaP and PaS \
 
 
 
@@ -14,7 +14,7 @@ python preprocess.py <set> <var> <labeltype> <valtype>
 Options for set are: PT, JIGSAWS \
 Options for var are: velocity, orientation, all \
 Options for labeltype are: MPbaseline, MPleft, MPright, gesture \
-Options for valtype are: LOSO, LOUO 
+Options for valtype are: LOSO, LOUO \
 
 Then, to tune or train, run:
 ```
