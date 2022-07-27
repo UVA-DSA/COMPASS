@@ -7,7 +7,7 @@ Start Stop Motion Primitive
 450 459 Idle(R)
 460 479 Idle(R)
 480 609 Touch(Ball/Block/Sleeve, Post)
-610 679 Release(R, Nothing)
+610 679 Release(R, Ball/Block/Sleeve)
 680 689 Untouch(R, Ball/Block/Sleeve)
 690 929 Idle(R)
 930 939 Idle(R)

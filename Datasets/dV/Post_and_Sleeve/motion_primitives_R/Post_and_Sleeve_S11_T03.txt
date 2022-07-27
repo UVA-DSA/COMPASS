@@ -44,7 +44,7 @@ Start Stop Motion Primitive
 1980 2029 Idle(R)
 2030 2049 Idle(R)
 2050 2079 Idle(R)
-2080 2139 Release(R, Nothing)
+2080 2139 Release(R, Ball/Block/Sleeve)
 2140 2149 Untouch(R, Ball/Block/Sleeve)
 2150 2389 Idle(R)
 2390 2409 Idle(R)

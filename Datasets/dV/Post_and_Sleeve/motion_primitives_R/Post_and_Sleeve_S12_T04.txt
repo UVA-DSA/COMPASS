@@ -42,7 +42,7 @@ Start Stop Motion Primitive
 2750 2769 Idle(R)
 2770 2919 Touch(R, Ball/Block/Sleeve)
 2920 2969 Grasp(R, Ball/Block/Sleeve)
-2970 3009 Release(R, Nothing)
+2970 3009 Release(R, Ball/Block/Sleeve)
 3010 3079 Untouch(R, Ball/Block/Sleeve)
 3080 3099 Touch(R, Ball/Block/Sleeve)
 3100 3179 Grasp(R, Ball/Block/Sleeve)
