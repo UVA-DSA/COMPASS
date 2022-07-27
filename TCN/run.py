@@ -15,7 +15,7 @@ import shutil
 
 
 # Model options
-sets = ["S", "NP", "KT", "DESK", "PoaP", "PaS", "SNP", "PTPaS", "JIGSAWS", "All-5a", "All-5b",]
+sets = ["S", "NP", "KT", "PT", "PoaP", "PaS", "SNP", "PTPaS", "JIGSAWS"]
 vars = ["velocity", "orientation", "all", "vis", "vis2"]
 labeltypes = ["MPbaseline", "MPleft", "MPright", "gesture", "MPcombined", "MPexchange", "MPleftX", "MPrightX", "MPleftE", "MPrightE"]
 valtypes = ["LOSO", "LOUO"]

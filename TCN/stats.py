@@ -115,7 +115,7 @@ if __name__ == "__main__":
         tasks = allTasks
     elif set == "JIGSAWS":
         tasks = allTasks[0:3]
-    elif set == "DESK":
+    elif set == "PT":
         tasks = [allTasks[3]]
     elif set == "ROSMA":
         tasks = allTasks[4:6]
@@ -159,7 +159,7 @@ if __name__ == "__main__":
     elif (labeltype == "gestures") and (set == "KT"):
         durations = durationsG
         instances = instancesG
-    elif (labeltype == "gestures") and (set == "DESK"):
+    elif (labeltype == "gestures") and (set == "PT"):
         durations = durationsS
         instances = instancesS
     elif (labeltype == "gestures") and (set == "SNP"):

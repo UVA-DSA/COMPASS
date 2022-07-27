@@ -35,11 +35,11 @@ def processArguments(args):
     try:
         set=args[1]
         # Check if valid set
-        if set not in ["DESK", "JIGSAWS", "All-5a","All-5b", "S", "NP", "KT", "PoaP", "PaS", "SNP", "PTPaS"]: # , "ROSMA", "All"]:
-            print("Please choose set: DESK, JIGSAWS, All-5a, All-5b, S, NP, KT, PoaP, Pas, SNP, PTPaS") #, ROSMA, All")
+        if set not in ["PT", "JIGSAWS", "S", "NP", "KT", "PoaP", "PaS", "SNP", "PTPaS"]: # , "ROSMA", "All"]:
+            print("Please choose set: PT, JIGSAWS, S, NP, KT, PoaP, Pas, SNP, PTPaS") #, ROSMA, All")
             sys.exit()
     except:
-        print("Please choose set: DESK, JIGSAWS, All-5a, All-5b, S, NP, KT, PoaP, Pas, SNP, PTPaS") #, ROSMA, All")
+        print("Please choose set: PT, JIGSAWS, S, NP, KT, PoaP, Pas, SNP, PTPaS") #, ROSMA, All")
         sys.exit()
 
     # Get orientation or velocity from command line
@@ -117,24 +117,24 @@ def loadConfig(dataset_name, var, labeltype, valtype):
 
     # Kernel size is shortest average label duration based on set and label type
     # 5/9/2022 changing to dictionary look up; rounded down to an odd number based on stats.py
-    kernel_size_gesture_dict = {"DESK": 29, "JIGSAWS": 89, "S": 61, "NP": 97, "KT": 85, "SNP": 91}
-    kernel_size_MPbaseline_dict = {"DESK": 45, "JIGSAWS": 23, "All-5a": 0,\
+    kernel_size_gesture_dict = {"PT": 29, "JIGSAWS": 89, "S": 61, "NP": 97, "KT": 85, "SNP": 91}
+    kernel_size_MPbaseline_dict = {"PT": 45, "JIGSAWS": 23, "All-5a": 0,\
         "All-5b": 0, "S": 21, "NP": 23, "KT": 17, "PoaP": 19, "PaS": 25, "SNP": 23, "PTPaS": 29}
-    kernel_size_MPcombined_dict = {"DESK": 55, "JIGSAWS": 27, "All-5a": 0,\
+    kernel_size_MPcombined_dict = {"PT": 55, "JIGSAWS": 27, "All-5a": 0,\
         "All-5b": 0, "S": 25, "NP": 25, "KT": 21, "PoaP": 19, "PaS": 29, "SNP": 25, "PTPaS": 0}
-    kernel_size_MPexchange_dict = {"DESK": 0, "JIGSAWS": 31, "All-5a": 0,\
+    kernel_size_MPexchange_dict = {"PT": 0, "JIGSAWS": 31, "All-5a": 0,\
         "All-5b": 0, "S": 35, "NP": 25, "KT": 21, "PoaP": 0, "PaS": 0, "SNP": 33, "PTPaS": 0}
-    kernel_size_MPleft_dict = {"DESK": 43, "JIGSAWS": 31, "All-5a": 0,\
+    kernel_size_MPleft_dict = {"PT": 43, "JIGSAWS": 31, "All-5a": 0,\
         "All-5b": 0, "S": 25, "NP": 17, "KT": 13, "PoaP": 17, "PaS": 25, "SNP": 25, "PTPaS": 29}
-    kernel_size_MPright_dict = {"DESK": 43, "JIGSAWS": 29, "All-5a": 0,\
+    kernel_size_MPright_dict = {"PT": 43, "JIGSAWS": 29, "All-5a": 0,\
         "All-5b": 0, "S": 19, "NP": 15, "KT": 21, "PoaP": 21, "PaS": 25, "SNP": 23, "PTPaS": 31}
-    kernel_size_MPleftX_dict = {"DESK": 0, "JIGSAWS": 31, "All-5a": 0,\
+    kernel_size_MPleftX_dict = {"PT": 0, "JIGSAWS": 31, "All-5a": 0,\
         "All-5b": 0, "S": 31, "NP": 21, "KT": 17, "PoaP": 0, "PaS": 0, "SNP": 31, "PTPaS": 0}
-    kernel_size_MPrightX_dict = {"DESK": 0, "JIGSAWS": 29, "All-5a": 0,\
+    kernel_size_MPrightX_dict = {"PT": 0, "JIGSAWS": 29, "All-5a": 0,\
         "All-5b": 0, "S": 25, "NP": 15, "KT": 25, "PoaP": 0, "PaS": 0, "SNP": 31, "PTPaS": 0}
-    kernel_size_MPleftE_dict = {"DESK": 0, "JIGSAWS": 31, "All-5a": 0,\
+    kernel_size_MPleftE_dict = {"PT": 0, "JIGSAWS": 31, "All-5a": 0,\
         "All-5b": 0, "S": 27, "NP": 19, "KT": 17, "PoaP": 0, "PaS": 0, "SNP": 29, "PTPaS": 0}
-    kernel_size_MPrightE_dict = {"DESK": 0, "JIGSAWS": 29, "All-5a": 0,\
+    kernel_size_MPrightE_dict = {"PT": 0, "JIGSAWS": 29, "All-5a": 0,\
         "All-5b": 0, "S": 27, "NP": 21, "KT": 25, "PoaP": 0, "PaS": 0, "SNP": 29, "PTPaS": 0}
     kernel_size_dict = {"gesture": kernel_size_gesture_dict, "MPbaseline": kernel_size_MPbaseline_dict, \
         "MPcombined": kernel_size_MPcombined_dict, "MPexchange": kernel_size_MPexchange_dict, \
@@ -157,24 +157,24 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     # Number of label classes
     # 5/9/2022 updating to dictionary look up
     # Determined using stats.py
-    gesture_class_num_gesture_dict = {"DESK": 7, "JIGSAWS": 14, "S": 10, "NP": 10, "KT": 6, "SNP": 10}
-    gesture_class_num_MPbaseline_dict = {"DESK": 4, "JIGSAWS": 6, "All-5a": 0,\
+    gesture_class_num_gesture_dict = {"PT": 7, "JIGSAWS": 14, "S": 10, "NP": 10, "KT": 6, "SNP": 10}
+    gesture_class_num_MPbaseline_dict = {"PT": 4, "JIGSAWS": 6, "All-5a": 0,\
         "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 6, "PaS": 4, "SNP": 6, "PTPaS": 4}
-    gesture_class_num_MPcombined_dict = {"DESK": 4, "JIGSAWS": 6, "All-5a": 0,\
+    gesture_class_num_MPcombined_dict = {"PT": 4, "JIGSAWS": 6, "All-5a": 0,\
         "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 6, "PaS": 4, "SNP": 6, "PTPaS": 0}
-    gesture_class_num_MPexchange_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
+    gesture_class_num_MPexchange_dict = {"PT": 0, "JIGSAWS": 7, "All-5a": 0,\
         "All-5b": 0, "S": 7, "NP": 7, "KT": 6, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
-    gesture_class_num_MPleft_dict = {"DESK": 5, "JIGSAWS": 7, "All-5a": 0,\
+    gesture_class_num_MPleft_dict = {"PT": 5, "JIGSAWS": 7, "All-5a": 0,\
         "All-5b": 0, "S": 7, "NP": 6, "KT": 6, "PoaP": 6, "PaS": 5, "SNP": 7, "PTPaS": 5}
-    gesture_class_num_MPright_dict = {"DESK": 5, "JIGSAWS": 7, "All-5a": 0,\
+    gesture_class_num_MPright_dict = {"PT": 5, "JIGSAWS": 7, "All-5a": 0,\
         "All-5b": 0, "S": 7, "NP": 7, "KT": 6, "PoaP": 7, "PaS": 5, "SNP": 7, "PTPaS": 5}
-    gesture_class_num_MPleftX_dict = {"DESK": 0, "JIGSAWS": 8, "All-5a": 0,\
+    gesture_class_num_MPleftX_dict = {"PT": 0, "JIGSAWS": 8, "All-5a": 0,\
         "All-5b": 0, "S": 8, "NP": 7, "KT": 7, "PoaP": 0, "PaS": 0, "SNP": 8, "PTPaS": 0}
-    gesture_class_num_MPrightX_dict = {"DESK": 0, "JIGSAWS": 8, "All-5a": 0,\
+    gesture_class_num_MPrightX_dict = {"PT": 0, "JIGSAWS": 8, "All-5a": 0,\
         "All-5b": 0, "S": 8, "NP": 8, "KT": 7, "PoaP": 0, "PaS": 0, "SNP": 8, "PTPaS": 0}
-    gesture_class_num_MPleftE_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
+    gesture_class_num_MPleftE_dict = {"PT": 0, "JIGSAWS": 7, "All-5a": 0,\
         "All-5b": 0, "S": 3, "NP": 4, "KT": 4, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
-    gesture_class_num_MPrightE_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
+    gesture_class_num_MPrightE_dict = {"PT": 0, "JIGSAWS": 7, "All-5a": 0,\
         "All-5b": 0, "S": 6, "NP": 7, "KT": 5, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
     gesture_class_num_dict = {"gesture": gesture_class_num_gesture_dict, "MPbaseline": gesture_class_num_MPbaseline_dict, \
         "MPcombined": gesture_class_num_MPcombined_dict, "MPexchange": gesture_class_num_MPexchange_dict,\
@@ -226,7 +226,7 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
     all_params["experiment_setup"]["val_type"] = valtype
     # Sets for cross validation
     if valtype == "LOSO":
-        if dataset_name == "DESK":
+        if dataset_name == "PT":
             all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6]
             all_params[dataset_name]["train_trial"] = [[2,3,4,5,6],[1,3,4,5,6],[1,2,4,5,6],[1,2,3,5,6],[1,2,3,4,6],[1,2,3,4,5]]
             all_params[dataset_name]["validation_trial"] = 1
@@ -262,7 +262,7 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
 
 
     elif valtype == "LOUO":
-        if dataset_name == "DESK":
+        if dataset_name == "PT":
             all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6,7,8]
             all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
             all_params[dataset_name]["validation_trial"] = 1
@@ -604,7 +604,7 @@ def preprocess(set, var, labeltype, raw_feature_dir):
             # For each line in the label transcript, get start frame, end frame,
             # and gesture label
             for i in range(tg.shape[0]):
-                if (set == "DESK") and (labeltype == "gesture"):
+                if (set == "PT") and (labeltype == "gesture"):
                     start_ = int(tg.iloc[i,0])
                     end_ = int(tg.iloc[i,1])
                     label = tg.iloc[i,2]

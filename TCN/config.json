@@ -327,8 +327,8 @@
             8
         ]
     },
-    "DESK": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/DESK/DESK_TRANSFORM_velocity_MPright.pkl",
+    "PT": {
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/PT/PT_TRANSFORM_velocity_MPright.pkl",
         "gesture_class_num": 5,
         "input_size": 14,
         "locs": [
