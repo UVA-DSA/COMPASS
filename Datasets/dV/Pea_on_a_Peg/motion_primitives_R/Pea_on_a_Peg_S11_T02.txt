@@ -5,7 +5,7 @@ Start Stop Motion Primitive
 270 309 Touch(Ball/Block/Sleeve, Peg)
 310 319 Untouch(Ball/Block/Sleeve, Peg)
 320 329 Touch(Ball/Block/Sleeve, Peg)
-330 359 Release(R, Nothing)
+330 359 Release(R, Ball/Block/Sleeve)
 360 369 Untouch(R, Ball/Block/Sleeve)
 370 399 Touch(R, Ball/Block/Sleeve)
 400 429 Untouch(R, Ball/Block/Sleeve)
