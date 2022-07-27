@@ -1,7 +1,7 @@
 To do: Add code and instructions for using TCN model. \
 Check for file path errors \
 Replace All_5a and All_5b with a new All that uses LOUO_multi cross_val \
-Add ROSMA option for training models with data from PoaP and PaS \
+Add ROSMA option for training models with data from PoaP and PaS
 
 
 
