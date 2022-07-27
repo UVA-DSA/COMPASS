@@ -28,7 +28,7 @@ import pickle
 #from calculate_mean_cv import analyze
 
 # for parameter tuning LSTM/TCN
-from utils import get_cross_val_splits, get_cross_val_splits_LOUO
+from utils import get_cross_val_splits, get_cross_val_splits_LOUO, get_cross_val_splits_LOUO_multi
 import ray
 from ray import tune
 from tcn_model import EncoderDecoderNet
@@ -124,7 +124,7 @@ def train_model(config,type,train_dataset,val_dataset,input_size, num_class,num_
             if not os.path.exists(trained_model_file):
                 os.makedirs(trained_model_file, exist_ok=True)
             file_dir = os.path.join(trained_model_file,"checkpoint_{}.pth".format(epoch))
-            torch.save(model.state_dict(), file_dir)
+            #torch.save(model.state_dict(), file_dir)  # 7/22/22 turned off saving to save memory
 
         if log_dir is not None:
             if not os.path.exists(log_dir):
@@ -523,6 +523,9 @@ def cross_validate(dataset_name,net_name, logDir):
     print("Getting cross validation splits")
     if valtype == "LOSO":
         cross_val_splits = utils.get_cross_val_splits()
+    elif (dataset_name == "SNP" or dataset_name == "PTPaS") and (valtype == "LOUO"):
+        print("Using LOUO with separate folds for each task_subject")
+        cross_val_splits = utils.get_cross_val_splits_LOUO_multi()
     elif valtype == "LOUO":
         cross_val_splits = utils.get_cross_val_splits_LOUO()
 

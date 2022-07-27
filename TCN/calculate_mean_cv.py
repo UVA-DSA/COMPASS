@@ -19,7 +19,7 @@ import glob
 
 # Calculate average metrics in each fold's train_test_results.csv given a path to a model's results folder,
 def analyze(modelpath):
-    print("Starting analysis")
+    #print("Starting analysis")
 
     modelpath = os.path.join(modelpath, "tcn")
     tests = os.listdir(modelpath)
@@ -30,7 +30,7 @@ def analyze(modelpath):
     for test in tests:
         # Path to log files
         path =  os.path.join(modelpath, test, "log/train_test_result.csv")
-        #print(path)
+        print(path)
 
         # Read CSV
         tb=pd.read_csv(path)
@@ -45,7 +45,7 @@ def analyze(modelpath):
         tb['v_f_scores_50'].rolling(window=5).mean().iloc[-1], \
         tb['v_f_scores_75'].rolling(window=5).mean().iloc[-1]]
         result.append(vals)
-        #print(vals)
+        print(vals)
 
 
     result = np.array(result)
@@ -99,17 +99,37 @@ if __name__ == "__main__":
 
     # Set up paths and directories
     dir = os.getcwd()
-    resultsDir = os.path.join(dir, "Results", "results_03_03_22_5ab_ROSMA")
+    resultsDir = os.path.join(dir, "Results") #, "results_07_26_2022_fixedMPhypparams") #, "results_07_25_2022_fixedgesturehypparams")  #, "results_03_04_22")
     resultsList = os.listdir(resultsDir)
+
+
+    resultsdF = pd.DataFrame(columns = ["Data", "Variables", "Labels", "Cross Val", "Accuracy", "Edit Score"])
+    print(resultsdF)
 
     # Find folders containing "tcn" folder from training
     for r in resultsList:
-        resultpath = os.path.join(resultsDir, r)
-        # If tcn folder found, run analysis
-        if "tcn" in os.listdir(resultpath):
-            print(r)
-            results = analyze(resultpath)
-            print(results[0:2])
+        try:
+            resultpath = os.path.join(resultsDir, r)
+            # If tcn folder found, run analysis
+            if "tcn" in os.listdir(resultpath):
+                print(r)
+                results = analyze(resultpath)
+                print(results[0:2])
+                name = r.split("_")
+                data = name[0]
+                vars = name[1]
+                labels = name[2]
+                crossval = name[3]
+                acc = results[0]
+                es = results[1]
+                newresult = {"Data": data, "Variables": vars, "Labels": labels, "Cross Val": crossval, "Accuracy": acc, "Edit Score": es}
+                resultsdF = resultsdF.append(newresult, ignore_index=True)
+                print("\n")
+        except:
+            print("Failed: " + r + "\n")
+    print(resultsdF)
+    resultCSV = os.path.join(resultsDir, "summary.csv")
+    resultsdF.to_csv(resultCSV, sep="\t", index=False)
     #sys.exit()
 
     #analyze(path)
