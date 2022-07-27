@@ -111,6 +111,17 @@ if __name__ == "__main__":
     # and sets up the training data and pkl files for this tuning
 
 
+    # 7/22/22 By-passing tuning and using hyperparameter values determined
+    # using a gridsearch for learning_rate and weight_decay on
+    # JIGSAWS gesture velocity LOSO/LOUO
+    # hardcode batch_size=1 and epoch=60
+    if valtype == "LOSO":
+        updateJSONtcnparams(set, 1, 60, 0.00005, 0.01) # based on JIGSAWS gesture velocity LOSO
+        #updateJSONtcnparams(set, 1, 60, 0.0001, 0.0001)  # based on JIGSAWS MPbaseline velocity LOSO
+    elif valtype == "LOUO":
+        updateJSONtcnparams(set, 1, 60, 0.00005, 0.0005) # based on JIGSAWS gesture velocity LOUO
+        #updateJSONtcnparams(set, 1, 60, 0.0001, 0.001) # based on JIGSAWS MPbaseline velocity LOUO
+    '''
     # Number of CPU and GPU resources are hard coded in main_tcn, make
     # sure to change if running on a different computer
     # First, tune learning rate, batch size, and weight decay
@@ -123,3 +134,4 @@ if __name__ == "__main__":
 
     # Then, pass returned config to next tuning loop to tune number of epochs
     tuneParams(rate, size, decay, num_samples=1, max_num_epochs=60)
+    '''

@@ -14,8 +14,7 @@ from __future__ import print_function
 # combined is [Touch,Grasp] -> Grasp and [Release,Untouch] -> Release combined
 # left and right are the combined transcript but split by relevant side and
 #     filled in with Idle(*) for that hand
-# TO DO:
-# add different MP paths to combined, left, and right
+
 
 import glob
 import sys
@@ -58,11 +57,11 @@ def processArguments(args):
     try:
         labeltype = args[3]
         # Check if valid labeltype
-        if labeltype not in ["gesture", "MPbaseline", "MPcombined", "MPexchange", "MPleft", "MPright", "MPleftX", "MPrightX"]:
-            print("Please choose label type: gesture MPbaseline MPcombined MPexchange MPleft MPright MPleftX MPrightX")
+        if labeltype not in ["gesture", "MPbaseline", "MPcombined", "MPexchange", "MPleft", "MPright", "MPleftX", "MPrightX", "MPleftE", "MPrightE"]:
+            print("Please choose label type: gesture MPbaseline MPcombined MPexchange MPleft MPright MPleftX MPrightX MPleftE MPrightE")
             sys.exit()
     except:
-        print("Please choose label type: gesture MPbaseline MPcombined MPexchange MPleft MPright MPleftX MPrightX")
+        print("Please choose label type: gesture MPbaseline MPcombined MPexchange MPleft MPright MPleftX MPrightX MPleftE MPrightE")
         sys.exit()
 
     # Get LOSO or LOUO from command line
@@ -106,8 +105,10 @@ def loadConfig(dataset_name, var, labeltype, valtype):
         input_size = 20
     elif (var == "vis") and (dataset_name == "KT"):
         input_size = 18
+    elif (var == "vis2") and (dataset_name == "S"):
+        input_size = 30
     elif (var == "vis2") and (dataset_name == "NP"):
-        input_size = 28
+        input_size = 38
     elif (var == "vis2") and (dataset_name == "KT"):
         input_size = 58  # fill in, same as vis right now
     else:
@@ -116,25 +117,30 @@ def loadConfig(dataset_name, var, labeltype, valtype):
 
     # Kernel size is shortest average label duration based on set and label type
     # 5/9/2022 changing to dictionary look up; rounded down to an odd number based on stats.py
-    kernel_size_gesture_dict = {"DESK": 29, "JIGSAWS": 89, "S": 61, "NP": 97, "KT": 85}
-    kernel_size_MPbaseline_dict = {"DESK": 0, "JIGSAWS": 23, "All-5a": 0,\
-        "All-5b": 0, "S": 21, "NP": 23, "KT": 17, "PoaP": 0, "PaS": 0, "SNP": 23, "PTPaS": 0}
-    kernel_size_MPcombined_dict = {"DESK": 0, "JIGSAWS": 27, "All-5a": 0,\
-        "All-5b": 0, "S": 25, "NP": 25, "KT": 21, "PoaP": 0, "PaS": 0, "SNP": 25, "PTPaS": 0}
+    kernel_size_gesture_dict = {"DESK": 29, "JIGSAWS": 89, "S": 61, "NP": 97, "KT": 85, "SNP": 91}
+    kernel_size_MPbaseline_dict = {"DESK": 45, "JIGSAWS": 23, "All-5a": 0,\
+        "All-5b": 0, "S": 21, "NP": 23, "KT": 17, "PoaP": 19, "PaS": 25, "SNP": 23, "PTPaS": 29}
+    kernel_size_MPcombined_dict = {"DESK": 55, "JIGSAWS": 27, "All-5a": 0,\
+        "All-5b": 0, "S": 25, "NP": 25, "KT": 21, "PoaP": 19, "PaS": 29, "SNP": 25, "PTPaS": 0}
     kernel_size_MPexchange_dict = {"DESK": 0, "JIGSAWS": 31, "All-5a": 0,\
         "All-5b": 0, "S": 35, "NP": 25, "KT": 21, "PoaP": 0, "PaS": 0, "SNP": 33, "PTPaS": 0}
-    kernel_size_MPleft_dict = {"DESK": 0, "JIGSAWS": 31, "All-5a": 0,\
-        "All-5b": 0, "S": 27, "NP": 19, "KT": 17, "PoaP": 0, "PaS": 0, "SNP": 29, "PTPaS": 0}
-    kernel_size_MPright_dict = {"DESK": 0, "JIGSAWS": 29, "All-5a": 0,\
-        "All-5b": 0, "S": 27, "NP": 15, "KT": 25, "PoaP": 0, "PaS": 0, "SNP": 29, "PTPaS": 0}
+    kernel_size_MPleft_dict = {"DESK": 43, "JIGSAWS": 31, "All-5a": 0,\
+        "All-5b": 0, "S": 25, "NP": 17, "KT": 13, "PoaP": 17, "PaS": 25, "SNP": 25, "PTPaS": 29}
+    kernel_size_MPright_dict = {"DESK": 43, "JIGSAWS": 29, "All-5a": 0,\
+        "All-5b": 0, "S": 19, "NP": 15, "KT": 21, "PoaP": 21, "PaS": 25, "SNP": 23, "PTPaS": 31}
     kernel_size_MPleftX_dict = {"DESK": 0, "JIGSAWS": 31, "All-5a": 0,\
         "All-5b": 0, "S": 31, "NP": 21, "KT": 17, "PoaP": 0, "PaS": 0, "SNP": 31, "PTPaS": 0}
     kernel_size_MPrightX_dict = {"DESK": 0, "JIGSAWS": 29, "All-5a": 0,\
         "All-5b": 0, "S": 25, "NP": 15, "KT": 25, "PoaP": 0, "PaS": 0, "SNP": 31, "PTPaS": 0}
+    kernel_size_MPleftE_dict = {"DESK": 0, "JIGSAWS": 31, "All-5a": 0,\
+        "All-5b": 0, "S": 27, "NP": 19, "KT": 17, "PoaP": 0, "PaS": 0, "SNP": 29, "PTPaS": 0}
+    kernel_size_MPrightE_dict = {"DESK": 0, "JIGSAWS": 29, "All-5a": 0,\
+        "All-5b": 0, "S": 27, "NP": 21, "KT": 25, "PoaP": 0, "PaS": 0, "SNP": 29, "PTPaS": 0}
     kernel_size_dict = {"gesture": kernel_size_gesture_dict, "MPbaseline": kernel_size_MPbaseline_dict, \
         "MPcombined": kernel_size_MPcombined_dict, "MPexchange": kernel_size_MPexchange_dict, \
         "MPleft": kernel_size_MPleft_dict, "MPright": kernel_size_MPright_dict, \
-        "MPleftX": kernel_size_MPleftX_dict, "MPrightX": kernel_size_MPrightX_dict}
+        "MPleftX": kernel_size_MPleftX_dict, "MPrightX": kernel_size_MPrightX_dict, \
+        "MPleftE": kernel_size_MPleftE_dict, "MPrightE": kernel_size_MPrightE_dict}
 
     # Get kernel_size
     kernel_size = kernel_size_dict[labeltype][dataset_name]
@@ -151,25 +157,30 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     # Number of label classes
     # 5/9/2022 updating to dictionary look up
     # Determined using stats.py
-    gesture_class_num_gesture_dict = {"DESK": 7, "JIGSAWS": 14, "S": 10, "NP": 10, "KT": 6}
-    gesture_class_num_MPbaseline_dict = {"DESK": 0, "JIGSAWS": 6, "All-5a": 0,\
-        "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 0, "PaS": 0, "SNP": 6, "PTPaS": 0}
-    gesture_class_num_MPcombined_dict = {"DESK": 0, "JIGSAWS": 6, "All-5a": 0,\
-        "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 0, "PaS": 0, "SNP": 6, "PTPaS": 0}
+    gesture_class_num_gesture_dict = {"DESK": 7, "JIGSAWS": 14, "S": 10, "NP": 10, "KT": 6, "SNP": 10}
+    gesture_class_num_MPbaseline_dict = {"DESK": 4, "JIGSAWS": 6, "All-5a": 0,\
+        "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 6, "PaS": 4, "SNP": 6, "PTPaS": 4}
+    gesture_class_num_MPcombined_dict = {"DESK": 4, "JIGSAWS": 6, "All-5a": 0,\
+        "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 6, "PaS": 4, "SNP": 6, "PTPaS": 0}
     gesture_class_num_MPexchange_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
         "All-5b": 0, "S": 7, "NP": 7, "KT": 6, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
-    gesture_class_num_MPleft_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
-        "All-5b": 0, "S": 7, "NP": 6, "KT": 6, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
-    gesture_class_num_MPright_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
-        "All-5b": 0, "S": 7, "NP": 7, "KT": 6, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
+    gesture_class_num_MPleft_dict = {"DESK": 5, "JIGSAWS": 7, "All-5a": 0,\
+        "All-5b": 0, "S": 7, "NP": 6, "KT": 6, "PoaP": 6, "PaS": 5, "SNP": 7, "PTPaS": 5}
+    gesture_class_num_MPright_dict = {"DESK": 5, "JIGSAWS": 7, "All-5a": 0,\
+        "All-5b": 0, "S": 7, "NP": 7, "KT": 6, "PoaP": 7, "PaS": 5, "SNP": 7, "PTPaS": 5}
     gesture_class_num_MPleftX_dict = {"DESK": 0, "JIGSAWS": 8, "All-5a": 0,\
         "All-5b": 0, "S": 8, "NP": 7, "KT": 7, "PoaP": 0, "PaS": 0, "SNP": 8, "PTPaS": 0}
     gesture_class_num_MPrightX_dict = {"DESK": 0, "JIGSAWS": 8, "All-5a": 0,\
         "All-5b": 0, "S": 8, "NP": 8, "KT": 7, "PoaP": 0, "PaS": 0, "SNP": 8, "PTPaS": 0}
+    gesture_class_num_MPleftE_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
+        "All-5b": 0, "S": 3, "NP": 4, "KT": 4, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
+    gesture_class_num_MPrightE_dict = {"DESK": 0, "JIGSAWS": 7, "All-5a": 0,\
+        "All-5b": 0, "S": 6, "NP": 7, "KT": 5, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
     gesture_class_num_dict = {"gesture": gesture_class_num_gesture_dict, "MPbaseline": gesture_class_num_MPbaseline_dict, \
         "MPcombined": gesture_class_num_MPcombined_dict, "MPexchange": gesture_class_num_MPexchange_dict,\
         "MPleft": gesture_class_num_MPleft_dict, "MPright": gesture_class_num_MPright_dict, \
-        "MPleftX": gesture_class_num_MPleftX_dict, "MPrightX": gesture_class_num_MPrightX_dict}
+        "MPleftX": gesture_class_num_MPleftX_dict, "MPrightX": gesture_class_num_MPrightX_dict, \
+        "MPleftE": gesture_class_num_MPleftE_dict, "MPrightE": gesture_class_num_MPrightE_dict}
 
     # Get gesture_class_num
     gesture_class_num = gesture_class_num_dict[labeltype][dataset_name]
@@ -257,8 +268,14 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["validation_trial"] = 1
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
 
-        elif dataset_name  in ["JIGSAWS", "S", "NP", "KT", "SNP"]:
+        elif dataset_name  in ["JIGSAWS", "S", "NP", "KT"]:
             all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
+            all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
+            all_params[dataset_name]["validation_trial"] = 2
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
+
+        elif dataset_name  == "SNP":
+            all_params[dataset_name]["test_trial"] = ["Suturing_S02","Suturing_S03","Suturing_S04","Suturing_S05","Suturing_S06","Suturing_S07","Suturing_S08","Suturing_S09","Needle_Passing_S02","Needle_Passing_S03","Needle_Passing_S04","Needle_Passing_S05","Needle_Passing_S06","Needle_Passing_S08","Needle_Passing_S09"]
             all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
             all_params[dataset_name]["validation_trial"] = 2
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
@@ -282,8 +299,8 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9,10,11,12]
 
         elif dataset_name == "PTPaS":
-            print("test/train/val splits not defined yet")
-            sys.exit()
+            all_params[dataset_name]["test_trial"] = ["Peg_Transfer_S01","Peg_Transfer_S02","Peg_Transfer_S03","Peg_Transfer_S04","Peg_Transfer_S05","Peg_Transfer_S06","Peg_Transfer_S07","Peg_Transfer_S08","Post_and_Sleeve_S01","Post_and_Sleeve_S02","Post_and_Sleeve_S03","Post_and_Sleeve_S04","Post_and_Sleeve_S05","Post_and_Sleeve_S06","Post_and_Sleeve_S07","Post_and_Sleeve_S08","Post_and_Sleeve_S09","Post_and_Sleeve_S10","Post_and_Sleeve_S11","Post_and_Sleeve_S12"]
+
 
 
     # Update tcn params
@@ -340,6 +357,16 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
                 "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
                 "PSMR_gripper_angle", \
                 "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y"]
+    elif (var == "vis2") and (dataset_name == "S"):
+        LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                "PSML_gripper_angle", \
+                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                "PSMR_gripper_angle", \
+                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", "Needle_X", "Needle_Y", \
+                "Thread_1_X", "Thread_1_Y", "Thread_2_X", "Thread_2_Y", "Thread_3_X", "Thread_3_Y", \
+                "Thread_4_X", "Thread_4_Y", "Thread_5_X", "Thread_5_Y"]
     elif (var == "vis2") and (dataset_name == "NP"):
         LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z",\
                 "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
@@ -348,7 +375,9 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
                 "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
                 "PSMR_gripper_angle", \
                 "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", "Needle_X", "Needle_Y", \
-                "R_4_X", "R_4_Y", "R_5_X", "R_5_Y", "R_6_X", "R_6_Y", "R_7_X", "R_7_Y"]
+                "R_4_X", "R_4_Y", "R_5_X", "R_5_Y", "R_6_X", "R_6_Y", "R_7_X", "R_7_Y", \
+                "Thread_1_X", "Thread_1_Y", "Thread_2_X", "Thread_2_Y", "Thread_3_X", "Thread_3_Y", \
+                "Thread_4_X", "Thread_4_Y", "Thread_5_X", "Thread_5_Y"]
     elif (var == "vis2") and (dataset_name == "KT"):
         LOCS=[  "PSML_position_x", "PSML_position_y", "PSML_position_z",\
                 "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
@@ -416,6 +445,10 @@ def preprocess(set, var, labeltype, raw_feature_dir):
             ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_LX/*"))
         elif labeltype == "MPrightX":
             ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_RX/*"))
+        elif labeltype == "MPleftE":
+            ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_LE/*"))
+        elif labeltype == "MPrightE":
+            ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"motion_primitives_RE/*"))
         elif labeltype == "gesture":
             ges_dir_all=glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"gestures/*"))
         else:
@@ -452,6 +485,10 @@ def preprocess(set, var, labeltype, raw_feature_dir):
                 kin_dir = ges_dir.replace("motion_primitives_LX", "velkinematics").replace(".txt", ".csv")
             elif labeltype == "MPrightX":
                 kin_dir = ges_dir.replace("motion_primitives_RX", "velkinematics").replace(".txt", ".csv")
+            elif labeltype == "MPleftE":
+                kin_dir = ges_dir.replace("motion_primitives_LE", "velkinematics").replace(".txt", ".csv")
+            elif labeltype == "MPrightE":
+                kin_dir = ges_dir.replace("motion_primitives_RE", "velkinematics").replace(".txt", ".csv")
             elif labeltype == "gesture":
                 kin_dir = ges_dir.replace("gestures", "velkinematics").replace(".txt", ".csv")
 
@@ -514,6 +551,16 @@ def preprocess(set, var, labeltype, raw_feature_dir):
                                 "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
                                 "PSMR_gripper_angle", \
                                 "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y"]]
+            elif (var == "vis2") and (set == "S"):
+                tb = tb.loc[:, ["PSML_position_x", "PSML_position_y", "PSML_position_z",\
+                                "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
+                                "PSML_gripper_angle", \
+                                "PSMR_position_x", "PSMR_position_y", "PSMR_position_z",\
+                                "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
+                                "PSMR_gripper_angle", \
+                                "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", "Needle_X", "Needle_Y", \
+                                "Thread_1_X", "Thread_1_Y", "Thread_2_X", "Thread_2_Y", "Thread_3_X", "Thread_3_Y", \
+                                "Thread_4_X", "Thread_4_Y", "Thread_5_X", "Thread_5_Y"]]
             elif (var == "vis2") and (set == "NP"):
                 tb = tb.loc[:, ["PSML_position_x", "PSML_position_y", "PSML_position_z",\
                                 "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
@@ -522,7 +569,9 @@ def preprocess(set, var, labeltype, raw_feature_dir):
                                 "PSMR_velocity_x","PSMR_velocity_y","PSMR_velocity_z", \
                                 "PSMR_gripper_angle", \
                                 "L_Gripper_X", "L_Gripper_Y", "R_Gripper_X", "R_Gripper_Y", "Needle_X", "Needle_Y", \
-                                "R_4_X", "R_4_Y", "R_5_X", "R_5_Y", "R_6_X", "R_6_Y", "R_7_X", "R_7_Y"]]
+                                "R_4_X", "R_4_Y", "R_5_X", "R_5_Y", "R_6_X", "R_6_Y", "R_7_X", "R_7_Y", \
+                                "Thread_1_X", "Thread_1_Y", "Thread_2_X", "Thread_2_Y", "Thread_3_X", "Thread_3_Y", \
+                                "Thread_4_X", "Thread_4_Y", "Thread_5_X", "Thread_5_Y"]]
             elif (var == "vis2") and (set == "KT"):
                 tb = tb.loc[:, ["PSML_position_x", "PSML_position_y", "PSML_position_z",\
                                 "PSML_velocity_x","PSML_velocity_y","PSML_velocity_z", \
@@ -560,7 +609,7 @@ def preprocess(set, var, labeltype, raw_feature_dir):
                     end_ = int(tg.iloc[i,1])
                     label = tg.iloc[i,2]
                     #gesture = label
-                elif (set in ["JIGSAWS", "S", "NP", "KT"]) and (labeltype == 'gesture'):
+                elif (set in ["JIGSAWS", "S", "NP", "KT", "SNP"]) and (labeltype == 'gesture'):
                     start_ = int(tg.iloc[i,0])
                     end_ = int(tg.iloc[i,1])
                     label = tg.iloc[i,2]

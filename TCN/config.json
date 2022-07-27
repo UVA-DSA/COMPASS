@@ -1,6 +1,6 @@
 {
     "All-5a": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/All-5a/All-5a_TRANSFORM_velocity_MP.pkl",
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/All-5a/All-5a_TRANSFORM_velocity_MP.pkl",
         "gesture_class_num": 6,
         "input_size": 14,
         "locs": [
@@ -20,12 +20,12 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Pea_on_a_Peg/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Post_and_Sleeve/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Peg_Transfer/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Needle_Passing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Knot_Tying/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Pea_on_a_Peg/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Post_and_Sleeve/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -164,7 +164,7 @@
         ]
     },
     "All-5b": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/All-5b/All-5b_TRANSFORM_velocity_MP.pkl",
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/All-5b/All-5b_TRANSFORM_velocity_MP.pkl",
         "gesture_class_num": 6,
         "input_size": 14,
         "locs": [
@@ -184,12 +184,12 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Pea_on_a_Peg/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Post_and_Sleeve/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Peg_Transfer/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Needle_Passing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Knot_Tying/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Pea_on_a_Peg/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Post_and_Sleeve/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -328,8 +328,8 @@
         ]
     },
     "DESK": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/DESK/DESK_TRANSFORM_velocity_MP.pkl",
-        "gesture_class_num": 4,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/DESK/DESK_TRANSFORM_velocity_MPright.pkl",
+        "gesture_class_num": 5,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -348,21 +348,21 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Peg_Transfer/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
                 "epoch": 60,
-                "learning_rate": 0.00020636627601312228,
-                "weight_decay": 0.0005133502533711807
+                "learning_rate": 5e-05,
+                "weight_decay": 0.0005
             },
             "model_params": {
-                "class_num": 4,
+                "class_num": 5,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 45,
+                    "kernel_size": 43,
                     "layer_sizes": [
                         96,
                         64,
@@ -374,7 +374,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 45,
+                    "kernel_size": 43,
                     "layer_sizes": [
                         64,
                         96,
@@ -397,7 +397,9 @@
             3,
             4,
             5,
-            6
+            6,
+            7,
+            8
         ],
         "train_trial": [
             [
@@ -405,42 +407,72 @@
                 3,
                 4,
                 5,
-                6
+                6,
+                7,
+                8
             ],
             [
                 1,
                 3,
                 4,
                 5,
-                6
+                6,
+                7,
+                8
             ],
             [
                 1,
                 2,
                 4,
                 5,
-                6
+                6,
+                7,
+                8
             ],
             [
                 1,
                 2,
                 3,
                 5,
-                6
+                6,
+                7,
+                8
             ],
             [
                 1,
                 2,
                 3,
                 4,
-                6
+                6,
+                7,
+                8
             ],
             [
                 1,
                 2,
                 3,
                 4,
-                5
+                5,
+                7,
+                8
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                8
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
             ]
         ],
         "validation_trial": 1,
@@ -449,11 +481,13 @@
             3,
             4,
             5,
-            6
+            6,
+            7,
+            8
         ]
     },
     "JIGSAWS": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MPbaseline.pkl",
         "gesture_class_num": 6,
         "input_size": 14,
         "locs": [
@@ -473,17 +507,17 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Needle_Passing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Knot_Tying/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
                 "epoch": 60,
-                "learning_rate": 0.00014888519562090418,
-                "weight_decay": 0.00016753428662299148
+                "learning_rate": 0.0005,
+                "weight_decay": 0.001
             },
             "model_params": {
                 "class_num": 6,
@@ -519,42 +553,87 @@
             }
         },
         "test_trial": [
-            1,
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
         ],
         "train_trial": [
             [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
                 2,
                 3,
                 4,
-                5
+                6,
+                7,
+                8,
+                9
             ],
             [
-                1,
+                2,
                 3,
                 4,
-                5
+                5,
+                7,
+                8,
+                9
             ],
             [
-                1,
                 2,
+                3,
                 4,
-                5
+                5,
+                6,
+                8,
+                9
             ],
             [
-                1,
                 2,
                 3,
-                5
+                4,
+                5,
+                6,
+                7,
+                9
             ],
             [
-                1,
                 2,
                 3,
-                4
+                4,
+                5,
+                6,
+                7,
+                8
             ]
         ],
         "validation_trial": 2,
@@ -562,11 +641,15 @@
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
         ]
     },
     "KT": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/KT/KT_TRANSFORM_velocity_MPright.pkl",
         "gesture_class_num": 6,
         "input_size": 14,
         "locs": [
@@ -586,21 +669,21 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Knot_Tying/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Knot_Tying/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
                 "epoch": 60,
-                "learning_rate": 0.00014888519562090418,
-                "weight_decay": 0.00016753428662299148
+                "learning_rate": 5e-05,
+                "weight_decay": 0.0005
             },
             "model_params": {
                 "class_num": 6,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 23,
+                    "kernel_size": 21,
                     "layer_sizes": [
                         96,
                         64,
@@ -612,7 +695,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 23,
+                    "kernel_size": 21,
                     "layer_sizes": [
                         64,
                         96,
@@ -630,42 +713,87 @@
             }
         },
         "test_trial": [
-            1,
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
         ],
         "train_trial": [
             [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
                 2,
                 3,
                 4,
-                5
+                6,
+                7,
+                8,
+                9
             ],
             [
-                1,
+                2,
                 3,
                 4,
-                5
+                5,
+                7,
+                8,
+                9
             ],
             [
-                1,
                 2,
+                3,
                 4,
-                5
+                5,
+                6,
+                8,
+                9
             ],
             [
-                1,
                 2,
                 3,
-                5
+                4,
+                5,
+                6,
+                7,
+                9
             ],
             [
-                1,
                 2,
                 3,
-                4
+                4,
+                5,
+                6,
+                7,
+                8
             ]
         ],
         "validation_trial": 2,
@@ -673,12 +801,16 @@
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
         ]
     },
     "NP": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/NP/NP_TRANSFORM_velocity_MP.pkl",
-        "gesture_class_num": 6,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/NP/NP_TRANSFORM_velocity_MPright.pkl",
+        "gesture_class_num": 7,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -697,21 +829,21 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Needle_Passing/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
-                "epoch": 50,
-                "learning_rate": 0.00019552709622848292,
-                "weight_decay": 0.00017348688735412387
+                "epoch": 60,
+                "learning_rate": 5e-05,
+                "weight_decay": 0.0005
             },
             "model_params": {
-                "class_num": 6,
+                "class_num": 7,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 25,
+                    "kernel_size": 15,
                     "layer_sizes": [
                         96,
                         64,
@@ -723,7 +855,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 25,
+                    "kernel_size": 15,
                     "layer_sizes": [
                         64,
                         96,
@@ -837,8 +969,8 @@
         ]
     },
     "PTPaS": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
-        "gesture_class_num": 6,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/PTPaS/PTPaS_TRANSFORM_velocity_MPright.pkl",
+        "gesture_class_num": 5,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -857,22 +989,22 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Post_and_Sleeve/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Peg_Transfer/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Post_and_Sleeve/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Peg_Transfer/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
                 "epoch": 60,
-                "learning_rate": 0.00014888519562090418,
-                "weight_decay": 0.00016753428662299148
+                "learning_rate": 5e-05,
+                "weight_decay": 0.0005
             },
             "model_params": {
-                "class_num": 6,
+                "class_num": 5,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 23,
+                    "kernel_size": 31,
                     "layer_sizes": [
                         96,
                         64,
@@ -884,7 +1016,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 23,
+                    "kernel_size": 31,
                     "layer_sizes": [
                         64,
                         96,
@@ -902,11 +1034,26 @@
             }
         },
         "test_trial": [
-            1,
-            2,
-            3,
-            4,
-            5
+            "Peg_Transfer_S01",
+            "Peg_Transfer_S02",
+            "Peg_Transfer_S03",
+            "Peg_Transfer_S04",
+            "Peg_Transfer_S05",
+            "Peg_Transfer_S06",
+            "Peg_Transfer_S07",
+            "Peg_Transfer_S08",
+            "Post_and_Sleeve_S01",
+            "Post_and_Sleeve_S02",
+            "Post_and_Sleeve_S03",
+            "Post_and_Sleeve_S04",
+            "Post_and_Sleeve_S05",
+            "Post_and_Sleeve_S06",
+            "Post_and_Sleeve_S07",
+            "Post_and_Sleeve_S08",
+            "Post_and_Sleeve_S09",
+            "Post_and_Sleeve_S10",
+            "Post_and_Sleeve_S11",
+            "Post_and_Sleeve_S12"
         ],
         "train_trial": [
             [
@@ -949,8 +1096,8 @@
         ]
     },
     "PaS": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
-        "gesture_class_num": 6,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/PaS/PaS_TRANSFORM_velocity_MPright.pkl",
+        "gesture_class_num": 5,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -969,21 +1116,21 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Post_and_Sleeve/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Post_and_Sleeve/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
                 "epoch": 60,
-                "learning_rate": 0.00014888519562090418,
-                "weight_decay": 0.00016753428662299148
+                "learning_rate": 5e-05,
+                "weight_decay": 0.0005
             },
             "model_params": {
-                "class_num": 6,
+                "class_num": 5,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 23,
+                    "kernel_size": 25,
                     "layer_sizes": [
                         96,
                         64,
@@ -995,7 +1142,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 23,
+                    "kernel_size": 25,
                     "layer_sizes": [
                         64,
                         96,
@@ -1017,51 +1164,191 @@
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
         ],
         "train_trial": [
             [
                 2,
                 3,
                 4,
-                5
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
             ],
             [
                 1,
                 3,
                 4,
-                5
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
             ],
             [
                 1,
                 2,
                 4,
-                5
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
             ],
             [
                 1,
                 2,
                 3,
-                5
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
             ],
             [
                 1,
                 2,
                 3,
-                4
+                4,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                8,
+                9,
+                10,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                9,
+                10,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                10,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
             ]
         ],
-        "validation_trial": 2,
+        "validation_trial": 1,
         "validation_trial_train": [
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
         ]
     },
     "PoaP": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
-        "gesture_class_num": 6,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/PoaP/PoaP_TRANSFORM_velocity_MPright.pkl",
+        "gesture_class_num": 7,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -1080,21 +1367,21 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Pea_on_a_Peg/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Pea_on_a_Peg/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
                 "epoch": 60,
-                "learning_rate": 0.00014888519562090418,
-                "weight_decay": 0.00016753428662299148
+                "learning_rate": 5e-05,
+                "weight_decay": 0.0005
             },
             "model_params": {
-                "class_num": 6,
+                "class_num": 7,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 23,
+                    "kernel_size": 21,
                     "layer_sizes": [
                         96,
                         64,
@@ -1106,7 +1393,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 23,
+                    "kernel_size": 21,
                     "layer_sizes": [
                         64,
                         96,
@@ -1128,51 +1415,191 @@
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
         ],
         "train_trial": [
             [
                 2,
                 3,
                 4,
-                5
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
             ],
             [
                 1,
                 3,
                 4,
-                5
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
             ],
             [
                 1,
                 2,
                 4,
-                5
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
             ],
             [
                 1,
                 2,
                 3,
-                5
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
             ],
             [
                 1,
                 2,
                 3,
-                4
+                4,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                8,
+                9,
+                10,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                9,
+                10,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                10,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                11,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12
+            ],
+            [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
             ]
         ],
-        "validation_trial": 2,
+        "validation_trial": 1,
         "validation_trial_train": [
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
         ]
     },
     "S": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/S/S_TRANSFORM_velocity_MP.pkl",
-        "gesture_class_num": 6,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/S/S_TRANSFORM_velocity_MPright.pkl",
+        "gesture_class_num": 7,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -1191,21 +1618,21 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Suturing/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Suturing/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
-                "epoch": 50,
-                "learning_rate": 0.0003127705721472367,
-                "weight_decay": 0.0005675603331364945
+                "epoch": 60,
+                "learning_rate": 5e-05,
+                "weight_decay": 0.0005
             },
             "model_params": {
-                "class_num": 6,
+                "class_num": 7,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 23,
+                    "kernel_size": 19,
                     "layer_sizes": [
                         96,
                         64,
@@ -1217,7 +1644,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 23,
+                    "kernel_size": 19,
                     "layer_sizes": [
                         64,
                         96,
@@ -1331,8 +1758,8 @@
         ]
     },
     "SNP": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MP.pkl",
-        "gesture_class_num": 6,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/SNP/SNP_TRANSFORM_velocity_MPright.pkl",
+        "gesture_class_num": 7,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -1351,19 +1778,19 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Documents/Research/MICCAI_2022/COMPASS-main/Datasets/dV/Needle_Passing/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Needle_Passing/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
             "config": {
                 "batch_size": 1,
                 "epoch": 60,
-                "learning_rate": 0.00014888519562090418,
-                "weight_decay": 0.00016753428662299148
+                "learning_rate": 5e-05,
+                "weight_decay": 0.0005
             },
             "model_params": {
-                "class_num": 6,
+                "class_num": 7,
                 "decoder_params": {
                     "input_size": 128,
                     "kernel_size": 23,
@@ -1396,42 +1823,94 @@
             }
         },
         "test_trial": [
-            1,
-            2,
-            3,
-            4,
-            5
+            "Suturing_S02",
+            "Suturing_S03",
+            "Suturing_S04",
+            "Suturing_S05",
+            "Suturing_S06",
+            "Suturing_S07",
+            "Suturing_S08",
+            "Suturing_S09",
+            "Needle_Passing_S02",
+            "Needle_Passing_S03",
+            "Needle_Passing_S04",
+            "Needle_Passing_S05",
+            "Needle_Passing_S06",
+            "Needle_Passing_S08",
+            "Needle_Passing_S09"
         ],
         "train_trial": [
             [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
                 2,
                 3,
                 4,
-                5
+                6,
+                7,
+                8,
+                9
             ],
             [
-                1,
+                2,
                 3,
                 4,
-                5
+                5,
+                7,
+                8,
+                9
             ],
             [
-                1,
                 2,
+                3,
                 4,
-                5
+                5,
+                6,
+                8,
+                9
             ],
             [
-                1,
                 2,
                 3,
-                5
+                4,
+                5,
+                6,
+                7,
+                9
             ],
             [
-                1,
                 2,
                 3,
-                4
+                4,
+                5,
+                6,
+                7,
+                8
             ]
         ],
         "validation_trial": 2,
@@ -1439,10 +1918,14 @@
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
         ]
     },
-    "dataset_name": "NP",
+    "dataset_name": "PTPaS",
     "experiment_setup": {
         "sample_rate": 1,
         "val_type": "LOUO"

@@ -20,7 +20,7 @@ from preprocess import processArguments
 baseDir = os.path.dirname(os.getcwd())
 sysDir = os.path.join(baseDir, "Datasets", "dV")
 allTasks = ["Suturing", "Needle_Passing", "Knot_Tying", "Peg_Transfer", "Pea_on_a_Peg", "Post_and_Sleeve"]
-labeltypes = ["gesture", "MPbaseline", "MPcombined", "MPexchange", "MPleft", "MPright", "MPleftX", "MPrightX"]
+labeltypes = ["gesture", "MPbaseline", "MPcombined", "MPexchange", "MPleft", "MPright", "MPleftX", "MPrightX", "MPleftE", "MPrightE"]
 
 
 
@@ -105,6 +105,10 @@ if __name__ == "__main__":
         labeltype = "motion_primitives_LX"
     elif labeltype == "MPrightX":
         labeltype = "motion_primitives_RX"
+    elif labeltype == "MPleftE":
+        labeltype = "motion_primitives_LE"
+    elif labeltype == "MPrightE":
+        labeltype = "motion_primitives_RE"
 
     # Choose which set of tasks to analyze based on set
     if set == "All":
@@ -158,6 +162,9 @@ if __name__ == "__main__":
     elif (labeltype == "gestures") and (set == "DESK"):
         durations = durationsS
         instances = instancesS
+    elif (labeltype == "gestures") and (set == "SNP"):
+        durations = durationsG
+        instances = instancesG
     else: #labeltype == "motion_primitives":
         durations = durationsMP
         instances = instancesMP
