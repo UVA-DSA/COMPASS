@@ -523,7 +523,7 @@ def cross_validate(dataset_name,net_name, logDir):
     print("Getting cross validation splits")
     if valtype == "LOSO":
         cross_val_splits = utils.get_cross_val_splits()
-    elif (dataset_name == "SNP" or dataset_name == "PTPaS") and (valtype == "LOUO"):
+    elif (dataset_name == "SNP" or dataset_name == "PTPaS" or dataset_name == "ROSMA" or dataset_name == "All") and (valtype == "LOUO"):
         print("Using LOUO with separate folds for each task_subject")
         cross_val_splits = utils.get_cross_val_splits_LOUO_multi()
     elif valtype == "LOUO":

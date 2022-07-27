@@ -35,11 +35,11 @@ def processArguments(args):
     try:
         set=args[1]
         # Check if valid set
-        if set not in ["PT", "JIGSAWS", "S", "NP", "KT", "PoaP", "PaS", "SNP", "PTPaS"]: # , "ROSMA", "All"]:
-            print("Please choose set: PT, JIGSAWS, S, NP, KT, PoaP, Pas, SNP, PTPaS") #, ROSMA, All")
+        if set not in ["PT", "JIGSAWS", "S", "NP", "KT", "PoaP", "PaS", "SNP", "PTPaS", "ROSMA", "All"]: # , "ROSMA", "All"]:
+            print("Please choose set: PT, JIGSAWS, S, NP, KT, PoaP, Pas, SNP, PTPaS", "ROSMA", "All") #, ROSMA, All")
             sys.exit()
     except:
-        print("Please choose set: PT, JIGSAWS, S, NP, KT, PoaP, Pas, SNP, PTPaS") #, ROSMA, All")
+        print("Please choose set: PT, JIGSAWS, S, NP, KT, PoaP, Pas, SNP, PTPaS", "ROSMA", "All") #, ROSMA, All")
         sys.exit()
 
     # Get orientation or velocity from command line
@@ -119,15 +119,15 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     # 5/9/2022 changing to dictionary look up; rounded down to an odd number based on stats.py
     kernel_size_gesture_dict = {"PT": 29, "JIGSAWS": 89, "S": 61, "NP": 97, "KT": 85, "SNP": 91}
     kernel_size_MPbaseline_dict = {"PT": 45, "JIGSAWS": 23, "All-5a": 0,\
-        "All-5b": 0, "S": 21, "NP": 23, "KT": 17, "PoaP": 19, "PaS": 25, "SNP": 23, "PTPaS": 29}
+        "All-5b": 0, "S": 21, "NP": 23, "KT": 17, "PoaP": 19, "PaS": 25, "SNP": 23, "PTPaS": 29, "ROSMA": 19, "All": 29}
     kernel_size_MPcombined_dict = {"PT": 55, "JIGSAWS": 27, "All-5a": 0,\
         "All-5b": 0, "S": 25, "NP": 25, "KT": 21, "PoaP": 19, "PaS": 29, "SNP": 25, "PTPaS": 0}
     kernel_size_MPexchange_dict = {"PT": 0, "JIGSAWS": 31, "All-5a": 0,\
         "All-5b": 0, "S": 35, "NP": 25, "KT": 21, "PoaP": 0, "PaS": 0, "SNP": 33, "PTPaS": 0}
     kernel_size_MPleft_dict = {"PT": 43, "JIGSAWS": 31, "All-5a": 0,\
-        "All-5b": 0, "S": 25, "NP": 17, "KT": 13, "PoaP": 17, "PaS": 25, "SNP": 25, "PTPaS": 29}
+        "All-5b": 0, "S": 25, "NP": 17, "KT": 13, "PoaP": 17, "PaS": 25, "SNP": 25, "PTPaS": 29, "ROSMA": 17, "All": 27}
     kernel_size_MPright_dict = {"PT": 43, "JIGSAWS": 29, "All-5a": 0,\
-        "All-5b": 0, "S": 19, "NP": 15, "KT": 21, "PoaP": 21, "PaS": 25, "SNP": 23, "PTPaS": 31}
+        "All-5b": 0, "S": 19, "NP": 15, "KT": 21, "PoaP": 21, "PaS": 25, "SNP": 23, "PTPaS": 31, "ROSMA": 21, "All": 29}
     kernel_size_MPleftX_dict = {"PT": 0, "JIGSAWS": 31, "All-5a": 0,\
         "All-5b": 0, "S": 31, "NP": 21, "KT": 17, "PoaP": 0, "PaS": 0, "SNP": 31, "PTPaS": 0}
     kernel_size_MPrightX_dict = {"PT": 0, "JIGSAWS": 29, "All-5a": 0,\
@@ -159,15 +159,15 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     # Determined using stats.py
     gesture_class_num_gesture_dict = {"PT": 7, "JIGSAWS": 14, "S": 10, "NP": 10, "KT": 6, "SNP": 10}
     gesture_class_num_MPbaseline_dict = {"PT": 4, "JIGSAWS": 6, "All-5a": 0,\
-        "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 6, "PaS": 4, "SNP": 6, "PTPaS": 4}
+        "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 6, "PaS": 4, "SNP": 6, "PTPaS": 4, "ROSMA": 6, "All": 6}
     gesture_class_num_MPcombined_dict = {"PT": 4, "JIGSAWS": 6, "All-5a": 0,\
         "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 6, "PaS": 4, "SNP": 6, "PTPaS": 0}
     gesture_class_num_MPexchange_dict = {"PT": 0, "JIGSAWS": 7, "All-5a": 0,\
         "All-5b": 0, "S": 7, "NP": 7, "KT": 6, "PoaP": 0, "PaS": 0, "SNP": 7, "PTPaS": 0}
     gesture_class_num_MPleft_dict = {"PT": 5, "JIGSAWS": 7, "All-5a": 0,\
-        "All-5b": 0, "S": 7, "NP": 6, "KT": 6, "PoaP": 6, "PaS": 5, "SNP": 7, "PTPaS": 5}
+        "All-5b": 0, "S": 7, "NP": 6, "KT": 6, "PoaP": 6, "PaS": 5, "SNP": 7, "PTPaS": 5, "ROSMA": 6, "All": 7}
     gesture_class_num_MPright_dict = {"PT": 5, "JIGSAWS": 7, "All-5a": 0,\
-        "All-5b": 0, "S": 7, "NP": 7, "KT": 6, "PoaP": 7, "PaS": 5, "SNP": 7, "PTPaS": 5}
+        "All-5b": 0, "S": 7, "NP": 7, "KT": 6, "PoaP": 7, "PaS": 5, "SNP": 7, "PTPaS": 5, "ROSMA": 7, "All": 7}
     gesture_class_num_MPleftX_dict = {"PT": 0, "JIGSAWS": 8, "All-5a": 0,\
         "All-5b": 0, "S": 8, "NP": 7, "KT": 7, "PoaP": 0, "PaS": 0, "SNP": 8, "PTPaS": 0}
     gesture_class_num_MPrightX_dict = {"PT": 0, "JIGSAWS": 8, "All-5a": 0,\
@@ -256,7 +256,7 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["validation_trial"] = 1
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6]
 
-        elif dataset_name == "PTPaS":
+        elif dataset_name in ["PTPaS", "ROSMA", "All"]:
             print("test/train/val splits not defined yet")
             sys.exit()
 
@@ -275,10 +275,14 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
 
         elif dataset_name  == "SNP":
-            all_params[dataset_name]["test_trial"] = ["Suturing_S02","Suturing_S03","Suturing_S04","Suturing_S05","Suturing_S06","Suturing_S07","Suturing_S08","Suturing_S09","Needle_Passing_S02","Needle_Passing_S03","Needle_Passing_S04","Needle_Passing_S05","Needle_Passing_S06","Needle_Passing_S08","Needle_Passing_S09"]
-            all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
-            all_params[dataset_name]["validation_trial"] = 2
-            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
+            all_params[dataset_name]["test_trial"] = [  "Suturing_S02","Suturing_S03","Suturing_S04",\
+                                                        "Suturing_S05","Suturing_S06","Suturing_S07",\
+                                                        "Suturing_S08","Suturing_S09",\
+                                                        "Needle_Passing_S02","Needle_Passing_S03","Needle_Passing_S04",\
+                                                        "Needle_Passing_S05","Needle_Passing_S06","Needle_Passing_S08","Needle_Passing_S09"]
+            # all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
+            # all_params[dataset_name]["validation_trial"] = 2
+            # all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
 
         elif dataset_name == "All-5a":
             all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
@@ -299,7 +303,45 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9,10,11,12]
 
         elif dataset_name == "PTPaS":
-            all_params[dataset_name]["test_trial"] = ["Peg_Transfer_S01","Peg_Transfer_S02","Peg_Transfer_S03","Peg_Transfer_S04","Peg_Transfer_S05","Peg_Transfer_S06","Peg_Transfer_S07","Peg_Transfer_S08","Post_and_Sleeve_S01","Post_and_Sleeve_S02","Post_and_Sleeve_S03","Post_and_Sleeve_S04","Post_and_Sleeve_S05","Post_and_Sleeve_S06","Post_and_Sleeve_S07","Post_and_Sleeve_S08","Post_and_Sleeve_S09","Post_and_Sleeve_S10","Post_and_Sleeve_S11","Post_and_Sleeve_S12"]
+            all_params[dataset_name]["test_trial"] = [  "Peg_Transfer_S01","Peg_Transfer_S02","Peg_Transfer_S03", \
+                                                        "Peg_Transfer_S04","Peg_Transfer_S05","Peg_Transfer_S06", \
+                                                        "Peg_Transfer_S07","Peg_Transfer_S08",
+                                                        "Post_and_Sleeve_S01","Post_and_Sleeve_S02","Post_and_Sleeve_S03",\
+                                                        "Post_and_Sleeve_S04","Post_and_Sleeve_S05","Post_and_Sleeve_S06",\
+                                                        "Post_and_Sleeve_S07","Post_and_Sleeve_S08","Post_and_Sleeve_S09",\
+                                                        "Post_and_Sleeve_S10","Post_and_Sleeve_S11","Post_and_Sleeve_S12"]
+
+        elif dataset_name == "ROSMA":
+            all_params[dataset_name]["test_trial"] = [  "Post_and_Sleeve_S01","Post_and_Sleeve_S02","Post_and_Sleeve_S03",\
+                                                        "Post_and_Sleeve_S04","Post_and_Sleeve_S05","Post_and_Sleeve_S06",\
+                                                        "Post_and_Sleeve_S07","Post_and_Sleeve_S08","Post_and_Sleeve_S09",\
+                                                        "Post_and_Sleeve_S10","Post_and_Sleeve_S11","Post_and_Sleeve_S12",\
+                                                        "Pea_on_a_Peg_S01","Pea_on_a_Peg_S02","Pea_on_a_Peg_S03",\
+                                                        "Pea_on_a_Peg_S04","Pea_on_a_Peg_S05","Pea_on_a_Peg_S06",\
+                                                        "Pea_on_a_Peg_S07","Pea_on_a_Peg_S08","Pea_on_a_Peg_S09",\
+                                                        "Pea_on_a_Peg_S10","Pea_on_a_Peg_S11","Pea_on_a_Peg_S12"]
+
+        elif dataset_name == "All":
+            all_params[dataset_name]["test_trial"] = [  "Suturing_S02","Suturing_S03","Suturing_S04",\
+                                                        "Suturing_S05","Suturing_S06","Suturing_S07",\
+                                                        "Suturing_S08","Suturing_S09",\
+                                                        "Needle_Passing_S02","Needle_Passing_S03","Needle_Passing_S04",\
+                                                        "Needle_Passing_S05","Needle_Passing_S06","Needle_Passing_S08",\
+                                                        "Needle_Passing_S09",\
+                                                        "Knot_Tying_S02", "Knot_Tying_S03", "Knot_Tying_S04", \
+                                                        "Knot_Tying_S05", "Knot_Tying_S06", "Knot_Tying_S07", \
+                                                        "Knot_Tying_S08", "Knot_Tying_S09", \
+                                                        "Peg_Transfer_S01","Peg_Transfer_S02","Peg_Transfer_S03",\
+                                                        "Peg_Transfer_S04","Peg_Transfer_S05","Peg_Transfer_S06",\
+                                                        "Peg_Transfer_S07","Peg_Transfer_S08",\
+                                                        "Post_and_Sleeve_S01","Post_and_Sleeve_S02","Post_and_Sleeve_S03",\
+                                                        "Post_and_Sleeve_S04","Post_and_Sleeve_S05","Post_and_Sleeve_S06",\
+                                                        "Post_and_Sleeve_S07","Post_and_Sleeve_S08","Post_and_Sleeve_S09",\
+                                                        "Post_and_Sleeve_S10","Post_and_Sleeve_S11","Post_and_Sleeve_S12",\
+                                                        "Pea_on_a_Peg_S01","Pea_on_a_Peg_S02","Pea_on_a_Peg_S03",\
+                                                        "Pea_on_a_Peg_S04","Pea_on_a_Peg_S05","Pea_on_a_Peg_S06",\
+                                                        "Pea_on_a_Peg_S07","Pea_on_a_Peg_S08","Pea_on_a_Peg_S09",\
+                                                        "Pea_on_a_Peg_S10","Pea_on_a_Peg_S11","Pea_on_a_Peg_S12"]
 
 
 

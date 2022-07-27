@@ -118,7 +118,7 @@ if __name__ == "__main__":
     elif set == "PT":
         tasks = [allTasks[3]]
     elif set == "ROSMA":
-        tasks = allTasks[4:6]
+        tasks = allTasks[4:]
     elif (set == "All-5a") or (set == "All-5b"):
         tasks = allTasks[0:4]
 
