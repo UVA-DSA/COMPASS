@@ -455,8 +455,8 @@ def preprocess(set, var, labeltype, raw_feature_dir):
             print("Please specify path to labels.")
 
         # List all kinematic file paths
-        # velkinematics currently contains position, velocity, orientation, and gripper angle
-        kine_dir_all = glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"velkinematics/*"))
+        # kinematics currently contains position, velocity, orientation, and gripper angle
+        kine_dir_all = glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"kinematics/*"))
 
         # For each transcription file
         for ges_dir in ges_dir_all:  #[0:1]:
@@ -472,25 +472,25 @@ def preprocess(set, var, labeltype, raw_feature_dir):
 
             # Get kin file associated with transcript
             if labeltype == "MPbaseline":
-                kin_dir = ges_dir.replace("motion_primitives_baseline", "velkinematics").replace(".txt", ".csv")
+                kin_dir = ges_dir.replace("motion_primitives_baseline", "kinematics").replace(".txt", ".csv")
             elif labeltype == "MPcombined":
-                kin_dir = ges_dir.replace("motion_primitives_combined", "velkinematics").replace(".txt", ".csv")
+                kin_dir = ges_dir.replace("motion_primitives_combined", "kinematics").replace(".txt", ".csv")
             elif labeltype == "MPexchange":
-                kin_dir = ges_dir.replace("motion_primitives_exchange", "velkinematics").replace(".txt", ".csv")
+                kin_dir = ges_dir.replace("motion_primitives_exchange", "kinematics").replace(".txt", ".csv")
             elif labeltype == "MPleft":
-                kin_dir = ges_dir.replace("motion_primitives_L", "velkinematics").replace(".txt", ".csv")
+                kin_dir = ges_dir.replace("motion_primitives_L", "kinematics").replace(".txt", ".csv")
             elif labeltype == "MPright":
-                kin_dir = ges_dir.replace("motion_primitives_R", "velkinematics").replace(".txt", ".csv")
+                kin_dir = ges_dir.replace("motion_primitives_R", "kinematics").replace(".txt", ".csv")
             elif labeltype == "MPleftX":
-                kin_dir = ges_dir.replace("motion_primitives_LX", "velkinematics").replace(".txt", ".csv")
+                kin_dir = ges_dir.replace("motion_primitives_LX", "kinematics").replace(".txt", ".csv")
             elif labeltype == "MPrightX":
-                kin_dir = ges_dir.replace("motion_primitives_RX", "velkinematics").replace(".txt", ".csv")
+                kin_dir = ges_dir.replace("motion_primitives_RX", "kinematics").replace(".txt", ".csv")
             elif labeltype == "MPleftE":
-                kin_dir = ges_dir.replace("motion_primitives_LE", "velkinematics").replace(".txt", ".csv")
+                kin_dir = ges_dir.replace("motion_primitives_LE", "kinematics").replace(".txt", ".csv")
             elif labeltype == "MPrightE":
-                kin_dir = ges_dir.replace("motion_primitives_RE", "velkinematics").replace(".txt", ".csv")
+                kin_dir = ges_dir.replace("motion_primitives_RE", "kinematics").replace(".txt", ".csv")
             elif labeltype == "gesture":
-                kin_dir = ges_dir.replace("gestures", "velkinematics").replace(".txt", ".csv")
+                kin_dir = ges_dir.replace("gestures", "kinematics").replace(".txt", ".csv")
 
             # Skip transcript and loop if no kinematic file is found
             if len(kin_dir)==0:continue
