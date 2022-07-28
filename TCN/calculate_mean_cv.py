@@ -18,14 +18,16 @@ import glob
 
 
 # Calculate average metrics in each fold's train_test_results.csv given a path to a model's results folder,
-def analyze(modelpath):
+def analyze(modelpathin):
     #print("Starting analysis")
 
-    modelpath = os.path.join(modelpath, "tcn")
+    modelpath = os.path.join(modelpathin, "tcn")
+    # list all cross val folds (tests)
     tests = os.listdir(modelpath)
 
     #print('v_accuracy, \t v_edit_score, \t  v_loss, \t v_f_scores_10, \t v_f_scores_25, \t v_f_scores_50, \t v_f_scores_75')
     result = []
+    modelresultsdF = pd.DataFrame(columns = ["Fold", "Accuracy", "Edit Score"])
 
     for test in tests:
         # Path to log files
@@ -46,10 +48,16 @@ def analyze(modelpath):
         tb['v_f_scores_75'].rolling(window=5).mean().iloc[-1]]
         result.append(vals)
         print(vals)
+        newresult = {"Fold": test, "Accuracy": vals[0], "Edit Score": vals[1]}
+        modelresultsdF = modelresultsdF.append(newresult, ignore_index=True)
 
 
     result = np.array(result)
     #print(result)
+    # Save results of each fold to a csv in the model's folder
+    modelresultsdF = modelresultsdF.sort_values("Fold")
+    resultCSV = os.path.join(modelpathin, "tests.csv")
+    modelresultsdF.to_csv(resultCSV, sep="\t", index=False)
 
     # Print results
     # print("v_accuracy: " + str(np.mean(result,axis = 0)[0]))
@@ -104,7 +112,7 @@ if __name__ == "__main__":
 
 
     resultsdF = pd.DataFrame(columns = ["Data", "Variables", "Labels", "Cross Val", "Accuracy", "Edit Score"])
-    print(resultsdF)
+    #print(resultsdF)
 
     # Find folders containing "tcn" folder from training
     for r in resultsList:
@@ -112,9 +120,9 @@ if __name__ == "__main__":
             resultpath = os.path.join(resultsDir, r)
             # If tcn folder found, run analysis
             if "tcn" in os.listdir(resultpath):
-                print(r)
+                print(r)   # print model name (a.k.a. folder name)
                 results = analyze(resultpath)
-                print(results[0:2])
+                print(results[0:2])   # print accuracy and edit score for this model
                 name = r.split("_")
                 data = name[0]
                 vars = name[1]

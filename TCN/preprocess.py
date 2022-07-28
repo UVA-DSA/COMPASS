@@ -268,7 +268,7 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             all_params[dataset_name]["validation_trial"] = 1
             all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
 
-        elif dataset_name  in ["JIGSAWS", "S", "NP", "KT"]:
+        elif dataset_name  in ["S", "NP", "KT"]:
             all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
             all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
             all_params[dataset_name]["validation_trial"] = 2
@@ -283,6 +283,19 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
             # all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
             # all_params[dataset_name]["validation_trial"] = 2
             # all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
+
+        elif dataset_name == "JIGSAWS":
+            all_params[dataset_name]["test_trial"] = [  "Suturing_S02","Suturing_S03","Suturing_S04",\
+                                                        "Suturing_S05","Suturing_S06","Suturing_S07",\
+                                                        "Suturing_S08","Suturing_S09",\
+                                                        "Needle_Passing_S02","Needle_Passing_S03","Needle_Passing_S04",\
+                                                        "Needle_Passing_S05","Needle_Passing_S06","Needle_Passing_S08","Needle_Passing_S09",\
+                                                        "Knot_Tying_S02", "Knot_Tying_S03", "Knot_Tying_S04", \
+                                                        "Knot_Tying_S05", "Knot_Tying_S06", "Knot_Tying_S07", \
+                                                        "Knot_Tying_S08", "Knot_Tying_S09"]
+            # all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
+            # all_params[dataset_name]["validation_trial"] = 1
+            # all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
 
         elif dataset_name == "All-5a":
             all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]

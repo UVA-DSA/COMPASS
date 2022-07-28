@@ -1,7 +1,7 @@
 {
     "All": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/All/All_TRANSFORM_velocity_MPbaseline.pkl",
-        "gesture_class_num": 6,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/All/All_TRANSFORM_velocity_MPright.pkl",
+        "gesture_class_num": 7,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -36,7 +36,7 @@
                 "weight_decay": 0.0005
             },
             "model_params": {
-                "class_num": 6,
+                "class_num": 7,
                 "decoder_params": {
                     "input_size": 128,
                     "kernel_size": 29,
@@ -568,8 +568,8 @@
             "config": {
                 "batch_size": 1,
                 "epoch": 60,
-                "learning_rate": 0.0005,
-                "weight_decay": 0.001
+                "learning_rate": 5e-05,
+                "weight_decay": 0.0005
             },
             "model_params": {
                 "class_num": 6,
@@ -605,14 +605,29 @@
             }
         },
         "test_trial": [
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9
+            "Suturing_S02",
+            "Suturing_S03",
+            "Suturing_S04",
+            "Suturing_S05",
+            "Suturing_S06",
+            "Suturing_S07",
+            "Suturing_S08",
+            "Suturing_S09",
+            "Needle_Passing_S02",
+            "Needle_Passing_S03",
+            "Needle_Passing_S04",
+            "Needle_Passing_S05",
+            "Needle_Passing_S06",
+            "Needle_Passing_S08",
+            "Needle_Passing_S09",
+            "Knot_Tying_S02",
+            "Knot_Tying_S03",
+            "Knot_Tying_S04",
+            "Knot_Tying_S05",
+            "Knot_Tying_S06",
+            "Knot_Tying_S07",
+            "Knot_Tying_S08",
+            "Knot_Tying_S09"
         ],
         "train_trial": [
             [
@@ -1809,8 +1824,8 @@
         ]
     },
     "ROSMA": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/ROSMA/ROSMA_TRANSFORM_velocity_MPbaseline.pkl",
-        "gesture_class_num": 6,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/ROSMA/ROSMA_TRANSFORM_velocity_MPright.pkl",
+        "gesture_class_num": 7,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -1841,10 +1856,10 @@
                 "weight_decay": 0.0005
             },
             "model_params": {
-                "class_num": 6,
+                "class_num": 7,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 19,
+                    "kernel_size": 21,
                     "layer_sizes": [
                         96,
                         64,
@@ -1856,7 +1871,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 19,
+                    "kernel_size": 21,
                     "layer_sizes": [
                         64,
                         96,
@@ -2312,7 +2327,7 @@
             9
         ]
     },
-    "dataset_name": "All",
+    "dataset_name": "JIGSAWS",
     "experiment_setup": {
         "sample_rate": 1,
         "val_type": "LOUO"
