@@ -58,7 +58,8 @@ def get_cross_val_splits_LOUO_multi(validation = False):
         if len(raw_feature_dir)!=1:
             for i in raw_feature_dir:
                 print(os.path.join(i,'*{}_*'.format(validation_trial)))
-                test = glob.glob(os.path.join(i,'*{}_*'.format(validation_trial)))
+                #test = glob.glob(os.path.join(i,'*{}_*'.format(validation_trial)))
+                test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
                 test_dir.extend(test)
                 # tri=[j for j in validation_trial_train]
                 # a = "*["+",".join(['{}']*len(validation_trial_train))+"]_*"
@@ -76,7 +77,8 @@ def get_cross_val_splits_LOUO_multi(validation = False):
         else:
             i = raw_feature_dir[0]
             print(os.path.join(i,'*{}_*'.format(validation_trial)))
-            test = glob.glob(os.path.join(i,'*{}_*'.format(validation_trial)))
+            #test = glob.glob(os.path.join(i,'*{}_*'.format(validation_trial)))
+            test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
             test_dir.extend(test)
             # tri=[j for j in validation_trial_train]
             # a = "*["+",".join(['{}']*len(validation_trial_train))+"]_*"
@@ -103,7 +105,8 @@ def get_cross_val_splits_LOUO_multi(validation = False):
             if len(raw_feature_dir)!=1:
                 for i in raw_feature_dir:
                     # list files for testing
-                    test = glob.glob(os.path.join(i,'{}_*'.format(test_num)))
+                    #test = glob.glob(os.path.join(i,'{}_*'.format(test_num)))
+                    test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
                     test_dir.extend(test)
 
                     # #breakpoint()
@@ -123,7 +126,8 @@ def get_cross_val_splits_LOUO_multi(validation = False):
 
             else:
                 i = raw_feature_dir[0]
-                test = glob.glob(os.path.join(i,'*{}_*'.format(test_num)))
+                #test = glob.glob(os.path.join(i,'*{}_*'.format(test_num)))
+                test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
                 test_dir.extend(test)
                 #breakpoint()
                 # tri=[j for j in train_trial[idx]]
