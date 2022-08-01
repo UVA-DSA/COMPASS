@@ -532,7 +532,6 @@ def cross_validate(dataset_name,net_name, logDir):
     #cross_val_splits = utils.get_cross_val_splits_LOUO() #utils.get_cross_val_splits()
     #breakpoint()
 
-
     # Cross-Validation Result
     #result = []
 

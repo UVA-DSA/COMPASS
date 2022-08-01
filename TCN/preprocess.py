@@ -263,57 +263,82 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
 
     elif valtype == "LOUO":
         if dataset_name == "PT":
-            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6,7,8]
-            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
-            all_params[dataset_name]["validation_trial"] = 1
-            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
+            all_params[dataset_name]["test_trial"] =    ["01","02","03","04","05","06","07","08"]
+            all_params[dataset_name]["train_trial"] = [ ["02","03","04","05","06","07","08"],\
+                                                        ["01","03","04","05","06","07","08"],\
+                                                        ["01","02","04","05","06","07","08"],\
+                                                        ["01","02","03","05","06","07","08"],\
+                                                        ["01","02","03","04","06","07","08"],\
+                                                        ["01","02","03","04","05","07","08"],\
+                                                        ["01","02","03","04","05","06","08"],\
+                                                        ["01","02","03","04","05","06","07"]]
+            all_params[dataset_name]["validation_trial"] = "01"
+            all_params[dataset_name]["validation_trial_train"] = ["02","03","04","05","06","07","08"]
 
-        elif dataset_name  in ["S", "NP", "KT"]:
-            all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
-            all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
-            all_params[dataset_name]["validation_trial"] = 2
-            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
+        elif dataset_name  in ["S", "NP", "KT", "SNP", "JIGSAWS"]: #]:   # "SNP", "JIGSAWS"]:
+            all_params[dataset_name]["test_trial"] =    ["02","03","04","05","06","07","08","09"]
+            all_params[dataset_name]["train_trial"] = [ ["03","04","05","06","07","08","09"],\
+                                                        ["02","04","05","06","07","08","09"],\
+                                                        ["02","03","05","06","07","08","09"],\
+                                                        ["02","03","04","06","07","08","09"],\
+                                                        ["02","03","04","05","07","08","09"],\
+                                                        ["02","03","04","05","06","08","09"],\
+                                                        ["02","03","04","05","06","07","09"],\
+                                                        ["02","03","04","05","06","07","08"]]
+            all_params[dataset_name]["validation_trial"] = "02"
+            all_params[dataset_name]["validation_trial_train"] = ["03","04","05","06","07","08","09"]
 
-        elif dataset_name  == "SNP":
-            all_params[dataset_name]["test_trial"] = [  "Suturing_S02","Suturing_S03","Suturing_S04",\
-                                                        "Suturing_S05","Suturing_S06","Suturing_S07",\
-                                                        "Suturing_S08","Suturing_S09",\
-                                                        "Needle_Passing_S02","Needle_Passing_S03","Needle_Passing_S04",\
-                                                        "Needle_Passing_S05","Needle_Passing_S06","Needle_Passing_S08","Needle_Passing_S09"]
-            # all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
-            # all_params[dataset_name]["validation_trial"] = 2
-            # all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
+        # elif dataset_name  == "SNP":
+        #     all_params[dataset_name]["test_trial"] = [  "Suturing_S02","Suturing_S03","Suturing_S04",\
+        #                                                 "Suturing_S05","Suturing_S06","Suturing_S07",\
+        #                                                 "Suturing_S08","Suturing_S09",\
+        #                                                 "Needle_Passing_S02","Needle_Passing_S03","Needle_Passing_S04",\
+        #                                                 "Needle_Passing_S05","Needle_Passing_S06","Needle_Passing_S08","Needle_Passing_S09"]
+        #     # all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
+        #     # all_params[dataset_name]["validation_trial"] = 2
+        #     # all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9]
+        #
+        # elif dataset_name == "JIGSAWS":
+        #     all_params[dataset_name]["test_trial"] = [  "Suturing_S02","Suturing_S03","Suturing_S04",\
+        #                                                 "Suturing_S05","Suturing_S06","Suturing_S07",\
+        #                                                 "Suturing_S08","Suturing_S09",\
+        #                                                 "Needle_Passing_S02","Needle_Passing_S03","Needle_Passing_S04",\
+        #                                                 "Needle_Passing_S05","Needle_Passing_S06","Needle_Passing_S08","Needle_Passing_S09",\
+        #                                                 "Knot_Tying_S02", "Knot_Tying_S03", "Knot_Tying_S04", \
+        #                                                 "Knot_Tying_S05", "Knot_Tying_S06", "Knot_Tying_S07", \
+        #                                                 "Knot_Tying_S08", "Knot_Tying_S09"]
+        #     # all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
+        #     # all_params[dataset_name]["validation_trial"] = 1
+        #     # all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
+        #
+        # elif dataset_name == "All-5a":
+        #     all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
+        #     all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
+        #     all_params[dataset_name]["validation_trial"] = 2
+        #     all_params[dataset_name]["validation_trial_train"] = [3,4,5,6,7,8,9]
+        #
+        # elif dataset_name == "All-5b":
+        #     all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6,7,8]
+        #     all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
+        #     all_params[dataset_name]["validation_trial"] = 1
+        #     all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
 
-        elif dataset_name == "JIGSAWS":
-            all_params[dataset_name]["test_trial"] = [  "Suturing_S02","Suturing_S03","Suturing_S04",\
-                                                        "Suturing_S05","Suturing_S06","Suturing_S07",\
-                                                        "Suturing_S08","Suturing_S09",\
-                                                        "Needle_Passing_S02","Needle_Passing_S03","Needle_Passing_S04",\
-                                                        "Needle_Passing_S05","Needle_Passing_S06","Needle_Passing_S08","Needle_Passing_S09",\
-                                                        "Knot_Tying_S02", "Knot_Tying_S03", "Knot_Tying_S04", \
-                                                        "Knot_Tying_S05", "Knot_Tying_S06", "Knot_Tying_S07", \
-                                                        "Knot_Tying_S08", "Knot_Tying_S09"]
-            # all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
-            # all_params[dataset_name]["validation_trial"] = 1
-            # all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
-
-        elif dataset_name == "All-5a":
-            all_params[dataset_name]["test_trial"] = [2,3,4,5,6,7,8,9]
-            all_params[dataset_name]["train_trial"] = [[3,4,5,6,7,8,9],[2,4,5,6,7,8,9],[2,3,5,6,7,8,9],[2,3,4,6,7,8,9],[2,3,4,5,7,8,9],[2,3,4,5,6,8,9],[2,3,4,5,6,7,9],[2,3,4,5,6,7,8]]
-            all_params[dataset_name]["validation_trial"] = 2
-            all_params[dataset_name]["validation_trial_train"] = [3,4,5,6,7,8,9]
-
-        elif dataset_name == "All-5b":
-            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6,7,8]
-            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8],[1,3,4,5,6,7,8],[1,2,4,5,6,7,8],[1,2,3,5,6,7,8],[1,2,3,4,6,7,8],[1,2,3,4,5,7,8],[1,2,3,4,5,6,8],[1,2,3,4,5,6,7]]
-            all_params[dataset_name]["validation_trial"] = 1
-            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8]
-
-        elif dataset_name in ["PoaP", "PaS"]:
-            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6,7,8,9,10,11,12]
-            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6,7,8,9,10,11,12],[1,3,4,5,6,7,8,9,10,11,12],[1,2,4,5,6,7,8,9,10,11,12],[1,2,3,5,6,7,8,9,10,11,12],[1,2,3,4,6,7,8,9,10,11,12],[1,2,3,4,5,7,8,9,10,11,12],[1,2,3,4,5,6,8,9,10,11,12],[1,2,3,4,5,6,7,9,10,11,12],[1,2,3,4,5,6,7,8,10,11,12],[1,2,3,4,5,6,7,8,9,11,12],[1,2,3,4,5,6,7,8,9,10,12],[1,2,3,4,5,6,7,8,9,10,11]]
-            all_params[dataset_name]["validation_trial"] = 1
-            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6,7,8,9,10,11,12]
+        elif dataset_name in ["PoaP", "PaS", "ROSMA"]: #]:  #"ROSMA"]:
+            all_params[dataset_name]["test_trial"] =    ["01","02","03","04","05","06","07","08","09","10","11","12"]
+            all_params[dataset_name]["train_trial"] = [ ["02","03","04","05","06","07","08","09","10","11","12"],\
+                                                        ["01","03","04","05","06","07","08","09","10","11","12"],\
+                                                        ["01","02","04","05","06","07","08","09","10","11","12"],\
+                                                        ["01","02","03","05","06","07","08","09","10","11","12"],\
+                                                        ["01","02","03","04","06","07","08","09","10","11","12"],\
+                                                        ["01","02","03","04","05","07","08","09","10","11","12"],\
+                                                        ["01","02","03","04","05","06","08","09","10","11","12"],\
+                                                        ["01","02","03","04","05","06","07","09","10","11","12"],\
+                                                        ["01","02","03","04","05","06","07","08","10","11","12"],\
+                                                        ["01","02","03","04","05","06","07","08","09","11","12"],\
+                                                        ["01","02","03","04","05","06","07","08","09","10","12"],\
+                                                        ["01","02","03","04","05","06","07","08","09","10","11"]]
+            all_params[dataset_name]["validation_trial"] = "01"
+            all_params[dataset_name]["validation_trial_train"] = ["02","03","04","05","06","07","08","09","10","11","12"]
 
         elif dataset_name == "PTPaS":
             all_params[dataset_name]["test_trial"] = [  "Peg_Transfer_S01","Peg_Transfer_S02","Peg_Transfer_S03", \
@@ -324,15 +349,15 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
                                                         "Post_and_Sleeve_S07","Post_and_Sleeve_S08","Post_and_Sleeve_S09",\
                                                         "Post_and_Sleeve_S10","Post_and_Sleeve_S11","Post_and_Sleeve_S12"]
 
-        elif dataset_name == "ROSMA":
-            all_params[dataset_name]["test_trial"] = [  "Post_and_Sleeve_S01","Post_and_Sleeve_S02","Post_and_Sleeve_S03",\
-                                                        "Post_and_Sleeve_S04","Post_and_Sleeve_S05","Post_and_Sleeve_S06",\
-                                                        "Post_and_Sleeve_S07","Post_and_Sleeve_S08","Post_and_Sleeve_S09",\
-                                                        "Post_and_Sleeve_S10","Post_and_Sleeve_S11","Post_and_Sleeve_S12",\
-                                                        "Pea_on_a_Peg_S01","Pea_on_a_Peg_S02","Pea_on_a_Peg_S03",\
-                                                        "Pea_on_a_Peg_S04","Pea_on_a_Peg_S05","Pea_on_a_Peg_S06",\
-                                                        "Pea_on_a_Peg_S07","Pea_on_a_Peg_S08","Pea_on_a_Peg_S09",\
-                                                        "Pea_on_a_Peg_S10","Pea_on_a_Peg_S11","Pea_on_a_Peg_S12"]
+        # elif dataset_name == "ROSMA":
+        #     all_params[dataset_name]["test_trial"] = [  "Post_and_Sleeve_S01","Post_and_Sleeve_S02","Post_and_Sleeve_S03",\
+        #                                                 "Post_and_Sleeve_S04","Post_and_Sleeve_S05","Post_and_Sleeve_S06",\
+        #                                                 "Post_and_Sleeve_S07","Post_and_Sleeve_S08","Post_and_Sleeve_S09",\
+        #                                                 "Post_and_Sleeve_S10","Post_and_Sleeve_S11","Post_and_Sleeve_S12",\
+        #                                                 "Pea_on_a_Peg_S01","Pea_on_a_Peg_S02","Pea_on_a_Peg_S03",\
+        #                                                 "Pea_on_a_Peg_S04","Pea_on_a_Peg_S05","Pea_on_a_Peg_S06",\
+        #                                                 "Pea_on_a_Peg_S07","Pea_on_a_Peg_S08","Pea_on_a_Peg_S09",\
+        #                                                 "Pea_on_a_Peg_S10","Pea_on_a_Peg_S11","Pea_on_a_Peg_S12"]
 
         elif dataset_name == "All":
             all_params[dataset_name]["test_trial"] = [  "Suturing_S02","Suturing_S03","Suturing_S04",\
