@@ -121,6 +121,8 @@ if __name__ == "__main__":
     elif valtype == "LOUO":
         updateJSONtcnparams(set, 1, 60, 0.00005, 0.0005) # based on JIGSAWS gesture velocity LOUO
         #updateJSONtcnparams(set, 1, 60, 0.0001, 0.001) # based on JIGSAWS MPbaseline velocity LOUO
+    elif valtype == "LOTO":
+        updateJSONtcnparams(set, 1, 60, 0.0001, 0.001)   # based on JIGSAWS gesture velocity LOTO
     '''
     # Number of CPU and GPU resources are hard coded in main_tcn, make
     # sure to change if running on a different computer

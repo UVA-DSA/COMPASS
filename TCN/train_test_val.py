@@ -453,64 +453,6 @@ def cross_validate(dataset_name,net_name, logDir):
     # Update after running parameter tuning
     if net_name =='tcn':
         num_epochs = numepochs # about 25 mins for 5 fold cross validation
-        #config = {'learning_rate': 0.0003042861945575232, 'batch_size': 1, 'weight_decay': 0.00012035748692105724} #EPOCH=30 tcn
-        # DESK MPs best config
-        #config = {'learning_rate': 0.000303750997737948, 'batch_size': 1, 'weight_decay': 0.0003482923872868488}
-        # DESK surgemes best confg
-        #config = {'learning_rate': 3.963963013042929e-05, 'batch_size': 1, 'weight_decay': 0.00027159256985286403}
-        # JIGSAWS velocity MP
-        #config = {'learning_rate': 0.0001576343084838018, 'batch_size': 1, 'weight_decay': 0.00023773851327890498}
-
-        # JIGSAWS velocity gesture
-        #config = {'learning_rate': 2.5826153934209526e-05, 'batch_size': 1, 'weight_decay': 0.004858510195728743}  # 2/11/22 with kernel_size=89
-        #config = {'learning_rate': 0.00016366977236766027, 'batch_size': 1, 'weight_decay': 0.008127289637042961}
-        #config = {'learning_rate': 0.00014231599843812342, 'batch_size': 1, 'weight_decay': 0.00030737153854922043}  # 2/13/22 LOUO
-        #config = {'learning_rate': 0.00020022531960136458, 'batch_size': 1, 'weight_decay': 0.00014092727832934972}  # 2/13/22 LOUO
-        # DESK velocity gesture
-        #config = {'learning_rate': 7.169049601430846e-05, 'batch_size': 1, 'weight_decay': 0.0006724637388961114}  # 2/11/22 with kernel_size=29
-        #config = {'learning_rate': 0.00025031047039607583, 'batch_size': 1, 'weight_decay': 0.0009766401294135894}
-        #config = {'learning_rate': 0.000566937505891035, 'batch_size': 1, 'weight_decay': 0.00012182323546170875}  # LOUO
-        # JIGSAWS velocity MP
-        #config = {'learning_rate': 8.863231228512165e-05, 'batch_size': 1, 'weight_decay': 0.009514818942409369}   # 2/11/22 with kernel_size=23
-        # DESK velocity MP
-        #config = {'learning_rate': 0.0004998087380888688, 'batch_size': 1, 'weight_decay': 0.008574253154000755}
-        # DESK velocity MP consensus
-        #config = {'learning_rate': 0.0009516004370271217, 'batch_size': 1, 'weight_decay': 0.007131571108569991}
-        #config = {'learning_rate': 0.0005338645537130718, 'batch_size': 1, 'weight_decay': 0.001632334147284145}  # LOUO
-        # DESK velocity gesture LOUO, consensus, kernel_size=45
-        #config = {'learning_rate': 0.00059835623472427, 'batch_size': 1, 'weight_decay': 0.009372709880483896}
-
-        # DESK all MP, LOUO
-        #config = {'learning_rate': 0.0009317393319254369, 'batch_size': 1, 'weight_decay': 0.007328315522134738}
-        #config = {'learning_rate': 0.00015569956670242064, 'batch_size': 1, 'weight_decay': 0.0008577704981125022}
-        # DESK all gesture, LOUO
-        #config = {'learning_rate': 0.00030989384781463376, 'batch_size': 1, 'weight_decay': 0.00042974511488755003}
-        # DESK orientation gesture
-        #config = {'learning_rate': 0.0001109740677026585, 'batch_size': 1, 'weight_decay': 0.0011757798863368475}
-        # DESK velocity gesture LOUO
-        #config = {'learning_rate': 2.0303285012661874e-05, 'batch_size': 1, 'weight_decay': 0.005270918479633022}
-
-        # JIGSAWS orientation gesture LOUO
-        #config = {'learning_rate': 9.608896965822702e-05, 'batch_size': 1, 'weight_decay': 0.00022315394809092768}
-        # JIGSAWS velocity MP LOUO
-        #config = {'learning_rate': 0.00010232828782048709, 'batch_size': 1, 'weight_decay': 0.00012579766622720006}
-        # JIGSAWS orientation MP LOUO
-        #config = {'learning_rate': 0.00010196958676399468, 'batch_size': 1, 'weight_decay': 0.0005628660100559107}
-
-        # DESK velocity MP LOUO
-        #config = {'learning_rate': 0.0008462722570188893, 'batch_size': 1, 'weight_decay': 0.007276418590007963}
-        # DESK orientation MP LOUO
-        #config = {'learning_rate': 0.00015336293603963178, 'batch_size': 1, 'weight_decay': 0.007524253091245142}
-        # DESK orientation gesture LOUO
-        #config = {'learning_rate': 0.00017412325738076886, 'batch_size': 1, 'weight_decay': 0.00015381673554134805}
-        # DESK all gesture LOUO
-        #config = {'learning_rate': 0.00014823443003321956, 'batch_size': 1, 'weight_decay': 0.003528467199695913}
-        # DESK all MP LOUO
-        #config = {'learning_rate': 0.0006676844356521238, 'batch_size': 1, 'weight_decay': 0.00600167182602091}
-        # JIGSAWS all MP LOUO
-        #config = {'learning_rate': 0.0001409820043930154, 'batch_size': 1, 'weight_decay': 0.0009490365329227817}
-        # JIGSAWS all gesture LOUO
-        #config = {'learning_rate': 0.00024387030796133854, 'batch_size': 1, 'weight_decay': 0.00010980490384303342}
         config = {'learning_rate': learningrate, 'batch_size': batchsize, 'weight_decay': weightdecay}
 
     if net_name=='lstm':
@@ -524,10 +466,16 @@ def cross_validate(dataset_name,net_name, logDir):
     if valtype == "LOSO":
         cross_val_splits = utils.get_cross_val_splits()
     elif (dataset_name == "SNP" or dataset_name == "PTPaS" or dataset_name == "ROSMA" or dataset_name == "All" or dataset_name == "JIGSAWS") and (valtype == "LOUO"):
-        print("Using LOUO with separate folds for each task_subject")
+        print("Using LOUO_multi with separate folds for each task_subject")
         cross_val_splits = utils.get_cross_val_splits_LOUO_multi()
     elif valtype == "LOUO":
         cross_val_splits = utils.get_cross_val_splits_LOUO()
+    elif (valtype == "LOTO") and (dataset_name in ["SNP", "JIGSAWS", "ROSMA", "PTPaS", "All"]):
+        print("Using LOTO cross validation folds")
+        cross_val_splits = utils.get_cross_val_splits_LOTO()
+    elif valtype == "random":
+        print("Using 5 random fold cross valiation")
+        cross_val_splits = utils.get_cross_val_splits_random()
 
     #cross_val_splits = utils.get_cross_val_splits_LOUO() #utils.get_cross_val_splits()
     #breakpoint()

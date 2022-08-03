@@ -15,6 +15,7 @@ from __future__ import print_function
 # left and right are the combined transcript but split by relevant side and
 #     filled in with Idle(*) for that hand
 
+# 8/1/22 Adding LOTO cross val option
 
 import glob
 import sys
@@ -68,11 +69,11 @@ def processArguments(args):
     try:
         valtype = args[4]
         # Check if valid crossval
-        if valtype not in ["LOSO", "LOUO"]:
-            print("Please choose label type: LOSO LOUO")
+        if valtype not in ["LOSO", "LOUO", "LOTO", "random"]:
+            print("Please choose label type: LOSO LOUO LOTO random")
             sys.exit()
     except:
-        print("Please choose label type: LOSO LOUO")
+        print("Please choose label type: LOSO LOUO LOTO random")
         sys.exit()
 
 
@@ -380,6 +381,34 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
                                                         "Pea_on_a_Peg_S04","Pea_on_a_Peg_S05","Pea_on_a_Peg_S06",\
                                                         "Pea_on_a_Peg_S07","Pea_on_a_Peg_S08","Pea_on_a_Peg_S09",\
                                                         "Pea_on_a_Peg_S10","Pea_on_a_Peg_S11","Pea_on_a_Peg_S12"]
+    elif (valtype == "LOTO") and (dataset_name in ["SNP", "JIGSAWS", "ROSMA", "PTPaS", "All"]):
+        if dataset_name  == "SNP": #, "JIGSAWS"]:
+            all_params[dataset_name]["test_trial"] =    ["Suturing","Needle_Passing"]
+            all_params[dataset_name]["train_trial"] = [ ["Needle_Passing"], ["Suturing"]]
+
+        elif dataset_name  == "JIGSAWS":
+            all_params[dataset_name]["test_trial"] =    ["Suturing","Needle_Passing", "Knot_Tying"]
+            all_params[dataset_name]["train_trial"] = [ ["Needle_Passing", "Knot_Tying"], ["Suturing", "Knot_Tying"], ["Suturing", "Needle_Passing"]]
+
+        elif dataset_name == "ROSMA":
+            all_params[dataset_name]["test_trial"] =    ["Post_and_Sleeve","Pea_on_a_Peg"]
+            all_params[dataset_name]["train_trial"] = [ ["Pea_on_a_Peg"], ["Post_and_Sleeve"]]
+
+        elif dataset_name == "PTPaS":
+            all_params[dataset_name]["test_trial"] = [  "Peg_Transfer", "Post_and_Sleeve"]
+            all_params[dataset_name]["train_trial"] = [ ["Post_and_Sleeve"], ["Peg_Transfer"]]
+
+        elif dataset_name == "All":
+            all_params[dataset_name]["test_trial"] = [  "Suturing", "Needle_Passing", "Knot_Tying", "Peg_Transfer","Post_and_Sleeve", "Pea_on_a_Peg"]
+            all_params[dataset_name]["train_trial"] = [ ["Needle_Passing", "Knot_Tying", "Peg_Transfer", "Post_and_Sleeve", "Pea_on_a_Peg"], \
+                                                        ["Suturing", "Knot_Tying", "Peg_Transfer", "Post_and_Sleeve", "Pea_on_a_Peg"], \
+                                                        ["Suturing", "Needle_Passing", "Peg_Transfer", "Post_and_Sleeve", "Pea_on_a_Peg"], \
+                                                        ["Suturing", "Needle_Passing", "Knot_Tying", "Post_and_Sleeve", "Pea_on_a_Peg"], \
+                                                        ["Suturing", "Needle_Passing", "Knot_Tying", "Peg_Transfer", "Pea_on_a_Peg"], \
+                                                        ["Suturing", "Needle_Passing", "Knot_Tying", "Peg_Transfer","Post_and_Sleeve"]]
+        else:
+            print("Exiting: Invalid model combination")
+            sys.exit()
 
 
 

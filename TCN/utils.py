@@ -43,6 +43,109 @@ def get_all_trail():
     return trail_list
 
 
+# Random k-fold cross validation
+def get_cross_val_splits_random(k=5):
+    import random
+    def partition(list, n):
+        random.shuffle(list)
+        return [list[i::n] for i in range(n)]
+
+    # load from config
+    from config import raw_feature_dir, validation_trial, validation_trial_train, test_trial, train_trial
+    cross_val_splits = []
+    all_files = []
+    for i in raw_feature_dir:
+        all_files.extend(glob.glob(os.path.join(i, "*")))
+
+    test_folds = partition(all_files, k)
+
+    for i in range(k):
+        test_dir = test_folds[i]
+        train_dir = [t for t in all_files if t not in test_dir]
+        cross_val_splits.append({'train': train_dir,
+                                'test': test_dir,
+                                'name': 'test_{}'.format(i)})
+    return cross_val_splits
+
+
+
+# LOTO for evaluating models trained with data from multiple tasks where each
+# fold is a different task
+def get_cross_val_splits_LOTO(validation = False):
+    # load from config
+    from config import raw_feature_dir, validation_trial, validation_trial_train, test_trial, train_trial
+    # for validation set and hyperparameter tuning
+    if validation ==True:
+        print("Exiting... LOTO validation sets not set up")
+        sys.exit()
+        cross_val_splits=[]
+        test_dir = []
+        train_dir = []
+        if len(raw_feature_dir)!=1:
+            for i in raw_feature_dir:
+                print(os.path.join(i,'*{}_*'.format(validation_trial)))
+                #test = glob.glob(os.path.join(i,'*{}_*'.format(validation_trial)))
+                test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
+                test_dir.extend(test)
+
+                train = glob.glob(os.path.join(i, "*"))
+                train = [t for t in train if t not in test]
+                train_dir.extend(train)
+
+            return {'train':train_dir,'test':test_dir,'name':'tune'}
+        else:
+            i = raw_feature_dir[0]
+            print(os.path.join(i,'*{}_*'.format(validation_trial)))
+            #test = glob.glob(os.path.join(i,'*{}_*'.format(validation_trial)))
+            test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
+            test_dir.extend(test)
+
+            train = glob.glob(os.path.join(i, "*"))
+            train = [t for t in train if t not in test]
+            train_dir.extend(train)
+
+            return {'train':train_dir,'test':test_dir,'name':'tune'}
+
+
+    # for training
+    else:
+        cross_val_splits = []
+        # for each fold (each task_subject combination)
+        for idx, test_num in enumerate(test_trial):
+            train_dir = []
+            test_dir = []
+            if len(raw_feature_dir)!=1:
+                for i in raw_feature_dir:
+                    # list files for testing
+                    #test = glob.glob(os.path.join(i,'{}_*'.format(test_num)))
+                    test = glob.glob(os.path.join(i,test_num+'_S*'))#.format(test_num)))
+                    test_dir.extend(test)
+
+                    # list all other files minus test files
+                    train = glob.glob(os.path.join(i, "*"))
+                    train = [t for t in train if t not in test]
+                    train_dir.extend(train)
+
+            else:
+                i = raw_feature_dir[0]
+                #test = glob.glob(os.path.join(i,'*{}_*'.format(test_num)))
+                test = glob.glob(os.path.join(i,test_num+'_S*'))#.format(test_num)))
+                test_dir.extend(test)
+
+                train = glob.glob(os.path.join(i, "*"))
+                train = [t for t in train if t not in test]
+                train_dir.extend(train)
+
+            #breakpoint()
+            # add fold sets to cross_val_splits
+            cross_val_splits.append({'train': train_dir,
+                                    'test': test_dir,
+                                    'name': 'test_{}'.format(test_num)})
+
+        return cross_val_splits
+
+
+
 # LOUO for evaluating models trained with data from multiple tasks where each
 # fold is a different task_subject (instead of just different subject)
 def get_cross_val_splits_LOUO_multi(validation = False):
