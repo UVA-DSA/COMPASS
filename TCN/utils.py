@@ -146,6 +146,160 @@ def get_cross_val_splits_LOTO(validation = False):
 
 
 
+
+
+
+# LOUO for evaluating model with data from all tasks where each
+# fold is a different subject and considering that datasets have subjects
+# that performed different tasks
+def get_cross_val_splits_LOUO_all(validation = False):
+    # load from config
+    from config import raw_feature_dir, validation_trial, validation_trial_train, test_trial, train_trial
+    # for validation set and hyperparameter tuning
+    if validation ==True:
+        print("Exiting... not folds not defined yet")
+        sys.exit()
+        cross_val_splits=[]
+        test_dir = []
+        train_dir = []
+        if len(raw_feature_dir)!=1:
+            for i in raw_feature_dir:
+                print(os.path.join(i,'*{}_*'.format(validation_trial)))
+                #test = glob.glob(os.path.join(i,'*{}_*'.format(validation_trial)))
+                test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
+                test_dir.extend(test)
+                # tri=[j for j in validation_trial_train]
+                # a = "*["+",".join(['{}']*len(validation_trial_train))+"]_*"
+                # train = glob.glob(os.path.join(i,a.format(*tri)))
+                #     #train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
+                #      #   train_trial[idx][2],train_trial[idx][3])))
+                #
+                # print(os.path.join(i,a.format(*tri)))
+                # train_dir.extend(train)
+                train = glob.glob(os.path.join(i, "*"))
+                train = [t for t in train if t not in test]
+                train_dir.extend(train)
+
+            return {'train':train_dir,'test':test_dir,'name':'tune'}
+        else:
+            i = raw_feature_dir[0]
+            print(os.path.join(i,'*{}_*'.format(validation_trial)))
+            #test = glob.glob(os.path.join(i,'*{}_*'.format(validation_trial)))
+            test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
+            test_dir.extend(test)
+            # tri=[j for j in validation_trial_train]
+            # a = "*["+",".join(['{}']*len(validation_trial_train))+"]_*"
+            # train = glob.glob(os.path.join(i,a.format(*tri)))
+            #         #train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
+            #          #   train_trial[idx][2],train_trial[idx][3])))
+            # print(os.path.join(i,a.format(*tri)))
+            # #breakpoint()
+            # train_dir.extend(train)
+            train = glob.glob(os.path.join(i, "*"))
+            train = [t for t in train if t not in test]
+            train_dir.extend(train)
+
+            return {'train':train_dir,'test':test_dir,'name':'tune'}
+
+
+    # for training
+    else:
+        cross_val_splits = []
+
+        # list of all trials
+        all_dir = []
+        for i in raw_feature_dir:
+            task_trials = glob.glob(os.path.join(i, "*"))
+            all_dir.extend(task_trials)
+
+        # get path to datasets
+        data_dir = os.path.dirname(os.path.dirname(i))
+
+
+        # Tasks in each dataset:
+        JIGSAWS_tasks = ["Suturing", "Needle_Passing", "Knot_Tying"]
+        DESK_tasks = ["Peg_Transfer"]
+        ROSMA_tasks = ["Post_and_Sleeve", "Pea_on_a_Peg"]
+
+        # Subjects for each dataset:
+        JIGSAWS_subjects = ["02","03","04","05","06","07","08","09"]
+        DESK_subjects = ["01","02","03","04","05","06","07","08"]
+        ROSMA_subjects = ["01","02","03","04","05","06","07","08","09","10","11","12"]
+
+        # create each fold based on dataset and subject combination
+        # starting with JIGSAWS
+        for subject in JIGSAWS_subjects:
+            test_dir = []
+            train_dir = []
+            # for each task, look for the task_subject files and create folds
+            for task in JIGSAWS_tasks:
+                #print(data_dir, task+"_S"+subject+'_*')
+                test = glob.glob(os.path.join(data_dir, task, "preprocessed", task+"_S"+subject+'_*'))
+                test_dir.extend(test)
+            # remove test files from all_dir to get the train files
+            train = [t for t in all_dir if t not in test_dir]
+            train_dir.extend(train)
+            # add fold to cross_val_splits
+            cross_val_splits.append({'train': train_dir,
+                                    'test': test_dir,
+                                    'name': 'test_{}'.format("JIGSAWS_"+subject)})
+
+        # for DESK
+        for subject in DESK_subjects:
+            test_dir = []
+            train_dir = []
+            # for each task, look for the task_subject files and create folds
+            for task in DESK_tasks:
+                #print(data_dir, task+"_S"+subject+'_*')
+                test = glob.glob(os.path.join(data_dir, task, "preprocessed", task+"_S"+subject+'_*'))
+                test_dir.extend(test)
+            # remove test files from all_dir to get the train files
+            train = [t for t in all_dir if t not in test_dir]
+            train_dir.extend(train)
+            # add fold to cross_val_splits
+            cross_val_splits.append({'train': train_dir,
+                                    'test': test_dir,
+                                    'name': 'test_{}'.format("DESK_"+subject)})
+
+        # for ROSMA
+        for subject in ROSMA_subjects:
+            test_dir = []
+            train_dir = []
+            # for each task, look for the task_subject files and create folds
+            for task in ROSMA_tasks:
+                #print(data_dir, task+"_S"+subject+'_*')
+                test = glob.glob(os.path.join(data_dir, task, "preprocessed", task+"_S"+subject+'_*'))
+                test_dir.extend(test)
+            # remove test files from all_dir to get the train files
+            train = [t for t in all_dir if t not in test_dir]
+            train_dir.extend(train)
+            # add fold to cross_val_splits
+            cross_val_splits.append({'train': train_dir,
+                                    'test': test_dir,
+                                    'name': 'test_{}'.format("ROSMA_"+subject)})
+
+        '''
+        # Check that folds are correct by printing
+        for fold in range(len(cross_val_splits)):
+            print(cross_val_splits[fold]["name"])
+            tests = cross_val_splits[fold]["test"]
+            # for k in range(len(tests)):
+            #     print(tests[k].split("/")[-1])
+            # trains = cross_val_splits[fold]["train"]
+            # for k in range(len(trains)):
+            #     print(trains[k].split("/")[-1])
+            print(len(cross_val_splits[fold]["test"]))
+            print(len(cross_val_splits[fold]["train"]))
+            print(str(int(len(cross_val_splits[fold]["test"])) + int(len(cross_val_splits[fold]["train"]))))
+        sys.exit()
+        '''
+
+
+        return cross_val_splits
+
+
+
+
 # LOUO for evaluating models trained with data from multiple tasks where each
 # fold is a different task_subject (instead of just different subject)
 def get_cross_val_splits_LOUO_multi(validation = False):
@@ -209,7 +363,8 @@ def get_cross_val_splits_LOUO_multi(validation = False):
                 for i in raw_feature_dir:
                     # list files for testing
                     #test = glob.glob(os.path.join(i,'{}_*'.format(test_num)))
-                    test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
+                    #test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
+                    test = glob.glob(os.path.join(i,test_num+'_*'))
                     test_dir.extend(test)
 
                     # #breakpoint()
@@ -230,7 +385,8 @@ def get_cross_val_splits_LOUO_multi(validation = False):
             else:
                 i = raw_feature_dir[0]
                 #test = glob.glob(os.path.join(i,'*{}_*'.format(test_num)))
-                test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
+                #test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
+                test = glob.glob(os.path.join(i,test_num+'_*'))
                 test_dir.extend(test)
                 #breakpoint()
                 # tri=[j for j in train_trial[idx]]

@@ -244,13 +244,13 @@ if __name__ == "__main__":
 
     # Set up paths and directories
     dir = os.getcwd()
-    resultsDir = os.path.join(dir, "Results") #, "results_06_17_2022_gesture_test") #, "results_06_16_2022_nofabric") #, "results_05_11_2022_MPvars") #, "results_03_04_22")
+    resultsDir = os.path.join(dir, "Results", "results_07_25_2022_fixedgesturehypparams") #, "results_06_17_2022_gesture_test") #, "results_06_16_2022_nofabric") #, "results_05_11_2022_MPvars") #, "results_03_04_22")
     #resultsList = os.listdir(resultsDir)
     resultsList = [f for f in os.listdir(resultsDir) if os.path.isdir(os.path.join(resultsDir, f))]
 
 
 
-    '''
+
     # This section takes the longest to process and run, so comment it out if it's run before
     # Find folders containing "tcn" folder from training
     # Only need to run the following section once to generate class_results.csv
@@ -261,7 +261,7 @@ if __name__ == "__main__":
         if "tcn" in os.listdir(resultpath):
             print(r)
             getCM(resultpath)
-    '''
+
 
 
 

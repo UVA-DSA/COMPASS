@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
     # Set up paths and directories
     dir = os.getcwd()
-    resultsDir = os.path.join(dir, "Results") #, "results_07_26_2022_fixedMPhypparams") #, "results_07_25_2022_fixedgesturehypparams")  #, "results_03_04_22")
+    resultsDir = os.path.join(dir, "Results") #, "results_07_25_2022_fixedgesturehypparams", "LOUO_multi")  #, "results_03_04_22")
     resultsList = os.listdir(resultsDir)
 
 

@@ -465,13 +465,14 @@ def cross_validate(dataset_name,net_name, logDir):
     print("Getting cross validation splits")
     if valtype == "LOSO":
         cross_val_splits = utils.get_cross_val_splits()
-    elif (dataset_name == "SNP" or dataset_name == "PTPaS" or dataset_name == "ROSMA" or dataset_name == "All" or dataset_name == "JIGSAWS") and (valtype == "LOUO"):
-        print("Using LOUO_multi with separate folds for each task_subject")
+    elif (valtype == "LOUO") and (dataset_name == "PTPaS"):
         cross_val_splits = utils.get_cross_val_splits_LOUO_multi()
-    elif valtype == "LOUO":
+    elif (valtype == "LOUO") and (dataset_name == "SNP" or dataset_name == "JIGSAWS" or dataset_name == "ROSMA"):
         cross_val_splits = utils.get_cross_val_splits_LOUO()
+    elif (valtype == "LOUO") and (dataset_name == "All"):
+        cross_val_splits = utils.get_cross_val_splits_LOUO_all()
     elif (valtype == "LOTO") and (dataset_name in ["SNP", "JIGSAWS", "ROSMA", "PTPaS", "All"]):
-        print("Using LOTO cross validation folds")
+        #print("Using LOTO cross validation folds")
         cross_val_splits = utils.get_cross_val_splits_LOTO()
     elif valtype == "random":
         print("Using 5 random fold cross valiation")

@@ -15,10 +15,10 @@ import shutil
 
 
 # Model options
-sets = ["S", "NP", "KT", "PT", "PoaP", "PaS", "SNP", "PTPaS", "JIGSAWS", "ROSMA", "All"]
+sets = ["S", "NP", "KT", "PT", "PoaP", "PaS", "SNP", "JIGSAWS", "ROSMA", "PTPaS", "All"]
 vars = ["velocity", "orientation", "all", "vis", "vis2"]
 labeltypes = ["MPbaseline", "MPleft", "MPright", "gesture", "MPcombined", "MPexchange", "MPleftX", "MPrightX", "MPleftE", "MPrightE"]
-valtypes = ["LOSO", "LOUO"]
+valtypes = ["LOSO", "LOUO", "LOTO", "random"]
 
 
 # Create folder for results
@@ -27,10 +27,10 @@ resultsDir = os.path.join(dir, "Results")
 
 
 # Iterate through each combination of settings
-for set in sets[0:8]:
+for set in sets[9:10]:
     for var in vars[0:1]:
-        for labeltype in labeltypes[1:3]:
-            for valtype in valtypes:
+        for labeltype in labeltypes[:3]:
+            for valtype in valtypes[1:2]:
 
                 # Create folder named by current time and config
                 now = datetime.now()
