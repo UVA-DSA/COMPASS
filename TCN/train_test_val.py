@@ -10,7 +10,7 @@ import glob
 import time
 from datetime import datetime
 import numpy as np
-from ray.tune.session import checkpoint_dir
+from ray.tune.trainable.session import checkpoint_dir
 import torch
 import torch.nn as nn
 from random import randrange
@@ -571,7 +571,8 @@ if __name__ == "__main__":
     timeNow = now.strftime("%m_%d_%Y_%H%M")
     logFolder = set +"_"+ var +"_"+ labeltype +"_"+ valtype +"_"+ timeNow
     logDir =  os.path.join(resultsDir, logFolder)
-    os.mkdir(logDir)
+    if not os.path.exists(logDir):
+        os.mkdir(logDir)
 
     print("Results will be stored in: " + logDir)
     # Copy config file over first

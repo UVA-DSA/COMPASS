@@ -86,15 +86,54 @@ def condenseContext(df):
 def group(dfContext):
     # find start and end indices of each group of rows with the same context label
     dfContext['subgroup'] = (dfContext['Context'] != dfContext['Context'].shift(1)).cumsum()
-    #print(dfContext)
+    # print('dfContext')
+    # print(dfContext)
+    # print('dfContext[\'subgroup\']')
+    # print(dfContext['subgroup'])
+    # print('dfContext.groupby(\'subgroup\',as_index=False)')
+    # print(dfContext.groupby('subgroup',as_index=False))
 
-    # create 'subgroup' column indicating groups of consecutive rows with same 'Context' label
-    dfGrouped = dfContext.groupby('subgroup',as_index=False).apply(lambda x: (x['Frame'].iloc[0], x['Frame'].iloc[-1], x['Context'].iloc[0]))  #head(1)))
-    #print(dfGrouped)
+    # df = pd.DataFrame([[4, 9]] * 3, columns=['A', 'B'])
+    # df = df.apply(lambda x: [1, 2], axis=1, result_type='broadcast')
+    # print(df)
+
+    # ORIGINAL START
+    # # create 'subgroup' column indicating groups of consecutive rows with same 'Context' label
+    # dfGrouped = dfContext['subgroup'].apply(lambda x: [x['Frame'].iloc[0], x['Frame'].iloc[-1], x['Context'].iloc[0]], axis=1, result_type='broadcast') 
+    # print(dfGrouped)
+
+    # # cast to df and return
+    # myDF = pd.DataFrame(dfGrouped.tolist(), columns=["Start", "End", "Context"])
+    # return myDF
+    # ORIGINAL END
+
+    # dfGrouped = dfContext.groupby('subgroup',as_index=False).apply(lambda x: (x['Frame'].iloc[0], x['Frame'].iloc[-1], x['Context'].iloc[0]))  #head(1)))
+    # dfGrouped = dfContext.groupby('subgroup',as_index=False).apply(lambda x: {print('here is x', x)})
+    # dfGrouped = dfContext.groupby('subgroup',as_index=False).apply(lambda x: [x['Frame'].iloc[0], x['Frame'].iloc[-1], x['Context'].iloc[0]], axis=1, result_type='broadcast') 
+    
+    # myDF = pd.DataFrame(dfContext['subgroup'].tolist())
+    # print('myDF')
+    # print(myDF)
+
+    # for key, item in dfContext.groupby('subgroup',as_index=False):
+    #     print(dfContext.groupby('subgroup',as_index=False).get_group(key), "\n\n")
+
+    # df.groupby('group').agg(
+    #          a_sum=('a', 'sum'),
+    #          a_mean=('a', 'mean'),
+    #          b_mean=('b', 'mean'),
+    #          c_sum=('c', 'sum'),
+    #          d_range=('d', lambda x: x.max() - x.min())
+
+    # dfGrouped = dfContext.groupby('subgroup',as_index=False).apply(lambda x: [x['Frame'].iloc[0], x['Frame'].iloc[-1], x['Context'].iloc[0]]) 
+    dfGrouped = dfContext.groupby('subgroup', as_index=False).agg(Start=('Frame', lambda x: x.iloc[0]), End=('Frame', lambda x: x.iloc[-1]), Context=('Context', lambda x: x.iloc[0]))
+    myDF = dfGrouped[['Start', 'End', 'Context']]
+    # print(dfGrouped)
+    return myDF
 
     # cast to df and return
-    myDF = pd.DataFrame(dfGrouped.tolist(), columns=["Start", "End", "Context"])
-    return myDF
+    # myDF = pd.DataFrame(dfGrouped.tolist(), columns=["Start", "End", "Context"]) # dfGrouped is a Series
+    # return myDF
 
 
 
@@ -115,7 +154,10 @@ def labelMPs(npGrouped):
         nextState = npGrouped[g+1, 2]
 
         # Get list of states that change between two consecutive groups
-        diff = [s for s in xrange(len(currState)) if currState[s] != nextState[s]]
+        # diff = [s for s in xrange(len(currState)) if currState[s] != nextState[s]]
+        # print(currState)
+        # print(type(currState))
+        diff = [s for s in range(len(currState)) if currState[s] != nextState[s]]
         # check if multiple states change and it's not a L/R grasper transitioning from a contact to a hold
         c = diff
 
@@ -152,7 +194,8 @@ def labelMPs(npGrouped):
 
         Knot Tying:
         Pull(L, 3): 3XXX0 -> 3XXX1   # make wrap around R
-        Pull(R, 3): XX3X0 -> XX3X1   # make wrap around L
+        Pull(R, 3): XX3X0 -> XX3X1   # make wrap  'str'>
+around L
         Pull(L, 3): 3XXX1 -> 3XXX0  # wrap around R comes undone
         Pull(R, 3): XX3X1 -> XX3X1  # wrap around L comes undone
         Pull(L, 3) and Pull(R, 3): 3X3X1 -> 3X3X2  # pull tail through wrap
@@ -201,7 +244,7 @@ def labelMPs(npGrouped):
             obj = objects[int(nextState[0])]
             #print(verb + "(" + tool + ", " + obj +")")
         # Grasp(L, a): 0aXX -> aXXX
-        if (int(currState[0]) == 0) and (int(nextState[0]) == int(currState[1] > 0)):
+        if (int(currState[0]) == 0) and (int(nextState[0]) == int(currState[1]) > 0):
             tool = "L"
             verb = "Grasp"
             obj = objects[int(nextState[0])]
@@ -689,13 +732,14 @@ try:
     task=sys.argv[1]
     #print(task)
 except:
-    print("Error: invalid task\nUsage: python gesture_segmentation_labeling.py <task>\nTasks: Suturing, Needle_Passing, Knot_Tying, Pea_on_a_Peg, Post_and_Sleeve, Wire_Chaser_I, Peg_Transfer")
+    print("Error: invalid task\nUsage: python context_to_motion_primitives.py <task>\nTasks: Suturing, Needle_Passing, Knot_Tying, Pea_on_a_Peg, Post_and_Sleeve, Wire_Chaser_I, Peg_Transfer")
     sys.exit()
 
 # Directories
 baseDir = os.path.dirname(os.path.dirname(os.getcwd()))
 # Transcript and video directories
-taskDir = os.path.join(baseDir, "Datasets", "dV", task)
+# taskDir = os.path.join(baseDir, "Datasets", "dV", task)
+taskDir = os.path.join(baseDir, "Datasets", "DCS", task)
 transcriptDir = os.path.join(taskDir,"transcriptions")
 #gestureDir = os.path.join(taskDir,"gestures")
 mpDir = os.path.join(taskDir, "motion_primitives_baseline")
@@ -735,7 +779,7 @@ for transcript in transcripts:  #[0:5]:   #[0:1]:
 
         # group rows with same context label
         dfGrouped = group(dfContext)
-        #print(dfGrouped)
+        print(dfGrouped)
 
         # convert to a numpy array for the next step of processing
         npGrouped = dfGrouped.to_numpy()
@@ -743,6 +787,10 @@ for transcript in transcripts:  #[0:5]:   #[0:1]:
         npMPs = labelMPs(npGrouped)
 
         outMP = os.path.join(mpDir, trial)
+
+        if not os.path.exists(mpDir):
+            os.makedirs(mpDir)
+
         with open(outMP, 'w') as o:
             header = ["Start", "Stop", "Motion Primitive"]
             o.write(' '.join(header) + '\n')

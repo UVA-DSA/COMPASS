@@ -37,7 +37,7 @@ for set in sets[9:10]:
                 timeNow = now.strftime("%m_%d_%Y_%H%M")
                 logFolder = set +"_"+ var +"_"+ labeltype +"_"+ valtype +"_run_"+ timeNow
                 logDir =  os.path.join(resultsDir, logFolder)
-                os.mkdir(logDir)
+                os.makedirs(logDir)
 
                 print("Results will be stored in: " + logDir)
                 # Copy config file over first
