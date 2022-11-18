@@ -605,7 +605,7 @@ def preprocess(set, var, labeltype, raw_feature_dir):
             if len(kin_dir)==0:continue
 
             # Read in kin data
-            tb = pd.read_csv(kin_dir, sep="\t|,")
+            tb = pd.read_csv(kin_dir, sep="\t|,", engine='python')
             #print(tb)
 
             # For JIGSAWS, only take PSM side
@@ -741,6 +741,8 @@ def preprocess(set, var, labeltype, raw_feature_dir):
                 tb.loc[start_:end_,"Y"]=fill
 
             save_dir = os.path.join(os.path.join("/".join(sub.split('/')[0:-1]),'preprocessed'),kin_dir.split('/')[-1])
+            if not os.path.exists(save_dir):
+                os.mkdir(save_dir)
 
             # Save dataframe to csv
             tb.to_csv(save_dir,index=None)
@@ -787,9 +789,12 @@ def encode(set, var, labeltype, raw_feature_dir):
     # Save to pkl file, should be same as data_transform_path from updateJSON function
     pklFile = set + "_TRANSFORM_" + var + "_" + labeltype + ".pkl"
     pklFile = os.path.join(os.getcwd(), set, pklFile)
+    pklFolder = os.path.join(os.getcwd(), set)
     print("Encoded labels written to " + pklFile)
     #with open(pklFile,'wb') as f:
         #pickle.dump(le,f)
+    if not os.path.exists(pklFolder):
+         os.makedirs(pklFolder)
     pickle.dump(le, open(pklFile, 'wb'))
 
     # Return encoded label classes
