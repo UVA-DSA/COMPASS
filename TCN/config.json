@@ -20,12 +20,12 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Peg_Transfer/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Needle_Passing/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Knot_Tying/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Pea_on_a_Peg/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Post_and_Sleeve/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Peg_Transfer/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Needle_Passing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Knot_Tying/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Pea_on_a_Peg/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Post_and_Sleeve/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -231,12 +231,12 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Peg_Transfer/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Needle_Passing/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Knot_Tying/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Pea_on_a_Peg/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Post_and_Sleeve/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Peg_Transfer/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Needle_Passing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Knot_Tying/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Pea_on_a_Peg/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Post_and_Sleeve/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -395,12 +395,12 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Peg_Transfer/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Needle_Passing/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Knot_Tying/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Pea_on_a_Peg/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Post_and_Sleeve/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Peg_Transfer/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Needle_Passing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Knot_Tying/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Pea_on_a_Peg/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Post_and_Sleeve/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -539,8 +539,8 @@
         ]
     },
     "JIGSAWS": {
-        "data_transform_path": "/home/student/Documents/Sara-Joyce/COMPASS/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MPbaseline.pkl",
-        "gesture_class_num": 6,
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/JIGSAWS/JIGSAWS_TRANSFORM_velocity_MPright.pkl",
+        "gesture_class_num": 7,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -559,9 +559,9 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Needle_Passing/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Knot_Tying/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Needle_Passing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Knot_Tying/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -569,13 +569,13 @@
                 "batch_size": 1,
                 "epoch": 60,
                 "learning_rate": 5e-05,
-                "weight_decay": 0.01
+                "weight_decay": 0.0005
             },
             "model_params": {
-                "class_num": 6,
+                "class_num": 7,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 23,
+                    "kernel_size": 29,
                     "layer_sizes": [
                         96,
                         64,
@@ -587,7 +587,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 23,
+                    "kernel_size": 29,
                     "layer_sizes": [
                         64,
                         96,
@@ -605,42 +605,87 @@
             }
         },
         "test_trial": [
-            1,
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
         ],
         "train_trial": [
             [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
+                2,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            [
                 2,
                 3,
                 4,
-                5
+                6,
+                7,
+                8,
+                9
             ],
             [
-                1,
+                2,
                 3,
                 4,
-                5
+                5,
+                7,
+                8,
+                9
             ],
             [
-                1,
                 2,
+                3,
                 4,
-                5
+                5,
+                6,
+                8,
+                9
             ],
             [
-                1,
                 2,
                 3,
-                5
+                4,
+                5,
+                6,
+                7,
+                9
             ],
             [
-                1,
                 2,
                 3,
-                4
+                4,
+                5,
+                6,
+                7,
+                8
             ]
         ],
         "validation_trial": 2,
@@ -648,7 +693,11 @@
             2,
             3,
             4,
-            5
+            5,
+            6,
+            7,
+            8,
+            9
         ]
     },
     "KT": {
@@ -672,7 +721,7 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Knot_Tying/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Knot_Tying/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -832,7 +881,7 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Needle_Passing/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Needle_Passing/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -992,7 +1041,7 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Peg_Transfer/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Peg_Transfer/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -1131,7 +1180,7 @@
         ]
     },
     "PTPaS": {
-        "data_transform_path": "/home/student/Documents/Sara-Joyce/COMPASS/TCN/PTPaS/PTPaS_TRANSFORM_velocity_MPright.pkl",
+        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/PTPaS/PTPaS_TRANSFORM_velocity_MPright.pkl",
         "gesture_class_num": 5,
         "input_size": 14,
         "locs": [
@@ -1151,8 +1200,8 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Post_and_Sleeve/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Peg_Transfer/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Post_and_Sleeve/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Peg_Transfer/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -1278,7 +1327,7 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Post_and_Sleeve/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Post_and_Sleeve/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -1529,7 +1578,7 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Pea_on_a_Peg/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Pea_on_a_Peg/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -1780,8 +1829,8 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Post_and_Sleeve/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Pea_on_a_Peg/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Pea_on_a_Peg/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Post_and_Sleeve/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -2032,7 +2081,7 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Suturing/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Suturing/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -2192,8 +2241,8 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Suturing/preprocessed",
-            "/home/student/Documents/Sara-Joyce/COMPASS/Datasets/dV/Needle_Passing/preprocessed"
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Suturing/preprocessed",
+            "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/Datasets/dV/Needle_Passing/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -2332,9 +2381,9 @@
             9
         ]
     },
-    "dataset_name": "JIGSAWS",
+    "dataset_name": "PoaP",
     "experiment_setup": {
         "sample_rate": 1,
-        "val_type": "LOSO"
+        "val_type": "LOUO"
     }
 }
