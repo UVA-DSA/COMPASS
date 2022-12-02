@@ -1,2 +1,3 @@
 Data	Variables	Labels	Cross Val	Accuracy	Edit Score
+JIGSAWS	velocity	MPbaseline	LOSO	61.20765703743963	61.61231500879419
 JIGSAWS	velocity	MPbaseline	LOSO	60.39700459363371	60.54217730569936

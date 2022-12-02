@@ -27,10 +27,10 @@ resultsDir = os.path.join(dir, "Results")
 
 
 # Iterate through each combination of settings
-for set in sets[9:10]:
+for set in sets[2:3]:
     for var in vars[0:1]:
-        for labeltype in labeltypes[:3]:
-            for valtype in valtypes[1:2]:
+        for labeltype in labeltypes[:1]:
+            for valtype in valtypes[1:2]: # LOUO is the gold standard
 
                 # Create folder named by current time and config
                 now = datetime.now()

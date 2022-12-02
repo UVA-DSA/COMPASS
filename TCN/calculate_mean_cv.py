@@ -112,10 +112,13 @@ if __name__ == "__main__":
 
 
     resultsdF = pd.DataFrame(columns = ["Data", "Variables", "Labels", "Cross Val", "Accuracy", "Edit Score"])
-    #print(resultsdF)
+    print(resultsdF)
+
+    print(len(resultsList))
 
     # Find folders containing "tcn" folder from training
     for r in resultsList:
+        print("try running:", r)
         try:
             resultpath = os.path.join(resultsDir, r)
             # If tcn folder found, run analysis

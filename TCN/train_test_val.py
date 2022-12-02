@@ -459,7 +459,7 @@ def cross_validate(dataset_name,net_name, logDir):
         num_epochs = 60
         config =  {'hidden_size': 128 , 'learning_rate': 0.000145129 ,  'num_layers': 3 ,'batch_size': 1, 'weight_decay':0.00106176 } # Epoch =60 lstm
 
-
+    
 
     # Get trial splits
     print("Getting cross validation splits")
@@ -478,7 +478,7 @@ def cross_validate(dataset_name,net_name, logDir):
         print("Using 5 random fold cross valiation")
         cross_val_splits = utils.get_cross_val_splits_random()
 
-    #cross_val_splits = utils.get_cross_val_splits_LOUO() #utils.get_cross_val_splits()
+    cross_val_splits = utils.get_cross_val_splits_LOUO() #utils.get_cross_val_splits()
     #breakpoint()
 
     # Cross-Validation Result
