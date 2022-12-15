@@ -1,4 +1,4 @@
-Useage: \
+Useage: 
 
 Go into config.json and change "raw_feature_dir" to the correct paths to each task's 'preprocessed' folder. \
 In the terminal run
