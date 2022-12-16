@@ -24,6 +24,12 @@ import torch.nn as nn
 import json
 
 from preprocess import processArguments
+# import tensorflow as tf
+
+# # add to the top of your code under import tensorflow as tf
+# config = tf.ConfigProto()
+# config.gpu_options.allow_growth = True
+# session = tf.Session(config=config....)
 
 global val_type
 
