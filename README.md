@@ -23,6 +23,15 @@ Includes the Suturing (S), Needle Passing (NP), and Knot Tying (KT) tasks from t
   <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PaS_frame.png" alt="Post and Sleeve" title="Post and Sleeve" width="25%"/>
 </p>
 
+| Motion Primitive  | Suturing          | Needle Passing    | Knot Tying        | Peg Transfer      | Pea on a Peg      | Post and Sleeve   | COMPASS           |
+| ----------------- | ----------------- | ----------------- | ----------------- | ----------------- | ----------------- | ----------------- | ----------------- |
+| Grasp             | 471               | 373               | 283               | 323               | 577               | 824               | 2851              |
+| Release           | 441               | 365               | 247               | 313               | 556               | 776               | 2698              |
+| Touch             | 518               | 330               | 135               | 539               | 1782              | 1598              | 4902              |
+| Untouch           | 314               | 206               | 111               | 364               | 1261              | 1131              | 3387              |
+| Pull              | 194               | 114               | 235               | 0                 | 525               | 0                 | 1068              |
+| Push              | 179               | 119               | 0                 | 0                 | 2                 | 0                 | 300               |
+
 
 
 ### TCN
