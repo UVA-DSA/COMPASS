@@ -15,15 +15,15 @@ Includes the Suturing (S), Needle Passing (NP), and Knot Tying (KT) tasks from t
 
 
 <p align="middle" float="left">
-  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/suturing_frame.png" alt="Suturing" width="25%"/>
-  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/needle_passing_frame.png" alt="Needle Passing" width="25%"/>
-  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/knot_tying_frame.png" alt="Knot Tying" width="25%"/>
+  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/suturing_frame.png" alt="Suturing" title="Suturing" width="25%"/>
+  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/needle_passing_frame.png" alt="Needle Passing" title="Needle Passing" width="25%"/>
+  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/knot_tying_frame.png" alt="Knot Tying" title="Knot Tying" width="25%"/>
 </p>
 
 <p align="middle" float="left">
-  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PT_frame.png" alt="Peg Transfer" width="25%"/>
-  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PoaP_frame.png" alt="Pea on a Peg" width="25%"/>
-  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PaS_frame.png" alt="Post and Sleeve" width="25%"/>
+  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PT_frame.png" alt="Peg Transfer" title="Peg Transfer" width="25%"/>
+  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PoaP_frame.png" alt="Pea on a Peg" title="Pea on a Peg" width="25%"/>
+  <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PaS_frame.png" alt="Post and Sleeve" title="Post and Sleeve" width="25%"/>
 </p>
 
 
