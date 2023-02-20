@@ -4,7 +4,7 @@ Context and Motion Primitive Aggregate Surgical Set
 ### Context Labeling App 
 Contains code and instructions for labeling videos.
 
-<img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/poap_app_2.png" width="50%">
+<img align="middle" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/poap_app_2.png" width="50%">
 
 ### Context Labels
 Contains labels for each trial organized by Labeler id.
@@ -24,7 +24,7 @@ Includes the Suturing (S), Needle Passing (NP), and Knot Tying (KT) tasks from t
   <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PT_frame.png" alt="Peg Transfer" width="25%"/>
   <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PoaP_frame.png" alt="Pea on a Peg" width="25%"/>
   <img align="top" src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PaS_frame.png" alt="Post and Sleeve" width="25%"/>
-<\p>
+</p>
 
 
 
