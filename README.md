@@ -15,25 +15,25 @@ Includes the Suturing (S), Needle Passing (NP), and Knot Tying (KT) tasks from t
 
 <div class="row">
   <div class="column">
-    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/suturing_frame.png" alt="Suturing" style="width:100%">
+    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/suturing_frame.png" alt="Suturing" style="width:25%">
   </div>
   <div class="column">
-    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/needle_passing_frame.png" alt="Needle Passing" style="width:100%">
+    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/needle_passing_frame.png" alt="Needle Passing" style="width:25%">
   </div>
   <div class="column">
-    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/knot_tying_frame.png" alt="Knot Tying" style="width:100%">
+    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/knot_tying_frame.png" alt="Knot Tying" style="width:25%">
   </div>
 </div>
 
 <div class="row">
   <div class="column">
-    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PT_frame.png" alt="Suturing" style="width:100%">
+    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PT_frame.png" alt="Suturing" style="width:25%">
   </div>
   <div class="column">
-    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PoaP_frame.png" alt="Needle Passing" style="width:100%">
+    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PoaP_frame.png" alt="Needle Passing" style="width:25%">
   </div>
   <div class="column">
-    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PaS_frame.png" alt="Knot Tying" style="width:100%">
+    <img src="https://github.com/UVA-DSA/COMPASS/blob/main/Figures/PaS_frame.png" alt="Knot Tying" style="width:25%">
   </div>
 </div>
 
