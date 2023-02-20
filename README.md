@@ -11,7 +11,7 @@ Contains labels for each trial organized by Labeler id.
 
 ### Datasets
 Contains kinematic and video data organized by task and trial.
-Includes the Suturing (S), Needle Passing (NP), and Knot Tying (KT) tasks from the JIGSAWS dataset, Peg Transfer (PT) from the DESK dataset, and Pea on a Peg (PoaP) and Post and Sleeve (PaS) from the ROSMA dataset.
+Includes the Suturing (S), Needle Passing (NP), and Knot Tying (KT) tasks from the JIGSAWS dataset [[2]](#2), Peg Transfer (PT) from the DESK dataset [[3]](#3), and Pea on a Peg (PoaP) and Post and Sleeve (PaS) from the ROSMA dataset [[4]](#4).
 
 
 <p align="middle" float="left">
@@ -33,4 +33,19 @@ Contains code and instructions for running ML models; and eventually our trained
 
 ### Translation Scripts
 Contains scripts for converting context labels to motion primitives, and motion primitives to gestures (for trials that came from datasets that had original gesture or surgeme labels).
+
+
+
+### References
+<a id="1">[1]</a>
+Hutchinson, K., Reyes, I., Li, Z., & Alemzadeh, H. (2022). COMPASS: A Formal Framework and Aggregate Dataset for Generalized Surgical Procedure Modeling. arXiv preprint arXiv:2209.06424.
+
+<a id="2">[2]</a> 
+Gao, Y., Vedula, S. S., Reiley, C. E., Ahmidi, N., Varadarajan, B., Lin, H. C., ... & Hager, G. D. (2014, September). Jhu-isi gesture and skill assessment working set (jigsaws): A surgical activity dataset for human motion modeling. In MICCAI workshop: M2cai (Vol. 3, No. 3).
+
+<a id="3">[3]</a>
+Gonzalez, G. T., Kaur, U., Rahma, M., Venkatesh, V., Sanchez, N., Hager, G., ... & Wachs, J. (2020). From the DESK (Dexterous Surgical Skill) to the Battlefield--A Robotics Exploratory Study. arXiv preprint arXiv:2011.15100.
+
+<a id="4">[4]</a>
+Rivas-Blanco, I., Pérez-del-Pulgar, C. J., Mariani, A., Quaglia, C., Tortora, G., Menciassi, A., & Muñoz, V. F. (2021). A surgical dataset from the da Vinci Research Kit for task automation and recognition. arXiv preprint arXiv:2102.03643.
 
