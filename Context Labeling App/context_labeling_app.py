@@ -10,6 +10,7 @@ from tkinter.messagebox import askokcancel, showinfo, WARNING
 import PIL
 from PIL import Image
 from PIL import ImageTk
+import pathlib
 
 global frameNum
 global run
@@ -504,6 +505,16 @@ class App:
 
     def saveToFile(self):
         self.labelTarget
+        print("Saving", self.labelTarget)
+        if(os.path.isfile(self.labelTarget)):
+            print(self.labelTarget," already present")
+            os.remove(self.labelTarget)
+        targetBaseName = os.path.dirname(self.labelTarget)
+        print("creating folder",targetBaseName )
+        if(not os.path.isdir(targetBaseName)):
+            path = pathlib.Path(targetBaseName)
+            path.mkdir(parents=True, exist_ok=True)
+
         o = open(self.labelTarget, 'w+')
         row = 0
         #print(record)
@@ -632,8 +643,16 @@ class MyVideoCapture:
 dir=os.getcwd()
 all_tasks = ["Suturing", "Needle_Passing", "Knot_Tying", "Pea_on_a_Peg", "Post_and_Sleeve", "Wire_Chaser_I", "Peg_Transfer", "Multiple"]
 top_dir = os.path.join(dir, "Datasets")
-task = ""
+task = "Suturing" # default
+# Get task from command line
+try:
+    task=sys.argv[1]
+    #print(task)
+except:
+    print("Error: invalid task\nUsage: python gesture_segmentation_labeling.py <task>\nTasks: Suturing, Needle_Passing, Knot_Tying, Pea_on_a_Peg, Post_and_Sleeve, Wire_Chaser_I, Peg_Transfer")
+    sys.exit()
 
+'''
 for root, dirs, files in os.walk(top_dir):
     for d in dirs:
         try:
@@ -642,6 +661,7 @@ for root, dirs, files in os.walk(top_dir):
             task = d
         except ValueError:
             "do nothing"
+'''
 if task == "":
     print("Error: no task found")
     sys.exit()
@@ -654,7 +674,7 @@ if task == "":
 
 # Transcript and video directories
 taskDir = os.path.join(dir, "Datasets", "dV", task)
-transcriptDir = os.path.join(taskDir,"transcriptions")
+transcriptDir = os.path.join(taskDir,"transcriptions_context")
 videoDir = os.path.join(taskDir,"video")
 
 # List of finished transcripts

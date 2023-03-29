@@ -21,10 +21,11 @@ import os
 import sys
 import glob
 import cv2
-from Tkinter import *
+from tkinter import *
 import PIL
 from PIL import Image
 from PIL import ImageTk
+import pathlib
 
 global frameNum
 global startFrame
@@ -256,22 +257,22 @@ except:
 
 # Transcript and video directories
 taskDir = os.path.join(dir, "Datasets", "dV", task)
-transcriptDir = os.path.join(taskDir,"gestures2")
+transcriptDir = os.path.join(taskDir,"transcriptions_gestures")
 videoDir = os.path.join(taskDir,"video")
 
 # List of finished transcripts
-doneList = [done.split('/')[-1].rsplit(".txt")[0] for done in glob.glob(transcriptDir+'/*.txt')]
+doneList = [done.split('\\')[-1].rsplit(".txt")[0] for done in glob.glob(transcriptDir+'\\*.txt')]
 #print(doneList)
 
 # Set to run
 run = 1
 
 # For each video ending in "_capture1.avi" or ".mp4"
-videos = glob.glob(videoDir+"/*.avi") + glob.glob(videoDir+"/*.mp4")
+videos = glob.glob(videoDir+"\\*.avi") + glob.glob(videoDir+"\\*.mp4")
 for video in videos:
     #for tool in ["L", "R"]:
         #print(tool)
-    trial = video.split("/")[-1]
+    trial = video.split("\\")[-1]
     # Get name for transcript file name
     trialName = trial.rsplit("_",1)[0]  #+"_"+tool
 
@@ -291,7 +292,17 @@ for video in videos:
     startFrame = 0
 
     # Create transcript file for this video
-    t = open(transcriptPath, 'w')
+    if(os.path.isfile(transcriptPath)):
+        print(transcriptPath," already present")
+        os.remove(transcriptPath)
+    targetBaseName = os.path.dirname(transcriptPath)
+    print("creating folder",targetBaseName )
+    if(not os.path.isdir(targetBaseName)):
+        path = pathlib.Path(targetBaseName)
+        path.mkdir(parents=True, exist_ok=True)
+        
+    print("creating",transcriptPath)
+    t = open(transcriptPath, 'w+')
     #t.write("0 ")
 
     # Run app

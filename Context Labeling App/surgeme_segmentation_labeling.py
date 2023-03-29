@@ -21,7 +21,7 @@ import os
 import sys
 import glob
 import cv2
-from Tkinter import *
+from tkinter import *
 import PIL
 from PIL import Image
 from PIL import ImageTk
@@ -258,7 +258,7 @@ except:
 
 # Transcript and video directories
 taskDir = os.path.join(dir, "Datasets", "dV", task)
-transcriptDir = os.path.join(taskDir,"gestures2")
+transcriptDir = os.path.join(taskDir,"transcriptions_MPs")
 videoDir = os.path.join(taskDir,"video")
 
 # List of finished transcripts
