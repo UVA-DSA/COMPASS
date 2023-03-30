@@ -1,8 +1,8 @@
 # Kay Hutchinson 2/24/2021
 #
-# JIGSAWS gesture labeling
+# DESK surgeme labeling
 #
-# For labing the videos in the JIGSAWS dataset using their gesture
+# For labing the videos in the DESK dataset using their surgeme
 # definitions.
 #
 # Set the dataset folder location and choose which gesture to segment
@@ -30,11 +30,13 @@ import pathlib
 global frameNum
 global startFrame
 global run
+global VIDEO_LENGTH
 
 
 # List of gestures
 #actions = ["Idle", "Hold", "Grasp", "Release", "PickUp", "PutDown", "Pull", "Push", "Exchange", "Exchange", "Unknown"]
-actions = ["G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12", "G13", "G14", "G15"]
+#actions = ["G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12", "G13", "G14", "G15"]
+actions = ["S1", "S2", "S3", "S4", "S5", "S6", "S7"]
 
 # List of objects
 #objects=["Needle", "Thread", "Tissue", "Block", "Ball", "Ring", "Other", "None"]
@@ -125,26 +127,26 @@ class App:
 
     def slide(self,f):
         global frameNum
-        frameNum = int(f)
+        frameNum = min(int(f), VIDEO_LENGTH-1)
 
-    def next(self):
+    def next(self, etc=False):
         global frameNum
-        frameNum = frameNum + 1
+        frameNum = min(frameNum + 1,VIDEO_LENGTH-1)
         self.slider.set(frameNum)
 
-    def back(self):
+    def back(self, etc=False):
         global frameNum
-        frameNum = frameNum - 1
+        frameNum = max(frameNum - 1,0)
         self.slider.set(frameNum)
 
-    def next10(self):
+    def next10(self, etc=False):
         global frameNum
-        frameNum = frameNum + 10
+        frameNum = min(frameNum + 10,VIDEO_LENGTH-1)
         self.slider.set(frameNum)
 
-    def back10(self):
+    def back10(self, etc=False):
         global frameNum
-        frameNum = frameNum - 10
+        frameNum = max(frameNum - 10,0)
         self.slider.set(frameNum)
 
     def update(self):
@@ -177,7 +179,7 @@ class App:
         #     t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "(R, L, " + str(objects[self.o.get()-1]) + ")\n")
         # else:
         #     t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "(" + tool + ", " + str(objects[self.o.get()-1]) + ")\n")
-        t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "\n")
+        t.write(str(int(startFrame)) + " " + str(int(frameNum)) + " " + str(actions[self.g.get()-1]) + "\n")
 
         # Save image
         # ret, frame = self.vid.get_frame()
@@ -188,7 +190,7 @@ class App:
         #     rgb_im.save(os.path.join(dir,"Transitions", str(frameNum)+".jpg"), "JPEG" )
 
 
-        frameNum = frameNum + 1
+        frameNum = min(frameNum + 1,VIDEO_LENGTH-1)
         startFrame = frameNum
         self.slider.set(frameNum)
 
@@ -215,7 +217,9 @@ class MyVideoCapture:
         self.width = self.vid.get(cv2.CAP_PROP_FRAME_WIDTH)
         self.height = self.vid.get(cv2.CAP_PROP_FRAME_HEIGHT)
         # Get video length in frames
-        self.length = self.vid.get(cv2.CAP_PROP_FRAME_COUNT)
+        global VIDEO_LENGTH
+        VIDEO_LENGTH = self.vid.get(cv2.CAP_PROP_FRAME_COUNT)
+        self.length = VIDEO_LENGTH
 
     def get_frame(self):
         if self.vid.isOpened():
@@ -296,12 +300,11 @@ for video in videos:
         print(transcriptPath," already present")
         os.remove(transcriptPath)
     targetBaseName = os.path.dirname(transcriptPath)
-    print("creating folder",targetBaseName )
     if(not os.path.isdir(targetBaseName)):
         path = pathlib.Path(targetBaseName)
         path.mkdir(parents=True, exist_ok=True)
         
-    print("creating",transcriptPath)
+    #print("creating",transcriptPath)
     t = open(transcriptPath, 'w+')
     #t.write("0 ")
 

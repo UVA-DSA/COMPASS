@@ -640,17 +640,17 @@ class MyVideoCapture:
 
 # MAIN -------------------------------------------------------------------------
 # Location of dataset folder
-dir=os.getcwd()
+dir=os.path.dirname(os.getcwd())
 all_tasks = ["Suturing", "Needle_Passing", "Knot_Tying", "Pea_on_a_Peg", "Post_and_Sleeve", "Wire_Chaser_I", "Peg_Transfer", "Multiple"]
-top_dir = os.path.join(dir, "Datasets")
-task = "Suturing" # default
+#top_dir = os.path.join(dir, "Datasets")
+task = "Peg_Transfer" # default
 # Get task from command line
 try:
     task=sys.argv[1]
     #print(task)
 except:
     print("Error: invalid task\nUsage: python gesture_segmentation_labeling.py <task>\nTasks: Suturing, Needle_Passing, Knot_Tying, Pea_on_a_Peg, Post_and_Sleeve, Wire_Chaser_I, Peg_Transfer")
-    sys.exit()
+    #sys.exit()
 
 '''
 for root, dirs, files in os.walk(top_dir):
@@ -662,9 +662,7 @@ for root, dirs, files in os.walk(top_dir):
         except ValueError:
             "do nothing"
 '''
-if task == "":
-    print("Error: no task found")
-    sys.exit()
+
 
 #task="Pea_on_a_Peg"
 # or Suturing
@@ -675,6 +673,9 @@ if task == "":
 # Transcript and video directories
 taskDir = os.path.join(dir, "Datasets", "dV", task)
 transcriptDir = os.path.join(taskDir,"transcriptions_context")
+if(not os.path.isdir(transcriptDir)):
+    path = pathlib.Path(transcriptDir)
+    path.mkdir(parents=True, exist_ok=True)
 videoDir = os.path.join(taskDir,"video")
 
 # List of finished transcripts

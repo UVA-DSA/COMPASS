@@ -1,9 +1,9 @@
-# Kay Hutchinson 2/24/2021
+# Kay Hutchinson 6/28/2021
 #
-# DESK surgeme labeling
+# JIGSAWS_New_Gestures
 #
-# For labing the videos in the DESK dataset using their surgeme
-# definitions.
+# For relabing the videos in the JIGSAWS dataset using my new gesture
+# definitions as described in the ReadMe.docx.
 #
 # Set the dataset folder location and choose which gesture to segment
 # Location of dataset folder
@@ -25,17 +25,32 @@ from tkinter import *
 import PIL
 from PIL import Image
 from PIL import ImageTk
+import pathlib
 
 global frameNum
 global startFrame
 global run
 global VIDEO_LENGTH
+#global t
 
+# Get task from command line
+
+#task = "Knot_Tying"
+
+# Location of dataset folder
+#dir=os.getcwd()
+#dir = os.path.join(dir, "MPS")
+dir = os.path.dirname(os.path.realpath(__file__))  
 
 # List of gestures
 #actions = ["Idle", "Hold", "Grasp", "Release", "PickUp", "PutDown", "Pull", "Push", "Exchange", "Exchange", "Unknown"]
-#actions = ["G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "G10", "G11", "G12", "G13", "G14", "G15"]
-actions = ["S1", "S2", "S3", "S4", "S5", "S6", "S7"]
+
+actions = ["Touch","Grasp","Release","Untouch","Push","Pull"]
+
+objects = ["Nothing", "Ball/Block/Sleeve", "Needle", "Thread", "Fabric/Tissue", "Ring", "Post","Other"]
+
+params1 = ["L","R","Peg","2","3"]
+
 
 # List of objects
 #objects=["Needle", "Thread", "Tissue", "Block", "Ball", "Ring", "Other", "None"]
@@ -56,6 +71,7 @@ class App:
         self.top = Frame(window)
         self.middle = Frame(window)
         self.middle2 = Frame(window)
+        self.middle3 = Frame(window)
         self.bottom = Frame(window)
         self.bottom2 = Frame(window)
         self.bottom3 = Frame(window)
@@ -63,6 +79,7 @@ class App:
         self.top.pack(expand=True)
         self.middle.pack(expand=True)
         self.middle2.pack(expand=True)
+        self.middle3.pack(expand=True)
         self.bottom.pack(expand=True)
         self.bottom2.pack(expand=True)
         self.bottom3.pack(side=BOTTOM, expand=True)
@@ -93,22 +110,37 @@ class App:
 
         # Radio button for gesture selection
         self.g = IntVar()
+        #actions = ["Touch","Grasp","Release","Untouch","Push","Pull"]
+        gestures=[("Touch",1),("Grasp",2),("Release",3),("Untouch",4),("Push",5),("Pull",6)]
         #gestures=[("Idle",1), ("Hold",2), ("Grasp",3), ("Release",4), ("PickUp",5), ("PutDown",6), ("Pull",7), ("Push",8), ("Exchange L->R",9), ("Exchange R->L",10), ("Unknown",11)]
-        #gestures = [("G1",1), ("G2",2), ("G3",3), ("G4",4), ("G5",5), ("G6",6), ("G7",7), ("G8",8), ("G9",9), ("G10",10), ("G11",11), ("G12",12), ("G13",13), ("G14",14), ("G15",15)]
-        gestures = [("S1",1), ("S2",2), ("S3",3), ("S4",4), ("S5",5), ("S6",6), ("S7",7)]
         for gesture, val in gestures:
-            self.gestureselect=Radiobutton(window,text=gesture,indicatoron=0,width=5,padx=5,pady=5,variable=self.g,value=val)
-            self.gestureselect.pack(in_=self.middle2, side=LEFT, anchor=W)
+            self.gestureselect=Radiobutton(window,text=gesture,indicatoron=0,width=15,padx=5,pady=5,variable=self.g,value=val)
+            self.gestureselect.pack(in_=self.middle2, side=LEFT, anchor=W,pady=5)
 
-        # # Radio button for object selection
-        # self.o = IntVar()
-        # objects=[("Needle",1), ("Thread",2), ("Tissue",3), ("Block",4), ("Ball",5), ("Ring",6), ("Other",7), ("None",8)]
-        # for object, val in objects:
-        #     self.objectselect=Radiobutton(window,text=object,indicatoron=0,width=10,padx=10,pady=5,variable=self.o,value=val)
-        #     self.objectselect.pack(in_=self.bottom, side=LEFT, anchor=W)
+        # Radio button for object selection
+        self.o = IntVar()
+        #objects = ["Nothing", "Ball/Block/Sleeve", "Needle", "Thread", "Fabric/Tissue", "Ring", "Other"]
+
+        objects=[("Nothing",1),("Ball/Block/Sleeve",2),("Needle",3),("Thread",4),("Fabric/Tissue",5),("Ring",6),("Post",7),("Other",8)]
+        #objects=[("Needle",1), ("Thread",2), ("Tissue",3), ("Block",4), ("Ball",5), ("Ring",6), ("Other",7), ("None",8)]
+        for object, val in objects:
+            self.objectselect=Radiobutton(window,text=object,indicatoron=0,width=10,padx=10,pady=5,variable=self.o,value=val)
+            self.objectselect.pack(in_=self.bottom, side=LEFT, anchor=W)
+
+        # Radio button for gesture selection
+        self.param1 = IntVar()
+        #params1 = ["L","R","1","2","3"]
+        params1 = [("L",1),("R",2),("Peg",3),("2",4),("3",5)]
+        #gestures=[("Idle",1), ("Hold",2), ("Grasp",3), ("Release",4), ("PickUp",5), ("PutDown",6), ("Pull",7), ("Push",8), ("Exchange L->R",9), ("Exchange R->L",10), ("Unknown",11)]
+        for parm, val in params1 :
+            self.parmSelect=Radiobutton(window,text=parm,indicatoron=0,width=15,padx=5,pady=5,variable=self.param1,value=val)
+            self.parmSelect.pack(in_=self.middle3, side=LEFT, anchor=W,pady=5)
+
+        
+
 
         # Enter button to confirm choice
-        self.enter = Button(window,text="Save gesture and continue",width=30, font='sans 15',command=self.mark)
+        self.enter = Button(window,text="Save MP and continue",width=30, font='sans 15',command=self.mark)
         self.enter.pack(in_=self.bottom2,anchor=CENTER)
 
         # Done button to finish video
@@ -122,6 +154,12 @@ class App:
         # After it is called once, the update method will be automatically called every delay milliseconds
         self.delay = 15
         self.update()
+
+        window.bind("<a>",self.back)
+        window.bind("<d>",self.next)
+
+        window.bind("<q>",self.back10)
+        window.bind("<e>",self.next10)
 
         self.window.mainloop()
 
@@ -169,26 +207,38 @@ class App:
     def mark(self):
         global frameNum
         global startFrame
+        #global t
+        print("MARKING",t.name)
 
-        # # Write to transcript .txt file
-        # if (str(actions[self.g.get()-1]))=="Idle":
-        #     t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "(" + tool + ")\n")
-        # elif self.g.get()==9:
-        #     t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "(L, R, " + str(objects[self.o.get()-1]) + ")\n")
-        # elif self.g.get()==10:
-        #     t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "(R, L, " + str(objects[self.o.get()-1]) + ")\n")
-        # else:
-        #     t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "(" + tool + ", " + str(objects[self.o.get()-1]) + ")\n")
-        t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "\n")
+        # Write to transcript .txt file
+        startF = str(int(startFrame))
+        frameN = str(int(frameNum))
+        action = str(actions[self.g.get()-1])
+        p1 = str(params1[self.param1.get()-1])
+        p2 = str(objects[self.o.get()-1])
 
+        t.write(startF + " " + frameN + " " + action + "(" + p1+", " + p2 +")\n");
+
+        '''
+        if (str(actions[self.g.get()-1]))=="Idle":
+            t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "(" + tool + ")\n")
+        elif self.g.get()==9:
+            t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "(L, R, " + str(objects[self.o.get()-1]) + ")\n")
+        elif self.g.get()==10:
+            t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "(R, L, " + str(objects[self.o.get()-1]) + ")\n")
+        else:
+            t.write(str(startFrame) + " " + str(frameNum) + " " + str(actions[self.g.get()-1]) + "(" + tool + ", " + str(objects[self.o.get()-1]) + ")\n")
+        '''
+
+        '''
         # Save image
-        # ret, frame = self.vid.get_frame()
-        # if ret:
-        #     img1 = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
-        #     imgpil = ImageTk.getimage( img1 )
-        #     rgb_im = imgpil.convert('RGB')
-        #     rgb_im.save(os.path.join(dir,"Transitions", str(frameNum)+".jpg"), "JPEG" )
-
+        ret, frame = self.vid.get_frame()
+        if ret:
+            img1 = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(frame))
+            imgpil = ImageTk.getimage( img1 )
+            rgb_im = imgpil.convert('RGB')
+            rgb_im.save(os.path.join(dir,"Transitions", str(frameNum)+".jpg"), "JPEG" )
+        '''
 
         frameNum = min(frameNum + 1,VIDEO_LENGTH-1)
         startFrame = frameNum
@@ -246,23 +296,22 @@ class MyVideoCapture:
         if self.vid.isOpened():
             self.vid.release()
 
-
-
-# Location of dataset folder
-dir=os.path.dirname(os.getcwd())
-
-# Get task from command line
-task="Peg_Transfer" #Default
+task="Peg_Transfer" # default
 try:
     task=sys.argv[1]
-    #print(task)
+    print(task)
 except:
-    print("Error: invalid task\nUsage: python surgeme_segmentation_labeling.py <task>\nTasks: Suturing, Needle_Passing, Knot_Tying, Pea_on_a_Peg, Post_and_Sleeve, Wire_Chaser_I, Peg_Transfer")
+    print("Error: invalid task\nUsage: python gesture_segmentation_labeling.py <task>\nTasks: Suturing, Needle_Passing, Knot_Tying, Pea_on_a_Peg, Post_and_Sleeve, Wire_Chaser_I, Peg_Transfer")
 
 
 # Transcript and video directories
+dir=os.path.dirname(os.getcwd())
+
 taskDir = os.path.join(dir, "Datasets", "dV", task)
-transcriptDir = os.path.join(taskDir,"transcriptions_gestures")
+transcriptDir = os.path.join(taskDir,"transcriptions_mp")
+if(not os.path.isdir(transcriptDir)):
+    path = pathlib.Path(transcriptDir)
+    path.mkdir(parents=True, exist_ok=True)
 videoDir = os.path.join(taskDir,"video")
 
 # List of finished transcripts
@@ -273,41 +322,50 @@ doneList = [done.split('\\')[-1].rsplit(".txt")[0] for done in glob.glob(transcr
 run = 1
 
 # For each video ending in "_capture1.avi" or ".mp4"
-videos = glob.glob(videoDir+"\\*.avi") + glob.glob(videoDir+"\\*.mp4")
+#print(videoDir)
+videos = glob.glob(videoDir+"/*.avi") + glob.glob(videoDir+"/*.mp4")
+#print("len",len(videos ))
 for video in videos:
-    #for tool in ["L", "R"]:
+
+    for tool in ["L", "R"]:
+        #print("hello2")
         #print(tool)
-    trial = video.split("\\")[-1]
-    # Get name for transcript file name
-    trialName = trial.rsplit("_",1)[0]  #+"_"+tool
+        trial = video.split("\\")[-1]
+        # Get name for transcript file name
+        #trialName = trial.rsplit("_",1)[0]+"_"+tool
+        trialName = trial.rsplit("_",1)[0]
 
-    if task in ["Pea_on_a_Peg", "Post_and_Sleeve", "Wire_Chaser_I"]:   # single camera videos need different rsplit indexing
-        #trialName = trial.rsplit(".")[0]
-        trialName = trial.rsplit(".")[0]  #+"_"+tool
+        if task in ["Pea_on_a_Peg", "Post_and_Sleeve", "Wire_Chaser_I"]:   # single camera videos need different rsplit indexing
+            #trialName = trial.rsplit(".")[0]
+            #trialName = trial.rsplit(".")[0]+"_"+tool
+            trialName = trial.rsplit(".")[0]
 
-    if trialName in doneList:
-        continue
+        if trialName in doneList:
+            continue
 
-    transcriptName = trialName+".txt"
-    transcriptPath = os.path.join(transcriptDir, transcriptName)
+        transcriptName = trialName+".txt"
+        transcriptPath = os.path.join(transcriptDir, transcriptName)
+        print("Working on: "+trialName)
 
-    # Init frameNum counter
-    frameNum = 0
-    startFrame = 0
+        # Init frameNum counter
+        frameNum = 0
+        startFrame = 0
 
-    # Create transcript file for this video
-    t = open(transcriptPath, 'w')
-    #t.write("0 ")
+        # Create transcript file for this video
+        
+        t = open(transcriptPath, 'w+')
+        #t.write("0 ")
 
-    # Run app
-    App(Tk(), trialName, video)
+        # Run app
+        App(Tk(), trialName, video)
 
-    # Closes all the frames
-    t.close()
-    cv2.destroyAllWindows()
+        # Closes all the frames
+        t.close()
+        doneList.append(trialName)
+        cv2.destroyAllWindows()
 
-    # if run == 0:
-    #     break
+        if run == 0:
+            break
     if run == 0:
         break
 
