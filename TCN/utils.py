@@ -479,7 +479,8 @@ def get_cross_val_splits_LOUO(validation = False):
             else:
                 i = raw_feature_dir[0]
                 #test = glob.glob(os.path.join(i,'*{}_*'.format(test_num)))
-                test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
+                # test = glob.glob(os.path.join(i,'*S'+test_num+'_*'))#.format(test_num)))
+                test = glob.glob(os.path.join(i,'*S'+str(test_num)+'_*'))#.format(test_num)))
                 test_dir.extend(test)
                 #breakpoint()
                 # tri=[j for j in train_trial[idx]]
@@ -505,6 +506,9 @@ def get_cross_val_splits_LOUO(validation = False):
 
 def get_cross_val_splits(validation = False):
     from config import raw_feature_dir, validation_trial, validation_trial_train, test_trial, train_trial
+    print("beginning of get_cross_val_splits")
+    print("test_trial", test_trial)
+    print("train_trial", train_trial)
     if validation ==True:
         cross_val_splits=[]
         test_dir = []
@@ -537,27 +541,47 @@ def get_cross_val_splits(validation = False):
             test_dir = []
             if len(raw_feature_dir)!=1:
                 for i in raw_feature_dir:
-                    test = glob.glob(os.path.join(i,'*{}.*'.format(test_num)))
+                    # test = glob.glob(os.path.join(i,'*{}.*'.format(test_num)))
+                    # test_dir.extend(test)
+                    # #breakpoint()
+                    # train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
+                    #     train_trial[idx][2],train_trial[idx][3])))
+                    # print(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
+                    #     train_trial[idx][2],train_trial[idx][3])))
+
+                    # train_dir.extend(train)
+                    # test = glob.glob(os.path.join(i,'*T'+test_num+'_*'))
+                    test = glob.glob(os.path.join(i,'*T'+test_num+'*'))
                     test_dir.extend(test)
-                    #breakpoint()
-                    train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
-                        train_trial[idx][2],train_trial[idx][3])))
-                    print(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
-                        train_trial[idx][2],train_trial[idx][3])))
 
+                    train = glob.glob(os.path.join(i, "*"))
+                    train = [t for t in train if t not in test]
                     train_dir.extend(train)
-            else:
+            else:  # will follow this path for Sara's capstone
                 i = raw_feature_dir[0]
-                test = glob.glob(os.path.join(i,'*{}.*'.format(test_num)))
-                test_dir.extend(test)
-                #breakpoint()
-                train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
-                    train_trial[idx][2],train_trial[idx][3])))
-                print(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
-                    train_trial[idx][2],train_trial[idx][3])))
+                print("i", i)
+                # test = glob.glob(os.path.join(i,'*{}.*'.format(test_num)))
+                # test_dir.extend(test)
+                # #breakpoint()
+                # train = glob.glob(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
+                #     train_trial[idx][2],train_trial[idx][3])))
+                # print(os.path.join(i,'*[{},{},{},{}].*'.format(train_trial[idx][0],train_trial[idx][1],\
+                #     train_trial[idx][2],train_trial[idx][3])))
 
+                # train_dir.extend(train)
+                # print(os.path.join(i,'*T'+str(test_num)+'_*'))
+                # test = glob.glob(os.path.join(i,'*T'+str(test_num)+'_*'))
+                # test = glob.glob(os.path.join(i,'Peg_Transfer_S01_T'+test_num+'*'))
+                test = glob.glob(os.path.join(i,'*T'+str(test_num)+'*'))
+                print("test", test)
+                test_dir.extend(test)
+                
+                train = glob.glob(os.path.join(i, "*"))
+                train = [t for t in train if t not in test]
                 train_dir.extend(train)
 
+            print("train_dir in utils.py", train_dir)
+            print("test_dir in utils.py", test_dir)
             #breakpoint()
             cross_val_splits.append({'train': train_dir,
                                     'test': test_dir,

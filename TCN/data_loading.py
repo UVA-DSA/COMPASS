@@ -40,6 +40,8 @@ class RawFeatureDataset(Dataset):
         self.marks = []
 
         start_index = 0
+        print("before for loop in data_loading.py")
+        # print(self.trail_list)
         for idx in range(len(self.trail_list)):
 
             trail_name = self.trail_list[idx]
@@ -84,7 +86,9 @@ class RawFeatureDataset(Dataset):
             trail_gesture_ = np.array(trail_gesture_)
             trail_gesture_ = np.delete(trail_gesture_,index_to_remove)
             trail_feature = np.array(trail_feature)
+            # print("trail_feature", trail_feature)
             trail_feature = np.delete(trail_feature,index_to_remove,axis=0)
+            # print("trail_feature 2", trail_feature)
 
             #print(trail_gesture_)
 
@@ -98,6 +102,7 @@ class RawFeatureDataset(Dataset):
             self.marks.append([start_index, start_index + trail_len])
             start_index += trail_len
 
+        # print("self.all_feature", self.all_feature)
         self.all_feature = np.concatenate(self.all_feature)
         self.all_gesture = np.concatenate(self.all_gesture)
         print("All_gesture")

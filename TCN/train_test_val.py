@@ -465,6 +465,7 @@ def cross_validate(dataset_name,net_name, logDir):
     print("Getting cross validation splits")
     if valtype == "LOSO":
         cross_val_splits = utils.get_cross_val_splits()
+        print("cross_val_splits", cross_val_splits)
     elif (valtype == "LOUO") and (dataset_name == "PTPaS"):
         cross_val_splits = utils.get_cross_val_splits_LOUO_multi()
     elif (valtype == "LOUO") and (dataset_name == "SNP" or dataset_name == "JIGSAWS" or dataset_name == "ROSMA"):
@@ -478,7 +479,7 @@ def cross_validate(dataset_name,net_name, logDir):
         print("Using 5 random fold cross valiation")
         cross_val_splits = utils.get_cross_val_splits_random()
 
-    cross_val_splits = utils.get_cross_val_splits_LOUO() #utils.get_cross_val_splits()
+    # cross_val_splits = utils.get_cross_val_splits_LOUO() #utils.get_cross_val_splits()
     #breakpoint()
 
     # Cross-Validation Result
@@ -490,6 +491,7 @@ def cross_validate(dataset_name,net_name, logDir):
         # Dataset
         train_dir, test_dir,name = data['train'], data['test'],data['name']
         print("Loading training data")
+        print("test_dir right after loading", test_dir)
 
         import fnmatch
         if  dataset_name=="All-5a":
@@ -509,6 +511,7 @@ def cross_validate(dataset_name,net_name, logDir):
         #print("If KeyError: ['PSML_var', ...]... occurs here, it may be because the data_loading.py file doesn't have the updated LOCS.")
         #print("Try running train_test_val.py again with the same set, var, and labeltype configuration.")
 
+        print("train_dir", train_dir)
         train_dataset = RawFeatureDataset(dataset_name,
                                         train_dir,
                                         feature_type="sensor",
@@ -518,6 +521,8 @@ def cross_validate(dataset_name,net_name, logDir):
         #breakpoint()
         print("Normalizing training data")
         test_norm = [train_dataset.get_means(), train_dataset.get_stds()]
+        # print("test_norm:", test_norm)
+        # print("test_dir", test_dir)
         test_dataset = RawFeatureDataset(dataset_name,
                                          test_dir,
                                          feature_type="sensor",

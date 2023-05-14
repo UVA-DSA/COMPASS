@@ -971,8 +971,8 @@
         ]
     },
     "PT": {
-        "data_transform_path": "/home/student/Documents/Research/MICCAI_2022/COMPASS-kinvis/TCN/PT/PT_TRANSFORM_velocity_MPright.pkl",
-        "gesture_class_num": 5,
+        "data_transform_path": "/home/student/Documents/Sara/COMPASS/TCN/PT/PT_TRANSFORM_velocity_gesture.pkl",
+        "gesture_class_num": 4,
         "input_size": 14,
         "locs": [
             "PSML_position_x",
@@ -991,7 +991,7 @@
             "PSMR_gripper_angle"
         ],
         "raw_feature_dir": [
-            "/home/student/Documents/Sara/COMPASS/Datasets/dV/Peg_Transfer/preprocessed"
+            "/home/student/Documents/Sara/COMPASS/Datasets/DCS/Peg_Transfer/preprocessed"
         ],
         "sample_rate": 1,
         "tcn_params": {
@@ -999,13 +999,13 @@
                 "batch_size": 1,
                 "epoch": 60,
                 "learning_rate": 5e-05,
-                "weight_decay": 0.0005
+                "weight_decay": 0.01
             },
             "model_params": {
-                "class_num": 5,
+                "class_num": 4,
                 "decoder_params": {
                     "input_size": 128,
-                    "kernel_size": 43,
+                    "kernel_size": 29,
                     "layer_sizes": [
                         96,
                         64,
@@ -1017,7 +1017,7 @@
                 },
                 "encoder_params": {
                     "input_size": 14,
-                    "kernel_size": 43,
+                    "kernel_size": 29,
                     "layer_sizes": [
                         64,
                         96,
@@ -1035,87 +1035,87 @@
             }
         },
         "test_trial": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "09",
+            "10"
         ],
         "train_trial": [
             [
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "09",
+                "10"
             ],
             [
-                1,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8
+                "02",
+                "04",
+                "05",
+                "06",
+                "07",
+                "09",
+                "10"
             ],
             [
-                1,
-                2,
-                4,
-                5,
-                6,
-                7,
-                8
+                "02",
+                "03",
+                "05",
+                "06",
+                "07",
+                "09",
+                "10"
             ],
             [
-                1,
-                2,
-                3,
-                5,
-                6,
-                7,
-                8
+                "02",
+                "03",
+                "04",
+                "06",
+                "07",
+                "09",
+                "10"
             ],
             [
-                1,
-                2,
-                3,
-                4,
-                6,
-                7,
-                8
+                "02",
+                "03",
+                "04",
+                "05",
+                "07",
+                "09",
+                "10"
             ],
             [
-                1,
-                2,
-                3,
-                4,
-                5,
-                7,
-                8
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "09",
+                "10"
             ],
             [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                8
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "10"
             ],
             [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "09"
             ]
         ],
         "validation_trial": 1,
@@ -1124,9 +1124,7 @@
             3,
             4,
             5,
-            6,
-            7,
-            8
+            6
         ]
     },
     "PTPaS": {
@@ -2331,9 +2329,9 @@
             9
         ]
     },
-    "dataset_name": "KT",
+    "dataset_name": "PT",
     "experiment_setup": {
         "sample_rate": 1,
-        "val_type": "LOUO"
+        "val_type": "LOSO"
     }
 }

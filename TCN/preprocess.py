@@ -158,7 +158,7 @@ def loadConfig(dataset_name, var, labeltype, valtype):
     # Number of label classes
     # 5/9/2022 updating to dictionary look up
     # Determined using stats.py
-    gesture_class_num_gesture_dict = {"PT": 7, "JIGSAWS": 14, "S": 10, "NP": 10, "KT": 6, "SNP": 10}
+    gesture_class_num_gesture_dict = {"PT": 4, "JIGSAWS": 14, "S": 10, "NP": 10, "KT": 6, "SNP": 10}
     gesture_class_num_MPbaseline_dict = {"PT": 4, "JIGSAWS": 6, "All-5a": 0,\
         "All-5b": 0, "S": 6, "NP": 6, "KT": 5, "PoaP": 6, "PaS": 4, "SNP": 6, "PTPaS": 4, "ROSMA": 6, "All": 6}
     gesture_class_num_MPcombined_dict = {"PT": 4, "JIGSAWS": 6, "All-5a": 0,\
@@ -228,10 +228,13 @@ def updateJSON(dataset_name, var, labeltype, valtype, input_size, kernel_size, n
     # Sets for cross validation
     if valtype == "LOSO":
         if dataset_name == "PT":
-            all_params[dataset_name]["test_trial"] = [1,2,3,4,5,6]
-            all_params[dataset_name]["train_trial"] = [[2,3,4,5,6],[1,3,4,5,6],[1,2,4,5,6],[1,2,3,5,6],[1,2,3,4,6],[1,2,3,4,5]]
+            all_params[dataset_name]["test_trial"] = ["02", "03", "04", "05", "06", "07", "09", "10"]
+            all_params[dataset_name]["train_trial"] = [["03", "04", "05", "06", "07", "09", "10"],["02", "04", "05", "06", "07", "09", "10"],
+                                                       ["02", "03", "05", "06", "07", "09", "10"],["02", "03", "04", "06", "07", "09", "10"],
+                                                       ["02", "03", "04", "05", "07", "09", "10"],["02", "03", "04", "05", "06", "09", "10"],
+                                                       ["02", "03", "04", "05", "06", "07", "10"],["02", "03", "04", "05", "06", "07", "09"]]
             all_params[dataset_name]["validation_trial"] = 1
-            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6]
+            all_params[dataset_name]["validation_trial_train"] = [2,3,4,5,6]  # Ignore for Sara's capstone research
 
         elif dataset_name in ["JIGSAWS", "S", "NP", "KT", "SNP"]:
             all_params[dataset_name]["test_trial"] = [1,2,3,4,5]
@@ -614,7 +617,7 @@ def preprocess(set, var, labeltype, raw_feature_dir):
 
             # Depending on chosen var, take only certain columns
             if var == "velocity":
-                tb = tb.loc[:, ["PSML_position_x", "PSML_position_y", "PSML_position_z", \
+                tb = tb.loc[:, ["Frame", "PSML_position_x", "PSML_position_y", "PSML_position_z", \
                                 "PSML_velocity_x", "PSML_velocity_y", "PSML_velocity_z", \
                                 "PSML_gripper_angle", \
                                 "PSMR_position_x", "PSMR_position_y", "PSMR_position_z", \
@@ -730,19 +733,43 @@ def preprocess(set, var, labeltype, raw_feature_dir):
                     label = line[2].split("(")[0]   #tg.iloc[i,2].split("(")[0]  #line[2].split("(")
 
 
+                # print("tb before fill", tb)
+                # print("tb.head()", tb.head())
+                # print("start_", start_)
                 # Create array of labels of the size of the duration of the MP
-                fill = [label]*int(end_-start_+1)
+                # fill = [label]*int(end_-start_+1)
                 # Add array of labels to kin data
                 # Get number of rows in kin file and don't try to write outside tb
-                nrows = tb.shape[0]
-                if end_ >= nrows:
-                    end_ = nrows-1
-                    fill = [label]*int(end_-start_+1)
+                # nrows = tb.shape[0]
+                # print("tb.columns.tolist()", tb.columns.tolist())
+                if start_ < tb["Frame"].iloc[0]:
+                    start_ = tb["Frame"].iloc[0]
+                # if end_ >= nrows:
+                #     end_ = nrows-1
+                    # fill = [label]*int(end_-start_+1)
+                if end_ > tb["Frame"].iloc[-1]:
+                    end_ = tb["Frame"].iloc[-1]
+                fill = [label]*int(end_-start_+1)
+                tb.set_index("Frame", inplace=True) 
+                # print("fill", fill)
+                # print("tb.index", tb.index)
+                # print("start_", start_)
+                # print("end_", end_)
+                # print("tb.loc[start_:end_]")
+                # print(tb.loc[start_:end_])
                 tb.loc[start_:end_,"Y"]=fill
+                # print("tb after fill", tb)
+                tb = tb.reset_index().rename(columns={tb.index.name:"Frame"})
+                # tb.rename_axis("Frame").reset_index()
+                # tb.reset_index().rename(columns={"index":"Frame"})
+                # print("tb at end of loop", tb)
+                # print("tb.columns.tolist() at end of loop", tb.columns.tolist())
+            tb.dropna()
+                
 
             save_dir = os.path.join(os.path.join("/".join(sub.split('/')[0:-1]),'preprocessed'),kin_dir.split('/')[-1])
-            if not os.path.exists(save_dir):
-                os.mkdir(save_dir)
+            # if not os.path.exists(save_dir):
+            #     os.mkdir(save_dir)
 
             # Save dataframe to csv
             tb.to_csv(save_dir,index=None)
