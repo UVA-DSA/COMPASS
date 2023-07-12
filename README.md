@@ -44,7 +44,13 @@ Contains scripts for converting context labels to motion primitives.
 
 ### References
 <a id="1">[1]</a>
-Hutchinson, K., Reyes, I., Li, Z., & Alemzadeh, H. (2022). COMPASS: A Formal Framework and Aggregate Dataset for Generalized Surgical Procedure Modeling. arXiv preprint arXiv:2209.06424.
+Hutchinson, K., Reyes, I., Li, Z., & Alemzadeh, H. (2023). <a href="https://link.springer.com/article/10.1007/s11548-023-02922-1">COMPASS: a formal framework and aggregate dataset for generalized surgical procedure modeling.</a> International Journal of Computer Assisted Radiology and Surgery, 1-12. 
+
+[<a href="https://arxiv.org/abs/2209.06424">arXiv</a>, <a href="https://kch4fk.github.io/papers/COMPASS_1_accepted.pdf">pdf</a>]
+
+Hutchinson, K., Reyes, I., Li, Z., & Alemzadeh, H. (2023). <a href="https://ieeexplore.ieee.org/abstract/document/10173628">Evaluating the Task Generalization of Temporal Convolutional Networks for Surgical Gesture and Motion Recognition using Kinematic Data.</a> IEEE Robotics and Automation Letters.
+
+[<a href="https://arxiv.org/abs/2306.16577">arXiv</a>]
 
 <a id="2">[2]</a> 
 Gao, Y., Vedula, S. S., Reiley, C. E., Ahmidi, N., Varadarajan, B., Lin, H. C., ... & Hager, G. D. (2014, September). Jhu-isi gesture and skill assessment working set (jigsaws): A surgical activity dataset for human motion modeling. In MICCAI workshop: M2cai (Vol. 3, No. 3).
