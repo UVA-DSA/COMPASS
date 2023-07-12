@@ -8,7 +8,7 @@ Contains code and instructions for labeling videos.
 
 ### Datasets
 Contains kinematic and video data organized by task, subject, and trial.
-Includes the Suturing (S), Needle Passing (NP), and Knot Tying (KT) tasks from the JIGSAWS dataset [[2]](#2), Peg Transfer (PT) from the DESK dataset [[3]](#3), and Pea on a Peg (PoaP) and Post and Sleeve (PaS) from the ROSMA dataset [[4]](#4).
+Includes the Suturing (S), Needle Passing (NP), and Knot Tying (KT) tasks from the JIGSAWS dataset [[3]](#3), Peg Transfer (PT) from the DESK dataset [[4]](#4), and Pea on a Peg (PoaP) and Post and Sleeve (PaS) from the ROSMA dataset [[5]](#5).
 
 
 <p align="middle" float="left">
@@ -45,19 +45,18 @@ Contains scripts for converting context labels to motion primitives.
 ### References
 <a id="1">[1]</a>
 Hutchinson, K., Reyes, I., Li, Z., & Alemzadeh, H. (2023). <a href="https://link.springer.com/article/10.1007/s11548-023-02922-1">COMPASS: a formal framework and aggregate dataset for generalized surgical procedure modeling.</a> International Journal of Computer Assisted Radiology and Surgery, 1-12. 
-
 [<a href="https://arxiv.org/abs/2209.06424">arXiv</a>, <a href="https://kch4fk.github.io/papers/COMPASS_1_accepted.pdf">pdf</a>]
 
+<a id="2>[2]</a>
 Hutchinson, K., Reyes, I., Li, Z., & Alemzadeh, H. (2023). <a href="https://ieeexplore.ieee.org/abstract/document/10173628">Evaluating the Task Generalization of Temporal Convolutional Networks for Surgical Gesture and Motion Recognition using Kinematic Data.</a> IEEE Robotics and Automation Letters.
-
 [<a href="https://arxiv.org/abs/2306.16577">arXiv</a>]
 
-<a id="2">[2]</a> 
+<a id="3">[3]</a> 
 Gao, Y., Vedula, S. S., Reiley, C. E., Ahmidi, N., Varadarajan, B., Lin, H. C., ... & Hager, G. D. (2014, September). Jhu-isi gesture and skill assessment working set (jigsaws): A surgical activity dataset for human motion modeling. In MICCAI workshop: M2cai (Vol. 3, No. 3).
 
-<a id="3">[3]</a>
+<a id="4">[4]</a>
 Gonzalez, G. T., Kaur, U., Rahma, M., Venkatesh, V., Sanchez, N., Hager, G., ... & Wachs, J. (2020). From the DESK (Dexterous Surgical Skill) to the Battlefield--A Robotics Exploratory Study. arXiv preprint arXiv:2011.15100.
 
-<a id="4">[4]</a>
+<a id="5">[5]</a>
 Rivas-Blanco, I., Pérez-del-Pulgar, C. J., Mariani, A., Quaglia, C., Tortora, G., Menciassi, A., & Muñoz, V. F. (2021). A surgical dataset from the da Vinci Research Kit for task automation and recognition. arXiv preprint arXiv:2102.03643.
 
