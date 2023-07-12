@@ -47,7 +47,7 @@ Contains scripts for converting context labels to motion primitives.
 Hutchinson, K., Reyes, I., Li, Z., & Alemzadeh, H. (2023). <a href="https://link.springer.com/article/10.1007/s11548-023-02922-1">COMPASS: a formal framework and aggregate dataset for generalized surgical procedure modeling.</a> International Journal of Computer Assisted Radiology and Surgery, 1-12. 
 [<a href="https://arxiv.org/abs/2209.06424">arXiv</a>, <a href="https://kch4fk.github.io/papers/COMPASS_1_accepted.pdf">pdf</a>]
 
-<a id="2>[2]</a>
+<a id="2">[2]</a>
 Hutchinson, K., Reyes, I., Li, Z., & Alemzadeh, H. (2023). <a href="https://ieeexplore.ieee.org/abstract/document/10173628">Evaluating the Task Generalization of Temporal Convolutional Networks for Surgical Gesture and Motion Recognition using Kinematic Data.</a> IEEE Robotics and Automation Letters.
 [<a href="https://arxiv.org/abs/2306.16577">arXiv</a>]
 
