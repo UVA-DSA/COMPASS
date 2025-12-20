@@ -328,6 +328,7 @@ def getDistance(translated, truth):
 
 # Get list of trials
 trials = os.listdir(mpDir)
+print(f"Found {len(trials)} transcription files")
 
 # Set up to take average edit distance
 editDistances = []

@@ -567,6 +567,9 @@ def preprocess(set, var, labeltype, raw_feature_dir):
         # kinematics currently contains position, velocity, orientation, and gripper angle
         kine_dir_all = glob.glob(os.path.join("/".join(sub.split('/')[0:-1]),"kinematics/*"))
 
+        # Print the number of transcription files found
+        print(f"Found {len(ges_dir_all)} transcription files")
+
         # For each transcription file
         for ges_dir in ges_dir_all:  #[0:1]:
             print("\t Preprocessing: " + ges_dir)

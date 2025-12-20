@@ -717,6 +717,7 @@ else:
 
 # For each transcript
 transcripts = glob.glob(transcriptDir+"/*.txt")
+print(f"Found {len(transcripts)} transcription files")
 for transcript in transcripts:  #[0:5]:   #[0:1]:
     # get file name of transcript
     trial = transcript.split("/")[-1]
